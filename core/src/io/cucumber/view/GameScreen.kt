@@ -38,12 +38,12 @@ class GameScreen(
     }
 
     override fun handleInput() {
-        if (hero.bound.y >= camera.position.y + (camera.viewportHeight / 2) || hero.bound.y <= 0) {
+        if (hero.bound.y + hero.bound.height >= camera.position.y + (camera.viewportHeight / 2) || hero.bound.y <= 0) {
             hero.reverse()
         }
 
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
-        if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x < camera.position.x + (camera.viewportWidth / 2)) hero.moveRight()
+        if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + hero.bound.width < camera.position.x + (camera.viewportWidth / 2)) hero.moveRight()
     }
 
 }
