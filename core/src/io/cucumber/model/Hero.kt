@@ -1,26 +1,17 @@
 package io.cucumber.model
 
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
+import io.cucumber.model.base.Actor
 
 class Hero(
     x: Float,
     y: Float,
-    private val height: Float,
-    private val width: Float,
+    width: Float,
+    height: Float,
     horizontalVelocity: Float,
     verticalVelocity: Float
-) {
+): Actor(x, y, height, width, horizontalVelocity, verticalVelocity, "hero.png") {
 
-    private val position: Vector2 = Vector2(x, y)
-    private val velocity: Vector2 = Vector2(horizontalVelocity, verticalVelocity)
-
-    val texture: Texture = Texture("hero.png")
-    val bound: Rectangle get() = Rectangle(position.x, position.y, width, height)
-
-
-    fun update(delta: Float) {
+    override fun update(delta: Float) {
         position.add(0f, velocity.y * delta)
     }
 
