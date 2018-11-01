@@ -62,8 +62,7 @@ class GameScreen(
         if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + hero.bound.width < camera.position.x + (ScreenConstants.WIDTH / 2)) hero.moveRight()
 
         if (enemies.any { it.isCollides(hero.bound) }) {
-            // TODO add death logic
-            enemies.add(EnemyGroupFactory.create(SIMPLE))
+            game.screen = GameOverScreen(game)
         }
     }
 
