@@ -6,8 +6,8 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import io.cucumber.constant.ScreenConstants.HEIGHT
-import io.cucumber.constant.ScreenConstants.WIDTH
+import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
+import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 
 
 abstract class BaseScreen(
@@ -19,7 +19,7 @@ abstract class BaseScreen(
 
 
     init {
-        camera.setToOrtho(false, WIDTH, HEIGHT)
+        camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT)
     }
 
     protected open fun update(delta: Float) {}

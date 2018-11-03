@@ -12,14 +12,15 @@ import io.cucumber.factory.EnemyGroupFactory
 import io.cucumber.factory.EnemyGroupFactory.GroupType.SIMPLE
 import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
+import java.util.*
 
 class GameScreen(
     game: Game
 ) : BaseScreen(game) {
 
     private val hero: Hero = Hero(
-        ScreenConstants.WIDTH / 2,
-        ScreenConstants.HEIGHT / 2,
+        ScreenConstants.SCREEN_WIDTH / 2,
+        ScreenConstants.SCREEN_HEIGHT / 2,
         HeroConstants.WIDTH,
         HeroConstants.HEIGHT,
         HORIZONTAL_VELOCITY,
@@ -53,7 +54,7 @@ class GameScreen(
     }
 
     override fun handleInput() {
-        if (hero.bound.y + hero.bound.height >= camera.position.y + (ScreenConstants.HEIGHT / 2)) {
+        if (hero.bound.y + hero.bound.height >= camera.position.y + (ScreenConstants.SCREEN_HEIGHT / 2)) {
             hero.direction = Hero.Direction.DOWN
         } else if (hero.bound.y <= 0) {
             hero.direction = Hero.Direction.UP
@@ -61,7 +62,7 @@ class GameScreen(
         }
 
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
-        if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + hero.bound.width < camera.position.x + (ScreenConstants.WIDTH / 2)) hero.moveRight()
+        if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + hero.bound.width < camera.position.x + (ScreenConstants.SCREEN_WIDTH / 2)) hero.moveRight()
 
         if (enemyGroup.isCollides(hero.bound)) {
             game.screen = GameOverScreen(game)
@@ -69,11 +70,11 @@ class GameScreen(
 
         val first = enemyGroup.enemies.first()
         val last = enemyGroup.enemies.last()
-        if ((first.bound.x > camera.position.x + ScreenConstants.ENEMY_RESPAWN_BORDER + (ScreenConstants.WIDTH / 2) ||
+        if ((first.bound.x > camera.position.x + ScreenConstants.ENEMY_RESPAWN_BORDER + (ScreenConstants.SCREEN_WIDTH / 2) ||
                 first.bound.x + first.bound.width + ScreenConstants.ENEMY_RESPAWN_BORDER < 0) &&
-            (last.bound.x > camera.position.x + ScreenConstants.ENEMY_RESPAWN_BORDER + (ScreenConstants.WIDTH / 2) ||
+            (last.bound.x > camera.position.x + ScreenConstants.ENEMY_RESPAWN_BORDER + (ScreenConstants.SCREEN_WIDTH / 2) ||
                 last.bound.x + last.bound.width + ScreenConstants.ENEMY_RESPAWN_BORDER < 0)) {
-            enemyGroup = EnemyGroupFactory.create(SIMPLE)
+            enemyGroup = EnemyGroupFactory.create(EnemyGroupFactory.GroupType.values()[Random().nextInt(EnemyGroupFactory.GroupType.values().size)])
         }
     }
 

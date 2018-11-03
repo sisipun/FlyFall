@@ -4,7 +4,7 @@ object EnemyConstants {
 
     const val HORIZONTAL_VELOCITY = -400f
 
-    const val WIDTH = 50f
-    const val HEIGHT = 50f
+    const val ENEMY_WIDTH = 50f
+    const val ENEMY_HEIGHT = 50f
 
 }
