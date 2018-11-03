@@ -1,5 +1,6 @@
 package io.cucumber.model
 
+import io.cucumber.model.Hero.Direction.DOWN
 import io.cucumber.model.base.Actor
 
 class Hero(
@@ -8,10 +9,20 @@ class Hero(
     width: Float,
     height: Float,
     horizontalVelocity: Float,
-    verticalVelocity: Float
-): Actor(x, y, height, width, horizontalVelocity, verticalVelocity, "hero.png") {
+    verticalVelocity: Float,
+    direction: Direction = DOWN
+) : Actor(x, y, height, width, horizontalVelocity, verticalVelocity, "hero.png") {
+
+    var direction = direction
+        set(value) {
+            if (field != value) {
+                velocity.y = velocity.y * -1
+                field = value
+            }
+        }
 
     override fun update(delta: Float) {
+
         position.add(0f, velocity.y * delta)
     }
 
@@ -23,8 +34,9 @@ class Hero(
         position.add(velocity.x, 0f)
     }
 
-    fun reverse() {
-        velocity.y = velocity.y * -1
+    enum class Direction {
+        UP,
+        DOWN
     }
 
 }
