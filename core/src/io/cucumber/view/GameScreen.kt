@@ -21,6 +21,8 @@ class GameScreen(
     game: Game
 ) : BaseScreen(game) {
 
+    private var score: Int = 0
+
     private val hero: Hero = Hero(
         SCREEN_WIDTH / 2,
         SCREEN_HEIGHT / 2,
@@ -30,7 +32,6 @@ class GameScreen(
         VERTICAL_VELOCITY
     )
     private var enemyGroup: EnemyGroup = EnemyGroupFactory.create(SIMPLE)
-    private var score: Int = 0
 
 
     override fun update(delta: Float) {
@@ -69,7 +70,7 @@ class GameScreen(
         if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + hero.bound.width < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
 
         if (enemyGroup.isCollides(hero.bound)) {
-            game.screen = GameOverScreen(game)
+            game.screen = GameOverScreen(game, score)
         }
 
         val first = enemyGroup.enemies.first()

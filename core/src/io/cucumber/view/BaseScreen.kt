@@ -2,10 +2,12 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import io.cucumber.constant.PreferenceConstants.PREFERENCE_NAME
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 
@@ -14,6 +16,7 @@ abstract class BaseScreen(
     protected val game: Game
 ) : ScreenAdapter() {
 
+    protected val preferences: Preferences = Gdx.app.getPreferences(PREFERENCE_NAME)
     protected val batch: SpriteBatch = SpriteBatch()
     protected val camera: OrthographicCamera = OrthographicCamera()
 
