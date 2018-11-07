@@ -8,6 +8,8 @@ import io.cucumber.constant.HeroConstants.HERO_HEIGHT
 import io.cucumber.constant.HeroConstants.HERO_WIDTH
 import io.cucumber.constant.HeroConstants.HORIZONTAL_VELOCITY
 import io.cucumber.constant.HeroConstants.VERTICAL_VELOCITY
+import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
+import io.cucumber.constant.ScoreConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.ENEMY_RESPAWN_BORDER
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
@@ -18,6 +20,7 @@ import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
 import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
 import io.cucumber.model.Hero.Direction.UP_DIRECTION
+import io.cucumber.utils.ScoreHelper
 import java.util.*
 
 class GameScreen(
@@ -59,6 +62,16 @@ class GameScreen(
                 it.bound.y,
                 it.bound.width,
                 it.bound.height
+            )
+        }
+        val scoreTextures = ScoreHelper.getScore(score)
+        scoreTextures.forEachIndexed { index, texture ->
+            batch.draw(
+                texture,
+                (index + 1) * SCORE_WIDTH,
+                SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
+                SCORE_WIDTH,
+                SCORE_HEIGHT
             )
         }
     }
