@@ -12,17 +12,21 @@ import io.cucumber.constant.ScreenConstants.ENEMY_RESPAWN_BORDER
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 import io.cucumber.factory.EnemyGroupFactory
-import io.cucumber.factory.EnemyGroupFactory.GroupType.SIMPLE
+import io.cucumber.factory.EnemyGroupFactory.GroupType.SIMPLE_GROUP
+import io.cucumber.factory.EnemyGroupFactory.Position.RIGHT_POSITION
 import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
+import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
+import io.cucumber.model.Hero.Direction.UP_DIRECTION
 import java.util.*
 
 class GameScreen(
     game: Game
 ) : BaseScreen(game) {
 
-    private var score: Int = 0
+    private val random = Random()
 
+    private var score: Int = 0
     private val hero: Hero = Hero(
         SCREEN_WIDTH / 2,
         SCREEN_HEIGHT / 2,
@@ -31,7 +35,7 @@ class GameScreen(
         HORIZONTAL_VELOCITY,
         VERTICAL_VELOCITY
     )
-    private var enemyGroup: EnemyGroup = EnemyGroupFactory.create(SIMPLE)
+    private var enemyGroup: EnemyGroup = EnemyGroupFactory.create(SIMPLE_GROUP, RIGHT_POSITION)
 
 
     override fun update(delta: Float) {
@@ -61,9 +65,9 @@ class GameScreen(
 
     override fun handleInput() {
         if (hero.bound.y + hero.bound.height >= camera.position.y + (SCREEN_HEIGHT / 2)) {
-            hero.direction = Hero.Direction.DOWN
+            hero.direction = DOWN_DIRECTION
         } else if (hero.bound.y <= 0) {
-            hero.direction = Hero.Direction.UP
+            hero.direction = UP_DIRECTION
         }
 
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
@@ -79,7 +83,10 @@ class GameScreen(
                 first.bound.x + first.bound.width + ENEMY_RESPAWN_BORDER < 0) &&
             (last.bound.x > camera.position.x + ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
                 last.bound.x + last.bound.width + ENEMY_RESPAWN_BORDER < 0)) {
-            enemyGroup = EnemyGroupFactory.create(EnemyGroupFactory.GroupType.values()[Random().nextInt(EnemyGroupFactory.GroupType.values().size)])
+            enemyGroup = EnemyGroupFactory.create(
+                EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
+                EnemyGroupFactory.Position.values()[random.nextInt(EnemyGroupFactory.Position.values().size)]
+            )
         }
     }
 
