@@ -1,13 +1,13 @@
 package io.cucumber.model
 
-import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Circle
 import com.badlogic.gdx.utils.Array
 
 class EnemyGroup(
     val enemies: Array<Enemy>
 ) {
 
-    fun isCollides(bound: Rectangle): Boolean {
+    fun isCollides(bound: Circle): Boolean {
         return enemies.any { it.isCollides(bound) }
     }
 

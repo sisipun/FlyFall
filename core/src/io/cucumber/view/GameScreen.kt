@@ -4,8 +4,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
-import io.cucumber.constant.HeroConstants.HERO_HEIGHT
-import io.cucumber.constant.HeroConstants.HERO_WIDTH
+import io.cucumber.constant.HeroConstants.HERO_SIZE
 import io.cucumber.constant.HeroConstants.HORIZONTAL_VELOCITY
 import io.cucumber.constant.HeroConstants.VERTICAL_VELOCITY
 import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
@@ -33,8 +32,7 @@ class GameScreen(
     private val hero: Hero = Hero(
         SCREEN_WIDTH / 2,
         SCREEN_HEIGHT / 2,
-        HERO_WIDTH,
-        HERO_HEIGHT,
+        HERO_SIZE,
         HORIZONTAL_VELOCITY,
         VERTICAL_VELOCITY
     )
@@ -52,16 +50,16 @@ class GameScreen(
             hero.texture,
             hero.bound.x,
             hero.bound.y,
-            hero.bound.width,
-            hero.bound.height
+            2 * hero.bound.radius,
+            2 * hero.bound.radius
         )
         enemyGroup.enemies.forEach {
             batch.draw(
                 it.texture,
                 it.bound.x,
                 it.bound.y,
-                it.bound.width,
-                it.bound.height
+                2 * it.bound.radius,
+                2 * it.bound.radius
             )
         }
         val scoreTextures = ScoreHelper.getScore(score)
@@ -77,14 +75,14 @@ class GameScreen(
     }
 
     override fun handleInput() {
-        if (hero.bound.y + hero.bound.height >= camera.position.y + (SCREEN_HEIGHT / 2)) {
+        if (hero.bound.y + hero.bound.radius >= camera.position.y + (SCREEN_HEIGHT / 2)) {
             hero.direction = DOWN_DIRECTION
         } else if (hero.bound.y <= 0) {
             hero.direction = UP_DIRECTION
         }
 
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
-        if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + hero.bound.width < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
+        if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + hero.bound.radius < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
 
         if (enemyGroup.isCollides(hero.bound)) {
             game.screen = GameOverScreen(game, score)
@@ -93,9 +91,9 @@ class GameScreen(
         val first = enemyGroup.enemies.first()
         val last = enemyGroup.enemies.last()
         if ((first.bound.x > camera.position.x + ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
-                first.bound.x + first.bound.width + ENEMY_RESPAWN_BORDER < 0) &&
+                first.bound.x + first.bound.radius + ENEMY_RESPAWN_BORDER < 0) &&
             (last.bound.x > camera.position.x + ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
-                last.bound.x + last.bound.width + ENEMY_RESPAWN_BORDER < 0)) {
+                last.bound.x + last.bound.radius + ENEMY_RESPAWN_BORDER < 0)) {
             enemyGroup = EnemyGroupFactory.create(
                 EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
                 EnemyGroupFactory.Position.values()[random.nextInt(EnemyGroupFactory.Position.values().size)]

@@ -1,8 +1,7 @@
 package io.cucumber.factory
 
 import com.badlogic.gdx.utils.Array
-import io.cucumber.constant.EnemyConstants.ENEMY_HEIGHT
-import io.cucumber.constant.EnemyConstants.ENEMY_WIDTH
+import io.cucumber.constant.EnemyConstants.ENEMY_SIZE
 import io.cucumber.constant.EnemyConstants.HORIZONTAL_VELOCITY
 import io.cucumber.constant.ScreenConstants.ENEMY_DISTANCE
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
@@ -30,33 +29,33 @@ object EnemyGroupFactory {
 
     private fun createSimple(positionFactor: Int): EnemyGroup {
         val enemy = Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY)
+            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY)
         return EnemyGroup(Array.with(enemy))
     }
 
     private fun createLadder(positionFactor: Int): EnemyGroup {
         val enemies = Array.of(Enemy::class.java)
         enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT - ((3 * ENEMY_DISTANCE) / 2), ENEMY_WIDTH, ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY))
+            HALF_SCREEN_HEIGHT - ((3 * ENEMY_DISTANCE) / 2), ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 2), ENEMY_WIDTH, ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY))
+            HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 2), ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + 2 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 2), ENEMY_WIDTH, ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY))
+            HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 2), ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + 3 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT + ((3 * ENEMY_DISTANCE) / 2), ENEMY_WIDTH, ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY))
+            HALF_SCREEN_HEIGHT + ((3 * ENEMY_DISTANCE) / 2), ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         return EnemyGroup(enemies)
     }
 
     private fun createSnake(positionFactor: Int): EnemyGroup {
         val enemies = Array.of(Enemy::class.java)
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, ENEMY_WIDTH,
-            ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY))
+            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + 2 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY))
+            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + 3 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT, positionFactor * HORIZONTAL_VELOCITY))
+            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         return EnemyGroup(enemies)
     }
 

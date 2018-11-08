@@ -6,12 +6,11 @@ import io.cucumber.model.base.Actor
 class Hero(
     x: Float,
     y: Float,
-    width: Float,
-    height: Float,
+    size: Float,
     horizontalVelocity: Float,
     verticalVelocity: Float,
     direction: Direction = DOWN_DIRECTION
-) : Actor(x, y, height, width, horizontalVelocity, verticalVelocity, "hero.png") {
+) : Actor(x, y, size, horizontalVelocity, verticalVelocity, "hero.png") {
 
     var direction = direction
         set(value) {
