@@ -19,10 +19,10 @@ abstract class Actor(
     val texture: Texture = Texture(texturePath)
     val bound: Circle get() = Circle(position.x, position.y, size / 2)
 
-    fun isCollides(bound: Circle): Boolean {
-        return this.bound.overlaps(bound)
+    fun isCollides(actor: Actor): Boolean {
+        return this.bound.overlaps(actor.bound)
     }
 
-    abstract fun update(delta: Float)
+    open fun update(delta: Float) {}
 
 }
