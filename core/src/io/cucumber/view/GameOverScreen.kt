@@ -60,7 +60,7 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
     }
 
     override fun handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) game.screen = GameScreen(game)
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.justTouched()) game.screen = GameScreen(game)
     }
 
 }

@@ -97,6 +97,8 @@ class GameScreen(
 
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
         if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + 2 * hero.bound.radius < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
+        if (Gdx.input.isTouched && Gdx.input.x < SCREEN_WIDTH / 2 && hero.bound.x > 0) hero.moveLeft()
+        if (Gdx.input.isTouched && Gdx.input.x > SCREEN_WIDTH / 2  && hero.bound.x + 2 * hero.bound.radius < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
 
         if (bonus.isCollides(hero)) {
             bonusesCount++
