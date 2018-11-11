@@ -31,6 +31,8 @@ abstract class BaseScreen(
 
     protected open fun handleInput() {}
 
+    protected open fun stateCheck() {}
+
     protected open fun screenDispose() {}
 
     override fun render(delta: Float) {
@@ -43,6 +45,7 @@ abstract class BaseScreen(
         batch.begin()
         render()
         handleInput()
+        stateCheck()
         batch.end()
     }
 

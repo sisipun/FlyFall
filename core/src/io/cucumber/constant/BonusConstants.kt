@@ -4,4 +4,6 @@ object BonusConstants {
 
     const val BONUS_SIZE = 50F
 
+    const val BONUS_CHANCE = 0.1F
+
 }

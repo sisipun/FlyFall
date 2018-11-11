@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
+import io.cucumber.constant.BonusConstants.BONUS_CHANCE
 import io.cucumber.constant.BonusConstants.BONUS_SIZE
 import io.cucumber.constant.HeroConstants.HERO_SIZE
 import io.cucumber.constant.HeroConstants.HORIZONTAL_VELOCITY
@@ -11,7 +12,7 @@ import io.cucumber.constant.HeroConstants.VERTICAL_VELOCITY
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
 import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
 import io.cucumber.constant.ScoreConstants.SCORE_WIDTH
-import io.cucumber.constant.ScreenConstants.ENEMY_RESPAWN_BORDER
+import io.cucumber.constant.ScreenConstants
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 import io.cucumber.factory.BonusFactory
@@ -42,8 +43,7 @@ class GameScreen(
         VERTICAL_VELOCITY
     )
     private var enemyGroup: EnemyGroup = EnemyGroupFactory.create(SIMPLE_GROUP, RIGHT_POSITION)
-    private var bonus: Bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
-        random.nextInt((SCREEN_HEIGHT - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE)
+    private var bonus: Bonus? = null
 
 
     override fun update(delta: Float) {
@@ -60,13 +60,15 @@ class GameScreen(
             2 * hero.bound.radius,
             2 * hero.bound.radius
         )
-        batch.draw(
-            bonus.texture,
-            bonus.bound.x,
-            bonus.bound.y,
-            2 * bonus.bound.radius,
-            2 * bonus.bound.radius
-        )
+        bonus?.let {
+            batch.draw(
+                it.texture,
+                it.bound.x,
+                it.bound.y,
+                2 * it.bound.radius,
+                2 * it.bound.radius
+            )
+        }
         enemyGroup.enemies.forEach {
             batch.draw(
                 it.texture,
@@ -89,21 +91,26 @@ class GameScreen(
     }
 
     override fun handleInput() {
-        if (hero.bound.y + 2 * hero.bound.radius >= camera.position.y + (SCREEN_HEIGHT / 2)) {
-            hero.direction = DOWN_DIRECTION
-        } else if (hero.bound.y <= 0) {
-            hero.direction = UP_DIRECTION
-        }
-
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
         if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + 2 * hero.bound.radius < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
         if (Gdx.input.isTouched && Gdx.input.x < SCREEN_WIDTH / 2 && hero.bound.x > 0) hero.moveLeft()
-        if (Gdx.input.isTouched && Gdx.input.x > SCREEN_WIDTH / 2  && hero.bound.x + 2 * hero.bound.radius < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
+        if (Gdx.input.isTouched && Gdx.input.x > SCREEN_WIDTH / 2 && hero.bound.x + 2 * hero.bound.radius < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
+    }
 
-        if (bonus.isCollides(hero)) {
-            bonusesCount++
-            bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
-                random.nextInt((SCREEN_HEIGHT - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE)
+    override fun stateCheck() {
+        if (hero.bound.y + 2 * hero.bound.radius >= camera.position.y + (SCREEN_HEIGHT / 2)) {
+            hero.direction = DOWN_DIRECTION
+            generateBonus()
+        } else if (hero.bound.y <= 0) {
+            hero.direction = UP_DIRECTION
+            generateBonus()
+        }
+
+        bonus?.let {
+            if (it.isCollides(hero)) {
+                bonusesCount++
+                bonus = null
+            }
         }
         if (enemyGroup.isCollides(hero)) {
             game.screen = GameOverScreen(game, score, bonusesCount)
@@ -111,15 +118,23 @@ class GameScreen(
 
         val first = enemyGroup.enemies.first()
         val last = enemyGroup.enemies.last()
-        if ((first.bound.x > camera.position.x + ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
-                first.bound.x + first.bound.radius + ENEMY_RESPAWN_BORDER < 0) &&
-            (last.bound.x > camera.position.x + ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
-                last.bound.x + last.bound.radius + ENEMY_RESPAWN_BORDER < 0)) {
+        if ((first.bound.x > camera.position.x + ScreenConstants.ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
+                first.bound.x + first.bound.radius + ScreenConstants.ENEMY_RESPAWN_BORDER < 0) &&
+            (last.bound.x > camera.position.x + ScreenConstants.ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
+                last.bound.x + last.bound.radius + ScreenConstants.ENEMY_RESPAWN_BORDER < 0)) {
             enemyGroup = EnemyGroupFactory.create(
                 EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
                 EnemyGroupFactory.Position.values()[random.nextInt(EnemyGroupFactory.Position.values().size)]
             )
         }
+    }
+
+    private fun generateBonus() {
+        if (bonus != null || random.nextFloat() > BONUS_CHANCE) {
+            return
+        }
+        bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
+            random.nextInt((SCREEN_HEIGHT - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE)
     }
 
 }
