@@ -10,14 +10,14 @@ import io.cucumber.constant.PreferenceConstants.HIGH_SCORE
 import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
 import io.cucumber.constant.ScoreConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
-import io.cucumber.utils.ScoreHelper
+import io.cucumber.utils.NumbersHelper
 
 class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(game) {
 
     private var highScore: Int = preferences.getInteger(PreferenceConstants.HIGH_SCORE)
-    private var scoreTextures: List<Texture> = ScoreHelper.getScore(score)
-    private var highScoreTextures: List<Texture> = ScoreHelper.getScore(highScore)
-    private var bonusesCountTextures: List<Texture> = ScoreHelper.getScore(bonusesCount)
+    private var scoreTextures: List<Texture> = NumbersHelper.getTextures(score)
+    private var highScoreTextures: List<Texture> = NumbersHelper.getTextures(highScore)
+    private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
 
 
     init {

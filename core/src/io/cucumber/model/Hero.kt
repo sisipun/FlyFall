@@ -20,6 +20,7 @@ class Hero(
             }
         }
 
+
     override fun update(delta: Float) {
         position.add(0f, velocity.y * delta)
     }

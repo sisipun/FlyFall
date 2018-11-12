@@ -6,4 +6,4 @@ class Bonus(
     x: Float,
     y: Float,
     size: Float
-): Actor(x, y, size, 0F, 0F, "hero.png")
+): Actor(x, y, size, 0F, 0F, "bonus.png")

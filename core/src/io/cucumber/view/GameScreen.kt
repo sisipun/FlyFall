@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
+import com.badlogic.gdx.graphics.Texture
 import io.cucumber.constant.BonusConstants.BONUS_CHANCE
 import io.cucumber.constant.BonusConstants.BONUS_SIZE
 import io.cucumber.constant.HeroConstants.HERO_SIZE
@@ -12,9 +13,10 @@ import io.cucumber.constant.HeroConstants.VERTICAL_VELOCITY
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
 import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
 import io.cucumber.constant.ScoreConstants.SCORE_WIDTH
-import io.cucumber.constant.ScreenConstants
+import io.cucumber.constant.ScreenConstants.ENEMY_RESPAWN_BORDER
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
+import io.cucumber.constant.ScreenConstants.WALL_HEIGHT
 import io.cucumber.factory.BonusFactory
 import io.cucumber.factory.EnemyGroupFactory
 import io.cucumber.factory.EnemyGroupFactory.GroupType.SIMPLE_GROUP
@@ -24,7 +26,7 @@ import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
 import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
 import io.cucumber.model.Hero.Direction.UP_DIRECTION
-import io.cucumber.utils.ScoreHelper
+import io.cucumber.utils.NumbersHelper
 import java.util.*
 
 class GameScreen(
@@ -44,6 +46,8 @@ class GameScreen(
     )
     private var enemyGroup: EnemyGroup = EnemyGroupFactory.create(SIMPLE_GROUP, RIGHT_POSITION)
     private var bonus: Bonus? = null
+
+    private val wallTexture: Texture = Texture("wall.png")
 
 
     override fun update(delta: Float) {
@@ -78,7 +82,7 @@ class GameScreen(
                 2 * it.bound.radius
             )
         }
-        val scoreTextures = ScoreHelper.getScore(score)
+        val scoreTextures = NumbersHelper.getTextures(score)
         scoreTextures.forEachIndexed { index, texture ->
             batch.draw(
                 texture,
@@ -88,20 +92,34 @@ class GameScreen(
                 SCORE_HEIGHT
             )
         }
+        batch.draw(
+            wallTexture,
+            0F,
+            0F,
+            SCREEN_WIDTH,
+            WALL_HEIGHT
+        )
+        batch.draw(
+            wallTexture,
+            0F,
+            SCREEN_HEIGHT - WALL_HEIGHT,
+            SCREEN_WIDTH,
+            WALL_HEIGHT
+        )
     }
 
     override fun handleInput() {
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
-        if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + 2 * hero.bound.radius < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
+        if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + 2 * hero.bound.radius < SCREEN_WIDTH) hero.moveRight()
         if (Gdx.input.isTouched && Gdx.input.x < SCREEN_WIDTH / 2 && hero.bound.x > 0) hero.moveLeft()
-        if (Gdx.input.isTouched && Gdx.input.x > SCREEN_WIDTH / 2 && hero.bound.x + 2 * hero.bound.radius < camera.position.x + (SCREEN_WIDTH / 2)) hero.moveRight()
+        if (Gdx.input.isTouched && Gdx.input.x > SCREEN_WIDTH / 2 && hero.bound.x + 2 * hero.bound.radius < SCREEN_WIDTH) hero.moveRight()
     }
 
     override fun stateCheck() {
-        if (hero.bound.y + 2 * hero.bound.radius >= camera.position.y + (SCREEN_HEIGHT / 2)) {
+        if (hero.bound.y + 2 * hero.bound.radius + WALL_HEIGHT >= SCREEN_HEIGHT) {
             hero.direction = DOWN_DIRECTION
             generateBonus()
-        } else if (hero.bound.y <= 0) {
+        } else if (hero.bound.y - WALL_HEIGHT <= 0) {
             hero.direction = UP_DIRECTION
             generateBonus()
         }
@@ -118,10 +136,8 @@ class GameScreen(
 
         val first = enemyGroup.enemies.first()
         val last = enemyGroup.enemies.last()
-        if ((first.bound.x > camera.position.x + ScreenConstants.ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
-                first.bound.x + first.bound.radius + ScreenConstants.ENEMY_RESPAWN_BORDER < 0) &&
-            (last.bound.x > camera.position.x + ScreenConstants.ENEMY_RESPAWN_BORDER + (SCREEN_WIDTH / 2) ||
-                last.bound.x + last.bound.radius + ScreenConstants.ENEMY_RESPAWN_BORDER < 0)) {
+        if ((first.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.bound.x + first.bound.radius + ENEMY_RESPAWN_BORDER < 0) &&
+            (last.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.bound.x + last.bound.radius + ENEMY_RESPAWN_BORDER < 0)) {
             enemyGroup = EnemyGroupFactory.create(
                 EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
                 EnemyGroupFactory.Position.values()[random.nextInt(EnemyGroupFactory.Position.values().size)]
@@ -134,7 +150,7 @@ class GameScreen(
             return
         }
         bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
-            random.nextInt((SCREEN_HEIGHT - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE)
+            random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE)
     }
 
 }

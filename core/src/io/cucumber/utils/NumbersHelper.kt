@@ -2,9 +2,9 @@ package io.cucumber.utils
 
 import com.badlogic.gdx.graphics.Texture
 
-object ScoreHelper {
+object NumbersHelper {
 
-    private val scoreSymbols = mapOf(
+    private val numbersSymbols = mapOf(
         '1' to Texture("1.png"),
         '2' to Texture("2.png"),
         '3' to Texture("3.png"),
@@ -17,7 +17,7 @@ object ScoreHelper {
         '0' to Texture("0.png")
     )
 
-    fun getScore(value: Int): List<Texture> =
-        value.toString().toCharArray().map { scoreSymbols[it]!! }
+    fun getTextures(value: Int): List<Texture> =
+        value.toString().toCharArray().map { numbersSymbols[it]!! }
 
 }

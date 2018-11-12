@@ -7,7 +7,7 @@ class Enemy(
     y: Float,
     size: Float,
     horizontalVelocity: Float
-): Actor(x, y, size, horizontalVelocity, 0F, "hero.png") {
+): Actor(x, y, size, horizontalVelocity, 0F, "enemy.png") {
 
     override fun update(delta: Float) {
         position.add(velocity.x * delta, velocity.y * delta)

@@ -36,7 +36,7 @@ abstract class BaseScreen(
     protected open fun screenDispose() {}
 
     override fun render(delta: Float) {
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         update(delta)
