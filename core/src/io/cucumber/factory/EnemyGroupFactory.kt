@@ -28,34 +28,34 @@ object EnemyGroupFactory {
     }
 
     private fun createSimple(positionFactor: Int): EnemyGroup {
-        val enemy = Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY)
+        val enemy = Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY)
         return EnemyGroup(Array.with(enemy))
     }
 
     private fun createLadder(positionFactor: Int): EnemyGroup {
         val enemies = Array.of(Enemy::class.java)
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT - ((3 * ENEMY_DISTANCE) / 2), ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 2), ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + 2 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 2), ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + 3 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT + ((3 * ENEMY_DISTANCE) / 2), ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_DISTANCE - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + positionFactor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 3) - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + 2 * positionFactor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 3) - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + 3 * positionFactor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT + ENEMY_DISTANCE - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         return EnemyGroup(enemies)
     }
 
     private fun createSnake(positionFactor: Int): EnemyGroup {
         val enemies = Array.of(Enemy::class.java)
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + 2 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH + positionFactor * HALF_SCREEN_WIDTH + 3 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + positionFactor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + 2 * positionFactor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + 3 * positionFactor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
         return EnemyGroup(enemies)
     }
 
