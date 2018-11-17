@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.graphics.Texture
 import io.cucumber.constant.BonusConstants.BONUS_CHANCE
+import io.cucumber.constant.BonusConstants.BONUS_LIFESPAN
 import io.cucumber.constant.BonusConstants.BONUS_SIZE
 import io.cucumber.constant.HeroConstants.HERO_SIZE
 import io.cucumber.constant.HeroConstants.HORIZONTAL_VELOCITY
@@ -127,6 +128,9 @@ class GameScreen(
         bonus?.let {
             if (it.isCollides(hero)) {
                 bonusesCount++
+                bonus = null
+            }
+            if (System.currentTimeMillis() - it.creationTime >= BONUS_LIFESPAN) {
                 bonus = null
             }
         }
