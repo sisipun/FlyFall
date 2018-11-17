@@ -26,4 +26,8 @@ abstract class Actor(
 
     open fun update(delta: Float) {}
 
+    fun dispose() {
+        texture.dispose()
+    }
+
 }

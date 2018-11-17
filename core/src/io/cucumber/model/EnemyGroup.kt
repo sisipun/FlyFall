@@ -15,4 +15,8 @@ class EnemyGroup(
         enemies.forEach { it.update(delta) }
     }
 
+    fun dispose() {
+        enemies.forEach { it.dispose() }
+    }
+
 }

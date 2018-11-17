@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
 import io.cucumber.constant.BonusConstants.BONUS_CHANCE
 import io.cucumber.constant.BonusConstants.BONUS_LIFESPAN
@@ -49,6 +50,9 @@ class GameScreen(
     private var bonus: Bonus? = null
 
     private val wallTexture: Texture = Texture("wall.png")
+    private val flipSound: Sound = Gdx.audio.newSound(Gdx.files.internal("flip.wav"))
+    private val bonusSound: Sound = Gdx.audio.newSound(Gdx.files.internal("bonus.wav"))
+    private val deathSound: Sound = Gdx.audio.newSound(Gdx.files.internal("death.mp3"))
 
 
     override fun update(delta: Float) {
@@ -120,14 +124,17 @@ class GameScreen(
         if (hero.bound.y + 2 * hero.bound.radius + WALL_HEIGHT >= SCREEN_HEIGHT) {
             hero.direction = DOWN_DIRECTION
             generateBonus()
+            flipSound.play()
         } else if (hero.bound.y - WALL_HEIGHT <= 0) {
             hero.direction = UP_DIRECTION
             generateBonus()
+            flipSound.play()
         }
 
         bonus?.let {
             if (it.isCollides(hero)) {
                 bonusesCount++
+                bonusSound.play()
                 bonus = null
             }
             if (System.currentTimeMillis() - it.creationTime >= BONUS_LIFESPAN) {
@@ -135,6 +142,7 @@ class GameScreen(
             }
         }
         if (enemyGroup.isCollides(hero)) {
+            deathSound.play()
             game.screen = GameOverScreen(game, score, bonusesCount)
         }
 
@@ -155,6 +163,16 @@ class GameScreen(
         }
         bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
             random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE)
+    }
+
+    override fun screenDispose() {
+        hero.dispose()
+        enemyGroup.dispose()
+        bonus?.dispose()
+        flipSound.dispose()
+        bonusSound.dispose()
+        deathSound.dispose()
+        wallTexture.dispose()
     }
 
 }
