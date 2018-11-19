@@ -13,6 +13,7 @@ import io.cucumber.constant.HeroConstants.HERO_SIZE
 import io.cucumber.constant.HeroConstants.HORIZONTAL_VELOCITY
 import io.cucumber.constant.HeroConstants.VERTICAL_VELOCITY
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
+import io.cucumber.constant.PreferenceConstants.IS_SOUND_ENABLED
 import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
 import io.cucumber.constant.ScoreConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.ENEMY_RESPAWN_BORDER
@@ -50,10 +51,17 @@ class GameScreen(
     private var bonus: Bonus? = null
 
     private val wallTexture: Texture = Texture("wall.png")
-    private val flipSound: Sound = Gdx.audio.newSound(Gdx.files.internal("flip.wav"))
-    private val bonusSound: Sound = Gdx.audio.newSound(Gdx.files.internal("bonus.wav"))
-    private val deathSound: Sound = Gdx.audio.newSound(Gdx.files.internal("death.mp3"))
+    private var flipSound: Sound? = null
+    private var bonusSound: Sound? = null
+    private var deathSound: Sound? = null
 
+    init {
+        if (preferences.getBoolean(IS_SOUND_ENABLED)) {
+            flipSound = Gdx.audio.newSound(Gdx.files.internal("flip.wav"))
+            bonusSound = Gdx.audio.newSound(Gdx.files.internal("bonus.wav"))
+            deathSound = Gdx.audio.newSound(Gdx.files.internal("death.mp3"))
+        }
+    }
 
     override fun update(delta: Float) {
         hero.update(delta)
@@ -124,17 +132,17 @@ class GameScreen(
         if (hero.bound.y + 2 * hero.bound.radius + WALL_HEIGHT >= SCREEN_HEIGHT) {
             hero.direction = DOWN_DIRECTION
             generateBonus()
-            flipSound.play()
+            flipSound?.play()
         } else if (hero.bound.y - WALL_HEIGHT <= 0) {
             hero.direction = UP_DIRECTION
             generateBonus()
-            flipSound.play()
+            flipSound?.play()
         }
 
         bonus?.let {
             if (it.isCollides(hero)) {
                 bonusesCount++
-                bonusSound.play()
+                bonusSound?.play()
                 bonus = null
             }
             if (System.currentTimeMillis() - it.creationTime >= BONUS_LIFESPAN) {
@@ -142,7 +150,7 @@ class GameScreen(
             }
         }
         if (enemyGroup.isCollides(hero)) {
-            deathSound.play()
+            deathSound?.play()
             game.screen = GameOverScreen(game, score, bonusesCount)
         }
 
@@ -169,9 +177,9 @@ class GameScreen(
         hero.dispose()
         enemyGroup.dispose()
         bonus?.dispose()
-        flipSound.dispose()
-        bonusSound.dispose()
-        deathSound.dispose()
+        flipSound?.dispose()
+        bonusSound?.dispose()
+        deathSound?.dispose()
         wallTexture.dispose()
     }
 

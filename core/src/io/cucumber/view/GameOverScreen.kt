@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
-import io.cucumber.constant.PreferenceConstants
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
 import io.cucumber.constant.PreferenceConstants.HIGH_SCORE
 import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
@@ -14,7 +13,7 @@ import io.cucumber.utils.NumbersHelper
 
 class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(game) {
 
-    private var highScore: Int = preferences.getInteger(PreferenceConstants.HIGH_SCORE)
+    private var highScore: Int = preferences.getInteger(HIGH_SCORE)
     private var scoreTextures: List<Texture> = NumbersHelper.getTextures(score)
     private var highScoreTextures: List<Texture> = NumbersHelper.getTextures(highScore)
     private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
@@ -60,7 +59,8 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
     }
 
     override fun handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.justTouched()) game.screen = GameScreen(game)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.justTouched()) game.screen = GameScreen(game)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) game.screen = SettingScreen(game)
     }
 
 }
