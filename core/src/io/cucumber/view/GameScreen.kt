@@ -87,16 +87,6 @@ class GameScreen(
                 2 * it.bound.radius
             )
         }
-        val scoreTextures = NumbersHelper.getTextures(score)
-        scoreTextures.forEachIndexed { index, texture ->
-            batch.draw(
-                texture,
-                (index + 1) * SCORE_WIDTH,
-                SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
-                SCORE_WIDTH,
-                SCORE_HEIGHT
-            )
-        }
         batch.draw(
             wallTexture,
             0F,
@@ -111,6 +101,16 @@ class GameScreen(
             SCREEN_WIDTH,
             WALL_HEIGHT
         )
+        val scoreTextures = NumbersHelper.getTextures(score)
+        scoreTextures.forEachIndexed { index, texture ->
+            batch.draw(
+                texture,
+                (index + 1) * SCORE_WIDTH,
+                SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
+                SCORE_WIDTH,
+                SCORE_HEIGHT
+            )
+        }
     }
 
     override fun handleInput() {
