@@ -9,9 +9,12 @@ import com.badlogic.gdx.graphics.Texture
 import io.cucumber.constant.BonusConstants.BONUS_CHANCE
 import io.cucumber.constant.BonusConstants.BONUS_LIFESPAN
 import io.cucumber.constant.BonusConstants.BONUS_SIZE
+import io.cucumber.constant.EnemyConstants.ENEMY_MAX_HORIZONTAL_VELOCITY
+import io.cucumber.constant.EnemyConstants.ENEMY_MIN_HORIZONTAL_VELOCITY
+import io.cucumber.constant.EnemyConstants.ENEMY_VELOCITY_DELTA
+import io.cucumber.constant.HeroConstants.HERO_HORIZONTAL_VELOCITY
 import io.cucumber.constant.HeroConstants.HERO_SIZE
-import io.cucumber.constant.HeroConstants.HORIZONTAL_VELOCITY
-import io.cucumber.constant.HeroConstants.VERTICAL_VELOCITY
+import io.cucumber.constant.HeroConstants.HERO_VERTICAL_VELOCITY
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
 import io.cucumber.constant.PreferenceConstants.IS_SOUND_ENABLED
 import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
@@ -23,8 +26,9 @@ import io.cucumber.constant.ScreenConstants.WALL_HEIGHT
 import io.cucumber.factory.BonusFactory
 import io.cucumber.factory.EnemyGroupFactory
 import io.cucumber.factory.EnemyGroupFactory.GroupType.SIMPLE_GROUP
-import io.cucumber.factory.EnemyGroupFactory.Position.RIGHT_POSITION
 import io.cucumber.model.Bonus
+import io.cucumber.model.Enemy
+import io.cucumber.model.Enemy.Orientation.RIGHT_ORIENTATION
 import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
 import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
@@ -40,14 +44,16 @@ class GameScreen(
 
     private var score: Int = 0
     private var bonusesCount: Int = preferences.getInteger(BONUSES_COUNT)
+    private var enemyVelocity: Float = ENEMY_MIN_HORIZONTAL_VELOCITY
+
     private val hero: Hero = Hero(
         SCREEN_WIDTH / 2,
         SCREEN_HEIGHT / 2,
         HERO_SIZE,
-        HORIZONTAL_VELOCITY,
-        VERTICAL_VELOCITY
+        HERO_HORIZONTAL_VELOCITY,
+        -1 * HERO_VERTICAL_VELOCITY
     )
-    private var enemyGroup: EnemyGroup = EnemyGroupFactory.create(SIMPLE_GROUP, RIGHT_POSITION)
+    private var enemyGroup: EnemyGroup = EnemyGroupFactory.create(SIMPLE_GROUP, RIGHT_ORIENTATION, enemyVelocity)
     private var bonus: Bonus? = null
 
     private val wallTexture: Texture = Texture("wall.png")
@@ -132,10 +138,12 @@ class GameScreen(
         if (hero.bound.y + 2 * hero.bound.radius + WALL_HEIGHT >= SCREEN_HEIGHT) {
             hero.direction = DOWN_DIRECTION
             generateBonus()
+            raiseEnemyVelocity()
             flipSound?.play()
         } else if (hero.bound.y - WALL_HEIGHT <= 0) {
             hero.direction = UP_DIRECTION
             generateBonus()
+            raiseEnemyVelocity()
             flipSound?.play()
         }
 
@@ -160,7 +168,8 @@ class GameScreen(
             (last.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.bound.x + last.bound.radius + ENEMY_RESPAWN_BORDER < 0)) {
             enemyGroup = EnemyGroupFactory.create(
                 EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
-                EnemyGroupFactory.Position.values()[random.nextInt(EnemyGroupFactory.Position.values().size)]
+                Enemy.Orientation.values()[random.nextInt(Enemy.Orientation.values().size)],
+                enemyVelocity
             )
         }
     }
@@ -171,6 +180,13 @@ class GameScreen(
         }
         bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
             random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE)
+    }
+
+    private fun raiseEnemyVelocity() {
+        if (enemyVelocity >= ENEMY_MAX_HORIZONTAL_VELOCITY) {
+            return
+        }
+        enemyVelocity += ENEMY_VELOCITY_DELTA
     }
 
     override fun screenDispose() {

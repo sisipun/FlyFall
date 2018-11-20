@@ -2,13 +2,10 @@ package io.cucumber.factory
 
 import com.badlogic.gdx.utils.Array
 import io.cucumber.constant.EnemyConstants.ENEMY_SIZE
-import io.cucumber.constant.EnemyConstants.HORIZONTAL_VELOCITY
 import io.cucumber.constant.ScreenConstants.ENEMY_DISTANCE
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 import io.cucumber.factory.EnemyGroupFactory.GroupType.*
-import io.cucumber.factory.EnemyGroupFactory.Position.LEFT_POSITION
-import io.cucumber.factory.EnemyGroupFactory.Position.RIGHT_POSITION
 import io.cucumber.model.Enemy
 import io.cucumber.model.EnemyGroup
 
@@ -18,61 +15,50 @@ object EnemyGroupFactory {
     private const val HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2
 
 
-    fun create(type: GroupType, position: Position): EnemyGroup {
-        val positionFactor = getPositionFactor(position)
+    fun create(type: GroupType, orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
         return when (type) {
-            SIMPLE_GROUP -> createSimple(positionFactor)
-            LADDER_GROUP -> createLadder(positionFactor)
-            SNAKE_GROUP -> createSnake(positionFactor)
+            SIMPLE_GROUP -> createSimple(orientation, horizontalSpeed)
+            LADDER_GROUP -> createLadder(orientation, horizontalSpeed)
+            SNAKE_GROUP -> createSnake(orientation, horizontalSpeed)
         }
     }
 
-    private fun createSimple(positionFactor: Int): EnemyGroup {
-        val enemy = Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY)
+    private fun createSimple(orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
+        val enemy = Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation)
         return EnemyGroup(Array.with(enemy))
     }
 
-    private fun createLadder(positionFactor: Int): EnemyGroup {
+    private fun createLadder(orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
         val enemies = Array.of(Enemy::class.java)
-        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT - ENEMY_DISTANCE - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 3) - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + 2 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 3) - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + 3 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT + ENEMY_DISTANCE - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_DISTANCE - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH + orientation.factor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 3) - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH + 2 * orientation.factor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 3) - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH + 3 * orientation.factor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT + ENEMY_DISTANCE - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
         return EnemyGroup(enemies)
     }
 
-    private fun createSnake(positionFactor: Int): EnemyGroup {
+    private fun createSnake(orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
         val enemies = Array.of(Enemy::class.java)
-        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + 2 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
-        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + positionFactor * HALF_SCREEN_WIDTH + 3 * positionFactor * ENEMY_DISTANCE,
-            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, positionFactor * HORIZONTAL_VELOCITY))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH +
+            orientation.factor * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH +
+            2 * orientation.factor * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH +
+            3 * orientation.factor * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
         return EnemyGroup(enemies)
-    }
-
-    private fun getPositionFactor(position: Position): Int = when(position) {
-        LEFT_POSITION -> -1
-        RIGHT_POSITION -> 1
     }
 
     enum class GroupType {
         SIMPLE_GROUP,
         LADDER_GROUP,
         SNAKE_GROUP
-    }
-
-    enum class Position {
-        LEFT_POSITION,
-        RIGHT_POSITION
     }
 
 }
