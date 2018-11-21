@@ -7,6 +7,6 @@ object ScreenConstants {
     const val WALL_HEIGHT = 50F
 
     const val ENEMY_RESPAWN_BORDER = 50F
-    const val ENEMY_DISTANCE = 180F
+    const val ENEMY_DISTANCE = 200F
 
 }
