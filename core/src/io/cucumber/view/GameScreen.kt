@@ -61,6 +61,7 @@ class GameScreen(
     private var bonusSound: Sound? = null
     private var deathSound: Sound? = null
 
+
     init {
         if (preferences.getBoolean(IS_SOUND_ENABLED)) {
             flipSound = Gdx.audio.newSound(Gdx.files.internal("flip.wav"))

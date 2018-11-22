@@ -2,13 +2,16 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
+import io.cucumber.constant.ButtonConstants.HOME_BUTTON_HEIGHT
+import io.cucumber.constant.ButtonConstants.HOME_BUTTON_WIDTH
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
 import io.cucumber.constant.PreferenceConstants.HIGH_SCORE
 import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
 import io.cucumber.constant.ScoreConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
+import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
+import io.cucumber.model.base.Button
 import io.cucumber.utils.NumbersHelper
 
 class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(game) {
@@ -17,6 +20,14 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
     private var scoreTextures: List<Texture> = NumbersHelper.getTextures(score)
     private var highScoreTextures: List<Texture> = NumbersHelper.getTextures(highScore)
     private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
+
+    private val homeButton: Button = Button(
+        SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH / 2,
+        SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
+        HOME_BUTTON_WIDTH,
+        HOME_BUTTON_HEIGHT,
+        "wall.png"
+    )
 
 
     init {
@@ -55,12 +66,18 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
                 SCORE_WIDTH,
                 SCORE_HEIGHT
             )
+            batch.draw(
+                homeButton.texture,
+                homeButton.bound.x,
+                homeButton.bound.y,
+                homeButton.bound.width,
+                homeButton.bound.height
+            )
         }
     }
 
     override fun handleInput() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.justTouched()) game.screen = GameScreen(game)
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) game.screen = SettingScreen(game)
+        if (Gdx.input.justTouched() && homeButton.isTouched(Gdx.input.x.toFloat(), SCREEN_HEIGHT - Gdx.input.y.toFloat())) game.screen = StartScreen(game)
     }
 
 }
