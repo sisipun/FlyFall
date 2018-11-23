@@ -22,7 +22,14 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
     private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
 
     private val homeButton: Button = Button(
-        SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH / 2,
+        SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
+        SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
+        HOME_BUTTON_WIDTH,
+        HOME_BUTTON_HEIGHT,
+        "wall.png"
+    )
+    private val restartButton: Button = Button(
+        SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
         HOME_BUTTON_WIDTH,
         HOME_BUTTON_HEIGHT,
@@ -66,18 +73,26 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
                 SCORE_WIDTH,
                 SCORE_HEIGHT
             )
-            batch.draw(
-                homeButton.texture,
-                homeButton.bound.x,
-                homeButton.bound.y,
-                homeButton.bound.width,
-                homeButton.bound.height
-            )
         }
+        batch.draw(
+            homeButton.texture,
+            homeButton.bound.x,
+            homeButton.bound.y,
+            homeButton.bound.width,
+            homeButton.bound.height
+        )
+        batch.draw(
+            restartButton.texture,
+            restartButton.bound.x,
+            restartButton.bound.y,
+            restartButton.bound.width,
+            restartButton.bound.height
+        )
     }
 
     override fun handleInput() {
         if (Gdx.input.justTouched() && homeButton.isTouched(Gdx.input.x.toFloat(), SCREEN_HEIGHT - Gdx.input.y.toFloat())) game.screen = StartScreen(game)
+        if (Gdx.input.justTouched() && restartButton.isTouched(Gdx.input.x.toFloat(), SCREEN_HEIGHT - Gdx.input.y.toFloat())) game.screen = GameScreen(game)
     }
 
 }
