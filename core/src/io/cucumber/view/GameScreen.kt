@@ -33,6 +33,7 @@ import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
 import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
 import io.cucumber.model.Hero.Direction.UP_DIRECTION
+import io.cucumber.utils.InputHelper
 import io.cucumber.utils.NumbersHelper
 import java.util.*
 
@@ -131,8 +132,8 @@ class GameScreen(
     override fun handleInput() {
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
         if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + 2 * hero.bound.radius < SCREEN_WIDTH) hero.moveRight()
-        if (Gdx.input.isTouched && Gdx.input.x < SCREEN_WIDTH / 2 && hero.bound.x > 0) hero.moveLeft()
-        if (Gdx.input.isTouched && Gdx.input.x > SCREEN_WIDTH / 2 && hero.bound.x + 2 * hero.bound.radius < SCREEN_WIDTH) hero.moveRight()
+        if (Gdx.input.isTouched && InputHelper.getLastTouchX() < SCREEN_WIDTH / 2 && hero.bound.x > 0) hero.moveLeft()
+        if (Gdx.input.isTouched && InputHelper.getLastTouchX() > SCREEN_WIDTH / 2 && hero.bound.x + 2 * hero.bound.radius < SCREEN_WIDTH) hero.moveRight()
     }
 
     override fun stateCheck() {

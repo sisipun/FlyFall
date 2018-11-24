@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_HEIGHT
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_WIDTH
 import io.cucumber.constant.ButtonConstants.START_GAME_BUTTON_HEIGHT
@@ -66,7 +67,7 @@ class StartScreen(game: Game) : BaseScreen(game) {
             batch.draw(
                 texture,
                 SCREEN_WIDTH / 2 + (index - highScoreTextures.size / 2) * SCORE_WIDTH,
-                SCREEN_HEIGHT - SCORE_HEIGHT,
+                SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
                 SCORE_WIDTH,
                 SCORE_HEIGHT
             )
@@ -75,7 +76,7 @@ class StartScreen(game: Game) : BaseScreen(game) {
             batch.draw(
                 texture,
                 SCREEN_WIDTH / 2 + (index - bonusesCountTextures.size / 2) * SCORE_WIDTH,
-                SCREEN_HEIGHT - 3 * SCORE_HEIGHT,
+                SCREEN_HEIGHT - 4 * SCORE_HEIGHT,
                 SCORE_WIDTH,
                 SCORE_HEIGHT
             )
@@ -84,9 +85,12 @@ class StartScreen(game: Game) : BaseScreen(game) {
 
     override fun handleInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) game.screen = GameScreen(game)
-        if (Gdx.input.justTouched() && startButton.isTouched(Gdx.input.x.toFloat(), SCREEN_HEIGHT - Gdx.input.y.toFloat())) game.screen = GameScreen(game)
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) soundOff()
-        if (Gdx.input.justTouched() && soundOffButton.isTouched(Gdx.input.x.toFloat(), SCREEN_HEIGHT - Gdx.input.y.toFloat())) soundOff()
+        if (Gdx.input.justTouched()) {
+            val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
+            if (startButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = GameScreen(game)
+            if (soundOffButton.isTouched(touchPosition.x, touchPosition.y)) soundOff()
+        }
     }
 
     private fun soundOff() {
