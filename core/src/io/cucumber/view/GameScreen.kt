@@ -176,6 +176,16 @@ class GameScreen(
         }
     }
 
+    override fun screenDispose() {
+        hero.dispose()
+        enemyGroup.dispose()
+        bonus?.dispose()
+        flipSound?.dispose()
+        bonusSound?.dispose()
+        deathSound?.dispose()
+        wallTexture.dispose()
+    }
+
     private fun generateBonus() {
         if (bonus != null || random.nextFloat() > BONUS_CHANCE) {
             return
@@ -189,16 +199,6 @@ class GameScreen(
             return
         }
         enemyVelocity += ENEMY_VELOCITY_DELTA
-    }
-
-    override fun screenDispose() {
-        hero.dispose()
-        enemyGroup.dispose()
-        bonus?.dispose()
-        flipSound?.dispose()
-        bonusSound?.dispose()
-        deathSound?.dispose()
-        wallTexture.dispose()
     }
 
 }

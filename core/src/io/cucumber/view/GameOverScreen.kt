@@ -99,4 +99,10 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
         }
     }
 
+    override fun screenDispose() {
+        scoreTextures.forEach { it.dispose() }
+        highScoreTextures.forEach { it.dispose() }
+        bonusesCountTextures.forEach { it.dispose() }
+    }
+
 }

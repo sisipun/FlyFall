@@ -2,7 +2,6 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_HEIGHT
@@ -84,13 +83,16 @@ class StartScreen(game: Game) : BaseScreen(game) {
     }
 
     override fun handleInput() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) game.screen = GameScreen(game)
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) soundOff()
         if (Gdx.input.justTouched()) {
             val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
             if (startButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = GameScreen(game)
             if (soundOffButton.isTouched(touchPosition.x, touchPosition.y)) soundOff()
         }
+    }
+
+    override fun screenDispose() {
+        highScoreTextures.forEach { it.dispose() }
+        bonusesCountTextures.forEach { it.dispose() }
     }
 
     private fun soundOff() {
