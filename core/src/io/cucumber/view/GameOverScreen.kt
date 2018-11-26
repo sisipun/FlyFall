@@ -19,7 +19,7 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
 
     private var highScore: Int = preferences.getInteger(HIGH_SCORE)
     private var scoreTextures: List<Texture> = NumbersHelper.getTextures(score)
-    private var highScoreTextures: List<Texture> = NumbersHelper.getTextures(highScore)
+    private var highScoreTextures: List<Texture>
     private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
 
     private val homeButton: Button = Button(
@@ -45,6 +45,7 @@ class GameOverScreen(game: Game, score: Int, bonusesCount: Int) : BaseScreen(gam
         }
         preferences.putInteger(BONUSES_COUNT, bonusesCount)
         preferences.flush()
+        highScoreTextures = NumbersHelper.getTextures(highScore)
     }
 
     override fun render() {
