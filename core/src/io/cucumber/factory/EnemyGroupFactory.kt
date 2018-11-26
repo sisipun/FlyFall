@@ -17,18 +17,22 @@ object EnemyGroupFactory {
 
     fun create(type: GroupType, orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
         return when (type) {
-            SIMPLE_GROUP -> createSimple(orientation, horizontalSpeed)
+            SMALL_SNAKE_GROUP -> createSmallSnake(orientation, horizontalSpeed)
             LADDER_GROUP -> createLadder(orientation, horizontalSpeed)
             SNAKE_GROUP -> createSnake(orientation, horizontalSpeed)
             LADDER_SNAKE_GROUP -> createLadderSnake(orientation, horizontalSpeed)
+            SMALL_WALL_GROUP -> createSmallWall(orientation, horizontalSpeed)
             WALL_GROUP -> createWall(orientation, horizontalSpeed)
         }
     }
 
-    private fun createSimple(orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
-        val enemy = Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH,
-            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation)
-        return EnemyGroup(Array.with(enemy))
+    private fun createSmallSnake(orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
+        val enemies = Array.of(Enemy::class.java)
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH + orientation.factor * ENEMY_DISTANCE,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, horizontalSpeed, orientation))
+        return EnemyGroup(enemies)
     }
 
     private fun createLadder(orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
@@ -70,6 +74,15 @@ object EnemyGroupFactory {
         return EnemyGroup(enemies)
     }
 
+    private fun createSmallWall(orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
+        val enemies = Array.of(Enemy::class.java)
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 + HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, horizontalSpeed, orientation))
+        enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH,
+            HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 - HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, horizontalSpeed, orientation))
+        return EnemyGroup(enemies)
+    }
+
     private fun createWall(orientation: Enemy.Orientation, horizontalSpeed: Float): EnemyGroup {
         val enemies = Array.of(Enemy::class.java)
         enemies.add(Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation.factor * HALF_SCREEN_WIDTH,
@@ -82,10 +95,11 @@ object EnemyGroupFactory {
     }
 
     enum class GroupType {
-        SIMPLE_GROUP,
+        SMALL_SNAKE_GROUP,
         LADDER_GROUP,
         SNAKE_GROUP,
         LADDER_SNAKE_GROUP,
+        SMALL_WALL_GROUP,
         WALL_GROUP
     }
 

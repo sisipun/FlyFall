@@ -25,10 +25,8 @@ import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 import io.cucumber.constant.ScreenConstants.WALL_HEIGHT
 import io.cucumber.factory.BonusFactory
 import io.cucumber.factory.EnemyGroupFactory
-import io.cucumber.factory.EnemyGroupFactory.GroupType.SIMPLE_GROUP
 import io.cucumber.model.Bonus
 import io.cucumber.model.Enemy
-import io.cucumber.model.Enemy.Orientation.RIGHT_ORIENTATION
 import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
 import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
@@ -54,7 +52,7 @@ class GameScreen(
         HERO_HORIZONTAL_VELOCITY,
         -1 * HERO_VERTICAL_VELOCITY
     )
-    private var enemyGroup: EnemyGroup = EnemyGroupFactory.create(SIMPLE_GROUP, RIGHT_ORIENTATION, enemyVelocity)
+    private var enemyGroup: EnemyGroup = generateEnemy()
     private var bonus: Bonus? = null
 
     private val wallTexture: Texture = Texture("wall.png")
@@ -168,11 +166,7 @@ class GameScreen(
         val last = enemyGroup.enemies.last()
         if ((first.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.bound.x + first.bound.radius + ENEMY_RESPAWN_BORDER < 0) &&
             (last.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.bound.x + last.bound.radius + ENEMY_RESPAWN_BORDER < 0)) {
-            enemyGroup = EnemyGroupFactory.create(
-                EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
-                Enemy.Orientation.values()[random.nextInt(Enemy.Orientation.values().size)],
-                enemyVelocity
-            )
+            enemyGroup = generateEnemy()
         }
     }
 
@@ -193,6 +187,12 @@ class GameScreen(
         bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
             random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE)
     }
+
+    private fun generateEnemy() = EnemyGroupFactory.create(
+        EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
+        Enemy.Orientation.values()[random.nextInt(Enemy.Orientation.values().size)],
+        enemyVelocity
+    )
 
     private fun raiseEnemyVelocity() {
         if (enemyVelocity >= ENEMY_MAX_HORIZONTAL_VELOCITY) {
