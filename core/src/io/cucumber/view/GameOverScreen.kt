@@ -8,8 +8,8 @@ import io.cucumber.constant.ButtonConstants.HOME_BUTTON_HEIGHT
 import io.cucumber.constant.ButtonConstants.HOME_BUTTON_WIDTH
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
 import io.cucumber.constant.PreferenceConstants.HIGH_SCORE
-import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
-import io.cucumber.constant.ScoreConstants.SCORE_WIDTH
+import io.cucumber.constant.ScreenConstants.SCORE_HEIGHT
+import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 import io.cucumber.model.base.Button

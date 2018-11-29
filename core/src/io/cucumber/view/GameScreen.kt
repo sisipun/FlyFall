@@ -17,11 +17,13 @@ import io.cucumber.constant.HeroConstants.HERO_SIZE
 import io.cucumber.constant.HeroConstants.HERO_VERTICAL_VELOCITY
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
 import io.cucumber.constant.PreferenceConstants.IS_SOUND_ENABLED
-import io.cucumber.constant.ScoreConstants.SCORE_HEIGHT
-import io.cucumber.constant.ScoreConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.ENEMY_RESPAWN_BORDER
+import io.cucumber.constant.ScreenConstants.SCORE_HEIGHT
+import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
+import io.cucumber.constant.ScreenConstants.TIMER_HEIGHT
+import io.cucumber.constant.ScreenConstants.TIMER_MARGIN_WIDTH
 import io.cucumber.constant.ScreenConstants.WALL_HEIGHT
 import io.cucumber.factory.BonusFactory
 import io.cucumber.factory.EnemyGroupFactory
@@ -56,6 +58,7 @@ class GameScreen(
     private var bonus: Bonus? = null
 
     private val wallTexture: Texture = Texture("wall.png")
+    private val timerTexture: Texture = Texture("timer.png")
     private var flipSound: Sound? = null
     private var bonusSound: Sound? = null
     private var deathSound: Sound? = null
@@ -123,6 +126,24 @@ class GameScreen(
                 SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
                 SCORE_WIDTH,
                 SCORE_HEIGHT
+            )
+        }
+        bonus?.let {
+            batch.draw(
+                timerTexture,
+                SCREEN_WIDTH / 2,
+                TIMER_HEIGHT,
+                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - ((System.currentTimeMillis() - it.creationTime) / BONUS_LIFESPAN)),
+                TIMER_HEIGHT
+            )
+        }
+        bonus?.let {
+            batch.draw(
+                timerTexture,
+                TIMER_MARGIN_WIDTH + ((SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * ((System.currentTimeMillis() - it.creationTime) / BONUS_LIFESPAN)),
+                TIMER_HEIGHT,
+                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - ((System.currentTimeMillis() - it.creationTime) / BONUS_LIFESPAN)),
+                TIMER_HEIGHT
             )
         }
     }
