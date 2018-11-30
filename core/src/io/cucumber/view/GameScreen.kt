@@ -129,20 +129,19 @@ class GameScreen(
             )
         }
         bonus?.let {
+            val lifespanFactor = (System.currentTimeMillis() - it.creationTime) / BONUS_LIFESPAN
             batch.draw(
                 timerTexture,
                 SCREEN_WIDTH / 2,
                 TIMER_HEIGHT,
-                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - ((System.currentTimeMillis() - it.creationTime) / BONUS_LIFESPAN)),
+                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
                 TIMER_HEIGHT
             )
-        }
-        bonus?.let {
             batch.draw(
                 timerTexture,
-                TIMER_MARGIN_WIDTH + ((SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * ((System.currentTimeMillis() - it.creationTime) / BONUS_LIFESPAN)),
+                TIMER_MARGIN_WIDTH + ((SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * lifespanFactor),
                 TIMER_HEIGHT,
-                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - ((System.currentTimeMillis() - it.creationTime) / BONUS_LIFESPAN)),
+                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
                 TIMER_HEIGHT
             )
         }
