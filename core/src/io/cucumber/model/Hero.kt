@@ -9,8 +9,9 @@ class Hero(
     size: Float,
     horizontalVelocity: Float,
     verticalVelocity: Float,
+    texture: String,
     direction: Direction = DOWN_DIRECTION
-) : Actor(x, y, size, horizontalVelocity, verticalVelocity, "hero.png") {
+) : Actor(x, y, size, horizontalVelocity, verticalVelocity, texture) {
 
     var direction = direction
         set(value) {

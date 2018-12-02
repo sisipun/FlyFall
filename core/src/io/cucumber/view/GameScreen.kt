@@ -33,12 +33,14 @@ import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
 import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
 import io.cucumber.model.Hero.Direction.UP_DIRECTION
+import io.cucumber.model.texture.TexturePack
 import io.cucumber.utils.InputHelper
 import io.cucumber.utils.NumbersHelper
 import java.util.*
 
 class GameScreen(
-    game: Game
+    game: Game,
+    private val texturePack: TexturePack
 ) : BaseScreen(game) {
 
     private val random = Random()
@@ -52,7 +54,8 @@ class GameScreen(
         SCREEN_HEIGHT / 2,
         HERO_SIZE,
         HERO_HORIZONTAL_VELOCITY,
-        -1 * HERO_VERTICAL_VELOCITY
+        -1 * HERO_VERTICAL_VELOCITY,
+        texturePack.hero
     )
     private var enemyGroup: EnemyGroup = generateEnemy()
     private var bonus: Bonus? = null
@@ -179,7 +182,7 @@ class GameScreen(
         }
         if (enemyGroup.isCollides(hero)) {
             deathSound?.play()
-            game.screen = GameOverScreen(game, score, bonusesCount)
+            game.screen = GameOverScreen(game, score, bonusesCount, texturePack)
         }
 
         val first = enemyGroup.enemies.first()
@@ -205,13 +208,14 @@ class GameScreen(
             return
         }
         bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
-            random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE)
+            random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE, texturePack.bonus)
     }
 
     private fun generateEnemy() = EnemyGroupFactory.create(
         EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
         Enemy.Orientation.values()[random.nextInt(Enemy.Orientation.values().size)],
-        enemyVelocity
+        enemyVelocity,
+        texturePack.enemy
     )
 
     private fun raiseEnemyVelocity() {

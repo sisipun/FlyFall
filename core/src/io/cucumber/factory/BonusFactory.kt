@@ -5,6 +5,6 @@ import io.cucumber.model.Bonus
 
 object BonusFactory {
 
-    fun create(x: Float, y: Float): Bonus = Bonus(x, y, BONUS_SIZE, System.currentTimeMillis())
+    fun create(x: Float, y: Float, texture: String): Bonus = Bonus(x, y, BONUS_SIZE, texture, System.currentTimeMillis())
 
 }

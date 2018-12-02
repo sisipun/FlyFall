@@ -7,8 +7,9 @@ class Enemy(
     y: Float,
     size: Float,
     horizontalVelocity: Float,
+    texture: String,
     private val orientation: Orientation
-) : Actor(x, y, size, horizontalVelocity, 0F, "enemy.png") {
+) : Actor(x, y, size, horizontalVelocity, 0F, texture) {
 
     override fun update(delta: Float) {
         position.add(velocity.x * -1 * orientation.factor * delta, 0F)
