@@ -1,6 +1,6 @@
 package io.cucumber.model.texture
 
-class TexturePack(
+class TextureLevel(
     val hero: String,
     val enemy: String,
     val bonus: String

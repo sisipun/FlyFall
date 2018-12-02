@@ -13,13 +13,13 @@ import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 import io.cucumber.model.base.Button
-import io.cucumber.model.texture.TexturePack
+import io.cucumber.model.texture.TextureLevel
 import io.cucumber.utils.NumbersHelper
 
 class GameOverScreen(
     game: Game, score: Int,
     bonusesCount: Int,
-    private val texturePack: TexturePack
+    private val textureLevel: TextureLevel
 ) : BaseScreen(game) {
 
     private var highScore: Int = preferences.getInteger(HIGH_SCORE)
@@ -101,7 +101,7 @@ class GameOverScreen(
         if (Gdx.input.justTouched()) {
             val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
             if (homeButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = StartScreen(game)
-            if (restartButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = GameScreen(game, texturePack)
+            if (restartButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = GameScreen(game, textureLevel)
         }
     }
 

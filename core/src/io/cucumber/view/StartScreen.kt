@@ -16,7 +16,8 @@ import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 import io.cucumber.model.base.Button
-import io.cucumber.model.texture.TexturePacks.COMMON
+import io.cucumber.model.texture.TextureLevel
+import io.cucumber.model.texture.TextureLevelPack.COMMON
 import io.cucumber.utils.NumbersHelper
 
 class StartScreen(game: Game) : BaseScreen(game) {
@@ -39,6 +40,8 @@ class StartScreen(game: Game) : BaseScreen(game) {
         SOUND_OFF_BUTTON_HEIGHT,
         "wall.png"
     )
+
+    private var textureLevel: TextureLevel = COMMON.value
 
 
     init {
@@ -86,7 +89,7 @@ class StartScreen(game: Game) : BaseScreen(game) {
     override fun handleInput() {
         if (Gdx.input.justTouched()) {
             val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
-            if (startButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = GameScreen(game, COMMON.value)
+            if (startButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = GameScreen(game, textureLevel)
             if (soundOffButton.isTouched(touchPosition.x, touchPosition.y)) soundOff()
         }
     }
