@@ -207,8 +207,12 @@ class GameScreen(
         if (bonus != null || random.nextFloat() > BONUS_CHANCE) {
             return
         }
-        bonus = BonusFactory.create(random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE,
-            random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE, textureLevel.bonus)
+        var x = random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE
+        val y = random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE
+        if (hero.bound.x > SCREEN_WIDTH / 2) {
+            x /= 2
+        }
+        bonus = BonusFactory.create(x, y, textureLevel.bonus)
     }
 
     private fun generateEnemy() = EnemyGroupFactory.create(
