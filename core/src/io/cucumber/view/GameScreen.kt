@@ -6,9 +6,14 @@ import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.BonusConstants.BONUS_CHANCE
 import io.cucumber.constant.BonusConstants.BONUS_LIFESPAN
 import io.cucumber.constant.BonusConstants.BONUS_SIZE
+import io.cucumber.constant.ButtonConstants.PAUSE_BUTTON_HEIGHT
+import io.cucumber.constant.ButtonConstants.PAUSE_BUTTON_WIDTH
+import io.cucumber.constant.ButtonConstants.RESUME_BUTTON_HEIGHT
+import io.cucumber.constant.ButtonConstants.RESUME_BUTTON_WIDTH
 import io.cucumber.constant.EnemyConstants.ENEMY_MAX_HORIZONTAL_VELOCITY
 import io.cucumber.constant.EnemyConstants.ENEMY_MIN_HORIZONTAL_VELOCITY
 import io.cucumber.constant.EnemyConstants.ENEMY_VELOCITY_DELTA
@@ -33,9 +38,12 @@ import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
 import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
 import io.cucumber.model.Hero.Direction.UP_DIRECTION
+import io.cucumber.model.base.Button
 import io.cucumber.model.texture.TextureLevel
 import io.cucumber.utils.InputHelper
 import io.cucumber.utils.NumbersHelper
+import io.cucumber.view.GameScreen.Stage.GAME
+import io.cucumber.view.GameScreen.Stage.PAUSE
 import java.util.*
 
 class GameScreen(
@@ -44,6 +52,8 @@ class GameScreen(
 ) : BaseScreen(game) {
 
     private val random = Random()
+
+    private var stage: Stage = GAME
 
     private var score: Int = 0
     private var bonusesCount: Int = preferences.getInteger(BONUSES_COUNT)
@@ -66,6 +76,21 @@ class GameScreen(
     private var bonusSound: Sound? = null
     private var deathSound: Sound? = null
 
+    private val pauseButton: Button = Button(
+        SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
+        SCREEN_HEIGHT - 1.1F * PAUSE_BUTTON_HEIGHT,
+        PAUSE_BUTTON_WIDTH,
+        PAUSE_BUTTON_HEIGHT,
+        "timer.png"
+    )
+    private val resumeButton: Button = Button(
+        SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH / 2,
+        SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
+        RESUME_BUTTON_WIDTH,
+        RESUME_BUTTON_HEIGHT,
+        "wall.png"
+    )
+
 
     init {
         if (preferences.getBoolean(IS_SOUND_ENABLED)) {
@@ -76,8 +101,12 @@ class GameScreen(
     }
 
     override fun update(delta: Float) {
+        if (stage == PAUSE) {
+            return
+        }
         hero.update(delta)
         enemyGroup.update(delta)
+        bonus?.update(delta)
         score += (delta * 1000).toInt()
     }
 
@@ -89,15 +118,6 @@ class GameScreen(
             2 * hero.bound.radius,
             2 * hero.bound.radius
         )
-        bonus?.let {
-            batch.draw(
-                it.texture,
-                it.bound.x,
-                it.bound.y,
-                2 * it.bound.radius,
-                2 * it.bound.radius
-            )
-        }
         enemyGroup.enemies.forEach {
             batch.draw(
                 it.texture,
@@ -132,7 +152,14 @@ class GameScreen(
             )
         }
         bonus?.let {
-            val lifespanFactor = (System.currentTimeMillis() - it.creationTime) / BONUS_LIFESPAN
+            val lifespanFactor = (BONUS_LIFESPAN - it.lifespan) / BONUS_LIFESPAN
+            batch.draw(
+                it.texture,
+                it.bound.x,
+                it.bound.y,
+                2 * it.bound.radius,
+                2 * it.bound.radius
+            )
             batch.draw(
                 timerTexture,
                 SCREEN_WIDTH / 2,
@@ -148,9 +175,33 @@ class GameScreen(
                 TIMER_HEIGHT
             )
         }
+        batch.draw(
+            pauseButton.texture,
+            pauseButton.bound.x,
+            pauseButton.bound.y,
+            pauseButton.bound.width,
+            pauseButton.bound.height
+        )
+        if (stage == PAUSE) {
+            batch.draw(
+                resumeButton.texture,
+                resumeButton.bound.x,
+                resumeButton.bound.y,
+                resumeButton.bound.width,
+                resumeButton.bound.height
+            )
+        }
     }
 
     override fun handleInput() {
+        if (Gdx.input.justTouched()) {
+            val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
+            if (pauseButton.isTouched(touchPosition.x, touchPosition.y)) stage = PAUSE
+            if (resumeButton.isTouched(touchPosition.x, touchPosition.y)) stage = GAME
+        }
+        if (stage == PAUSE) {
+            return
+        }
         if (Gdx.input.isKeyPressed(LEFT) && hero.bound.x > 0) hero.moveLeft()
         if (Gdx.input.isKeyPressed(RIGHT) && hero.bound.x + 2 * hero.bound.radius < SCREEN_WIDTH) hero.moveRight()
         if (Gdx.input.isTouched && InputHelper.getLastTouchX() < SCREEN_WIDTH / 2 && hero.bound.x > 0) hero.moveLeft()
@@ -158,6 +209,9 @@ class GameScreen(
     }
 
     override fun stateCheck() {
+        if (stage == PAUSE) {
+            return
+        }
         if (hero.bound.y + 2 * hero.bound.radius + WALL_HEIGHT >= SCREEN_HEIGHT) {
             hero.direction = DOWN_DIRECTION
             generateBonus()
@@ -176,7 +230,7 @@ class GameScreen(
                 bonusSound?.play()
                 bonus = null
             }
-            if (System.currentTimeMillis() - it.creationTime >= BONUS_LIFESPAN) {
+            if (it.lifespan <= 0) {
                 bonus = null
             }
         }
@@ -227,6 +281,11 @@ class GameScreen(
             return
         }
         enemyVelocity += ENEMY_VELOCITY_DELTA
+    }
+
+    enum class Stage {
+        GAME,
+        PAUSE
     }
 
 }
