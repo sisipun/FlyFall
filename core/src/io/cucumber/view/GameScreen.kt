@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.BonusConstants.BONUS_CHANCE
 import io.cucumber.constant.BonusConstants.BONUS_LIFESPAN
 import io.cucumber.constant.BonusConstants.BONUS_SIZE
+import io.cucumber.constant.ButtonConstants.HOME_BUTTON_HEIGHT
+import io.cucumber.constant.ButtonConstants.HOME_BUTTON_WIDTH
 import io.cucumber.constant.ButtonConstants.PAUSE_BUTTON_HEIGHT
 import io.cucumber.constant.ButtonConstants.PAUSE_BUTTON_WIDTH
 import io.cucumber.constant.ButtonConstants.RESUME_BUTTON_HEIGHT
@@ -84,10 +86,17 @@ class GameScreen(
         "timer.png"
     )
     private val resumeButton: Button = Button(
-        SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH / 2,
+        SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
         RESUME_BUTTON_WIDTH,
         RESUME_BUTTON_HEIGHT,
+        "wall.png"
+    )
+    private val homeButton: Button = Button(
+        SCREEN_WIDTH / 2 + RESUME_BUTTON_WIDTH,
+        SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
+        HOME_BUTTON_WIDTH,
+        HOME_BUTTON_HEIGHT,
         "wall.png"
     )
 
@@ -190,6 +199,13 @@ class GameScreen(
                 resumeButton.bound.width,
                 resumeButton.bound.height
             )
+            batch.draw(
+                homeButton.texture,
+                homeButton.bound.x,
+                homeButton.bound.y,
+                homeButton.bound.width,
+                homeButton.bound.height
+            )
         }
     }
 
@@ -198,6 +214,7 @@ class GameScreen(
             val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
             if (pauseButton.isTouched(touchPosition.x, touchPosition.y)) stage = PAUSE
             if (resumeButton.isTouched(touchPosition.x, touchPosition.y)) stage = GAME
+            if (homeButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = StartScreen(game)
         }
         if (stage == PAUSE) {
             return
