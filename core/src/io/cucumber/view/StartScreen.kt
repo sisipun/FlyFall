@@ -2,6 +2,8 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input.Keys.LEFT
+import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_HEIGHT
@@ -11,12 +13,13 @@ import io.cucumber.constant.ButtonConstants.START_GAME_BUTTON_WIDTH
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
 import io.cucumber.constant.PreferenceConstants.HIGH_SCORE
 import io.cucumber.constant.PreferenceConstants.IS_SOUND_ENABLED
+import io.cucumber.constant.PreferenceConstants.TEXTURE_LEVEL
 import io.cucumber.constant.ScreenConstants.SCORE_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
 import io.cucumber.model.base.Button
-import io.cucumber.model.texture.TextureLevel
+import io.cucumber.model.texture.TextureLevelPack
 import io.cucumber.model.texture.TextureLevelPack.COMMON
 import io.cucumber.utils.NumbersHelper
 
@@ -41,14 +44,19 @@ class StartScreen(game: Game) : BaseScreen(game) {
         "wall.png"
     )
 
-    private var textureLevel: TextureLevel = COMMON.value
+    private var textureLevel: TextureLevelPack
 
 
     init {
+        if (!preferences.contains(TEXTURE_LEVEL)) {
+            preferences.putInteger(TEXTURE_LEVEL, COMMON.id)
+            preferences.flush()
+        }
         if (!preferences.contains(IS_SOUND_ENABLED)) {
             preferences.putBoolean(IS_SOUND_ENABLED, true)
             preferences.flush()
         }
+        textureLevel = TextureLevelPack.getById(preferences.getInteger(TEXTURE_LEVEL))
     }
 
     override fun render() {
@@ -89,8 +97,18 @@ class StartScreen(game: Game) : BaseScreen(game) {
     override fun handleInput() {
         if (Gdx.input.justTouched()) {
             val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
-            if (startButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = GameScreen(game, textureLevel)
+            if (startButton.isTouched(touchPosition.x, touchPosition.y)) {
+                preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
+                preferences.flush()
+                game.screen = GameScreen(game, textureLevel.value)
+            }
             if (soundOffButton.isTouched(touchPosition.x, touchPosition.y)) soundOff()
+        }
+        if (Gdx.input.isKeyJustPressed(LEFT)) {
+            textureLevel = TextureLevelPack.getById(textureLevel.previous)
+        }
+        if (Gdx.input.isKeyJustPressed(RIGHT)) {
+            textureLevel = TextureLevelPack.getById(textureLevel.next)
         }
     }
 
