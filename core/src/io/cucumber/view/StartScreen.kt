@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_HEIGHT
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_WIDTH
@@ -18,12 +19,15 @@ import io.cucumber.constant.ScreenConstants.SCORE_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
+import io.cucumber.controller.StartScreenController
 import io.cucumber.model.base.Button
 import io.cucumber.model.texture.TextureLevelPack
 import io.cucumber.model.texture.TextureLevelPack.COMMON
 import io.cucumber.utils.NumbersHelper
 
 class StartScreen(game: Game) : BaseScreen(game) {
+
+    private val controller: StartScreenController = StartScreenController(this)
 
     private var isSoundEnabled: Boolean = preferences.getBoolean(IS_SOUND_ENABLED)
     private var highScoreTextures: List<Texture> = NumbersHelper.getTextures(preferences.getInteger(HIGH_SCORE))
@@ -48,6 +52,7 @@ class StartScreen(game: Game) : BaseScreen(game) {
 
 
     init {
+        Gdx.input.inputProcessor = GestureDetector(controller)
         if (!preferences.contains(TEXTURE_LEVEL)) {
             preferences.putInteger(TEXTURE_LEVEL, COMMON.id)
             preferences.flush()
@@ -105,16 +110,24 @@ class StartScreen(game: Game) : BaseScreen(game) {
             if (soundOffButton.isTouched(touchPosition.x, touchPosition.y)) soundOff()
         }
         if (Gdx.input.isKeyJustPressed(LEFT)) {
-            textureLevel = TextureLevelPack.getById(textureLevel.previous)
+            setPreviousTextureLevel()
         }
         if (Gdx.input.isKeyJustPressed(RIGHT)) {
-            textureLevel = TextureLevelPack.getById(textureLevel.next)
+            setNextTextureLevel()
         }
     }
 
     override fun screenDispose() {
         highScoreTextures.forEach { it.dispose() }
         bonusesCountTextures.forEach { it.dispose() }
+    }
+
+    fun setNextTextureLevel() {
+        textureLevel = TextureLevelPack.getById(textureLevel.next)
+    }
+
+    fun setPreviousTextureLevel() {
+        textureLevel = TextureLevelPack.getById(textureLevel.previous)
     }
 
     private fun soundOff() {
