@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx
 
 object InputHelper {
 
-    private const val MAX_POINTERS_COUNT = 20
+    const val MAX_POINTERS_COUNT = 20
+    const val MIN_FLING_DISTANCE = 100
 
 
     fun getLastTouchX(): Int {

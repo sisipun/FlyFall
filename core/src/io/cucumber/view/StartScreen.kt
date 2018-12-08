@@ -123,10 +123,12 @@ class StartScreen(game: Game) : BaseScreen(game) {
     }
 
     fun setNextTextureLevel() {
+        Gdx.app.log("3", "${textureLevel.next}")
         textureLevel = TextureLevelPack.getById(textureLevel.next)
     }
 
     fun setPreviousTextureLevel() {
+        Gdx.app.log("3", "${textureLevel.previous}")
         textureLevel = TextureLevelPack.getById(textureLevel.previous)
     }
 
