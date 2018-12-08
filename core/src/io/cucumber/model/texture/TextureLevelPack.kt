@@ -2,9 +2,9 @@ package io.cucumber.model.texture
 
 enum class TextureLevelPack(val id: Int, val value: TextureLevel, val previous: Int, val next: Int) {
 
-    COMMON(1, TextureLevel("hero.png", "enemy.png", "bonus.png"), 3, 2),
-    REVERT(2, TextureLevel("hero.png", "bonus.png", "enemy.png"), 1, 3),
-    CRAZY(3, TextureLevel("enemy.png", "bonus.png", "hero.png"), 2, 1)
+    COMMON(1, TextureLevel("hero.png", "enemy.png", "bonus.png", "white_background.png"), 3, 2),
+    REVERT(2, TextureLevel("hero.png", "bonus.png", "enemy.png", "gray_background.png"), 1, 3),
+    CRAZY(3, TextureLevel("enemy.png", "bonus.png", "hero.png", "lightblue_background.png"), 2, 1),
     ;
 
 

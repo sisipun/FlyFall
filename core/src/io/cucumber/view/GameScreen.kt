@@ -74,10 +74,11 @@ class GameScreen(
 
     private val wallTexture: Texture = Texture("wall.png")
     private val timerTexture: Texture = Texture("timer.png")
+    private val backgroundTexture: Texture = Texture(textureLevel.background)
     private var flipSound: Sound? = null
     private var bonusSound: Sound? = null
-    private var deathSound: Sound? = null
 
+    private var deathSound: Sound? = null
     private val pauseButton: Button = Button(
         SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
         SCREEN_HEIGHT - 1.1F * PAUSE_BUTTON_HEIGHT,
@@ -120,6 +121,13 @@ class GameScreen(
     }
 
     override fun render() {
+        batch.draw(
+            backgroundTexture,
+            0F,
+            0F,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT
+        )
         batch.draw(
             hero.texture,
             hero.bound.x,

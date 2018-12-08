@@ -49,6 +49,7 @@ class StartScreen(game: Game) : BaseScreen(game) {
     )
 
     private var textureLevel: TextureLevelPack
+    private var backgroundTexture: Texture
 
 
     init {
@@ -62,9 +63,17 @@ class StartScreen(game: Game) : BaseScreen(game) {
             preferences.flush()
         }
         textureLevel = TextureLevelPack.getById(preferences.getInteger(TEXTURE_LEVEL))
+        backgroundTexture = Texture(textureLevel.value.background)
     }
 
     override fun render() {
+        batch.draw(
+            backgroundTexture,
+            0F,
+            0F,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT
+        )
         batch.draw(
             startButton.texture,
             startButton.bound.x,
@@ -123,13 +132,13 @@ class StartScreen(game: Game) : BaseScreen(game) {
     }
 
     fun setNextTextureLevel() {
-        Gdx.app.log("3", "${textureLevel.next}")
         textureLevel = TextureLevelPack.getById(textureLevel.next)
+        backgroundTexture = Texture(textureLevel.value.background)
     }
 
     fun setPreviousTextureLevel() {
-        Gdx.app.log("3", "${textureLevel.previous}")
         textureLevel = TextureLevelPack.getById(textureLevel.previous)
+        backgroundTexture = Texture(textureLevel.value.background)
     }
 
     private fun soundOff() {
