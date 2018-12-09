@@ -1,5 +1,6 @@
 package io.cucumber.model
 
+import com.badlogic.gdx.graphics.Texture
 import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
 import io.cucumber.model.base.Actor
 
@@ -9,7 +10,7 @@ class Hero(
     size: Float,
     horizontalVelocity: Float,
     verticalVelocity: Float,
-    texture: String,
+    texture: Texture,
     direction: Direction = DOWN_DIRECTION
 ) : Actor(x, y, size, horizontalVelocity, verticalVelocity, texture) {
 

@@ -10,13 +10,12 @@ abstract class Actor(
     private val size: Float,
     horizontalVelocity: Float,
     verticalVelocity: Float,
-    texturePath: String
+    val texture: Texture
 ) {
 
     protected val position: Vector2 = Vector2(x, y)
     protected val velocity: Vector2 = Vector2(horizontalVelocity, verticalVelocity)
 
-    val texture: Texture = Texture(texturePath)
     val bound: Circle get() = Circle(position.x, position.y, size / 2)
 
 

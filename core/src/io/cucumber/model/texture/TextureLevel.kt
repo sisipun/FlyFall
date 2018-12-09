@@ -1,8 +1,10 @@
 package io.cucumber.model.texture
 
+import com.badlogic.gdx.graphics.Texture
+
 class TextureLevel(
-    val hero: String,
-    val enemy: String,
-    val bonus: String,
-    val background: String
+    val hero: Texture,
+    val enemy: Texture,
+    val bonus: Texture,
+    val background: Texture
 )

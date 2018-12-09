@@ -74,7 +74,6 @@ class GameScreen(
 
     private val wallTexture: Texture = Texture("wall.png")
     private val timerTexture: Texture = Texture("timer.png")
-    private val backgroundTexture: Texture = Texture(textureLevel.background)
     private var flipSound: Sound? = null
     private var bonusSound: Sound? = null
 
@@ -122,7 +121,7 @@ class GameScreen(
 
     override fun render() {
         batch.draw(
-            backgroundTexture,
+            textureLevel.background,
             0F,
             0F,
             SCREEN_WIDTH,

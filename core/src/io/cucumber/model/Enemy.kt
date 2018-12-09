@@ -1,5 +1,6 @@
 package io.cucumber.model
 
+import com.badlogic.gdx.graphics.Texture
 import io.cucumber.model.base.Actor
 
 class Enemy(
@@ -7,7 +8,7 @@ class Enemy(
     y: Float,
     size: Float,
     horizontalVelocity: Float,
-    texture: String,
+    texture: Texture,
     private val orientation: Orientation
 ) : Actor(x, y, size, horizontalVelocity, 0F, texture) {
 

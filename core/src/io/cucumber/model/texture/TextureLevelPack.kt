@@ -1,10 +1,12 @@
 package io.cucumber.model.texture
 
+import com.badlogic.gdx.graphics.Texture
+
 enum class TextureLevelPack(val id: Int, val value: TextureLevel, val previous: Int, val next: Int) {
 
-    COMMON(1, TextureLevel("hero.png", "enemy.png", "bonus.png", "white_background.png"), 3, 2),
-    REVERT(2, TextureLevel("hero.png", "bonus.png", "enemy.png", "gray_background.png"), 1, 3),
-    CRAZY(3, TextureLevel("enemy.png", "bonus.png", "hero.png", "lightblue_background.png"), 2, 1),
+    COMMON(1, TextureLevel(Texture("hero.png"), Texture("enemy.png"), Texture("bonus.png"), Texture("white_background.png")), 3, 2),
+    REVERT(2, TextureLevel(Texture("hero.png"), Texture("bonus.png"), Texture("enemy.png"), Texture("gray_background.png")), 1, 3),
+    GHOST(3, TextureLevel(Texture("ghost_hero.png"), Texture("ghost_enemy.png"), Texture("ghost_bonus.png"), Texture("ghost_background.png")), 2, 1),
     ;
 
 
