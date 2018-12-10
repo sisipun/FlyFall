@@ -2,6 +2,7 @@ package io.cucumber.model.base
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Vector2
 
 class Button(
     x: Float,
@@ -15,8 +16,8 @@ class Button(
     val bound: Rectangle = Rectangle(x, y, width, height)
 
 
-    fun isTouched(x: Float, y: Float): Boolean {
-        return bound.contains(x, y)
+    fun isTouched(position: Vector2): Boolean {
+        return bound.contains(position)
     }
 
 }

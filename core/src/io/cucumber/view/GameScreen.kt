@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.BonusConstants.BONUS_CHANCE
 import io.cucumber.constant.BonusConstants.BONUS_LIFESPAN
 import io.cucumber.constant.BonusConstants.BONUS_SIZE
@@ -217,12 +216,9 @@ class GameScreen(
     }
 
     override fun handleInput() {
-        if (Gdx.input.justTouched()) {
-            val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
-            if (pauseButton.isTouched(touchPosition.x, touchPosition.y)) stage = PAUSE
-            if (resumeButton.isTouched(touchPosition.x, touchPosition.y)) stage = GAME
-            if (homeButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = StartScreen(game)
-        }
+        if (Gdx.input.justTouched() && pauseButton.isTouched(getTouchPosition())) stage = PAUSE
+        if (Gdx.input.justTouched() && resumeButton.isTouched(getTouchPosition())) stage = GAME
+        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game)
         if (stage == PAUSE) {
             return
         }

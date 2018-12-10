@@ -2,11 +2,8 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input.Keys.LEFT
-import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.input.GestureDetector
-import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_HEIGHT
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_WIDTH
 import io.cucumber.constant.ButtonConstants.START_GAME_BUTTON_HEIGHT
@@ -107,21 +104,12 @@ class StartScreen(game: Game) : BaseScreen(game) {
     }
 
     override fun handleInput() {
-        if (Gdx.input.justTouched()) {
-            val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
-            if (startButton.isTouched(touchPosition.x, touchPosition.y)) {
-                preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
-                preferences.flush()
-                game.screen = GameScreen(game, textureLevel.value)
-            }
-            if (soundOffButton.isTouched(touchPosition.x, touchPosition.y)) soundOff()
+        if (Gdx.input.justTouched() && startButton.isTouched(getTouchPosition())) {
+            preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
+            preferences.flush()
+            game.screen = GameScreen(game, textureLevel.value)
         }
-        if (Gdx.input.isKeyJustPressed(LEFT)) {
-            setPreviousTextureLevel()
-        }
-        if (Gdx.input.isKeyJustPressed(RIGHT)) {
-            setNextTextureLevel()
-        }
+        if (Gdx.input.justTouched() && soundOffButton.isTouched(getTouchPosition())) soundOff()
     }
 
     override fun screenDispose() {

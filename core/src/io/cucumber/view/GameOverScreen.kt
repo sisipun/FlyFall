@@ -3,7 +3,6 @@ package io.cucumber.view
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.ButtonConstants.HOME_BUTTON_HEIGHT
 import io.cucumber.constant.ButtonConstants.HOME_BUTTON_WIDTH
 import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
@@ -98,11 +97,8 @@ class GameOverScreen(
     }
 
     override fun handleInput() {
-        if (Gdx.input.justTouched()) {
-            val touchPosition = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
-            if (homeButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = StartScreen(game)
-            if (restartButton.isTouched(touchPosition.x, touchPosition.y)) game.screen = GameScreen(game, textureLevel)
-        }
+        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game)
+        if (Gdx.input.justTouched() && restartButton.isTouched(getTouchPosition())) game.screen = GameScreen(game, textureLevel)
     }
 
     override fun screenDispose() {

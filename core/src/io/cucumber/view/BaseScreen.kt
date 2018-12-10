@@ -7,6 +7,8 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
 import io.cucumber.constant.PreferenceConstants.PREFERENCE_NAME
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
@@ -52,6 +54,11 @@ abstract class BaseScreen(
     override fun dispose() {
         batch.dispose()
         screenDispose()
+    }
+
+    fun getTouchPosition(): Vector2 {
+        val unproject = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
+        return Vector2(unproject.x, unproject.y)
     }
 
 }
