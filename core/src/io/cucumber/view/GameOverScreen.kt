@@ -53,6 +53,13 @@ class GameOverScreen(
     }
 
     override fun render() {
+        batch.draw(
+            textureLevel.background,
+            0F,
+            0F,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT
+        )
         scoreTextures.forEachIndexed { index, texture ->
             batch.draw(
                 texture,

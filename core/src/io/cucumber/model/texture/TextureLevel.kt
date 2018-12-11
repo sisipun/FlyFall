@@ -6,5 +6,6 @@ class TextureLevel(
     val hero: Texture,
     val enemy: Texture,
     val bonus: Texture,
-    val background: Texture
+    val background: Texture,
+    val cost: Int
 )
