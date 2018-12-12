@@ -3,7 +3,8 @@ package io.cucumber.view
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.input.GestureDetector
+import io.cucumber.constant.ButtonConstants.CHOOSE_LEVEL_BUTTON_HEIGHT
+import io.cucumber.constant.ButtonConstants.CHOOSE_LEVEL_BUTTON_WIDTH
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_HEIGHT
 import io.cucumber.constant.ButtonConstants.SOUND_OFF_BUTTON_WIDTH
 import io.cucumber.constant.ButtonConstants.START_GAME_BUTTON_HEIGHT
@@ -16,7 +17,6 @@ import io.cucumber.constant.ScreenConstants.SCORE_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
 import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
 import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
-import io.cucumber.controller.StartScreenController
 import io.cucumber.model.base.Button
 import io.cucumber.model.texture.TextureLevelPack
 import io.cucumber.model.texture.TextureLevelPack.COMMON
@@ -24,7 +24,7 @@ import io.cucumber.utils.NumbersHelper
 
 class StartScreen(game: Game) : BaseScreen(game) {
 
-    private val controller: StartScreenController = StartScreenController(this)
+    private var textureLevel: TextureLevelPack
 
     private var isSoundEnabled: Boolean = preferences.getBoolean(IS_SOUND_ENABLED)
     private var highScoreTextures: List<Texture> = NumbersHelper.getTextures(preferences.getInteger(HIGH_SCORE))
@@ -37,19 +37,24 @@ class StartScreen(game: Game) : BaseScreen(game) {
         START_GAME_BUTTON_HEIGHT,
         "wall.png"
     )
+    private val chooseLevelButton: Button = Button(
+        SCREEN_WIDTH / 2 - CHOOSE_LEVEL_BUTTON_WIDTH / 2,
+        SCREEN_HEIGHT / 2 - 4 * CHOOSE_LEVEL_BUTTON_HEIGHT / 2,
+        CHOOSE_LEVEL_BUTTON_WIDTH,
+        CHOOSE_LEVEL_BUTTON_HEIGHT,
+        "wall.png"
+    )
+
     private val soundOffButton: Button = Button(
         SCREEN_WIDTH / 2 - SOUND_OFF_BUTTON_WIDTH / 2,
-        SCREEN_HEIGHT / 2 - 2 * SOUND_OFF_BUTTON_HEIGHT,
+        SCREEN_HEIGHT / 2 - 7 * SOUND_OFF_BUTTON_HEIGHT / 2,
         SOUND_OFF_BUTTON_WIDTH,
         SOUND_OFF_BUTTON_HEIGHT,
         "wall.png"
     )
 
-    private var textureLevel: TextureLevelPack
-
 
     init {
-        Gdx.input.inputProcessor = GestureDetector(controller)
         if (!preferences.contains(TEXTURE_LEVEL)) {
             preferences.putInteger(TEXTURE_LEVEL, COMMON.id)
             preferences.flush()
@@ -75,6 +80,13 @@ class StartScreen(game: Game) : BaseScreen(game) {
             startButton.bound.y,
             startButton.bound.width,
             startButton.bound.height
+        )
+        batch.draw(
+            chooseLevelButton.texture,
+            chooseLevelButton.bound.x,
+            chooseLevelButton.bound.y,
+            chooseLevelButton.bound.width,
+            chooseLevelButton.bound.height
         )
         batch.draw(
             soundOffButton.texture,
@@ -104,25 +116,14 @@ class StartScreen(game: Game) : BaseScreen(game) {
     }
 
     override fun handleInput() {
-        if (Gdx.input.justTouched() && startButton.isTouched(getTouchPosition())) {
-            preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
-            preferences.flush()
-            game.screen = GameScreen(game, textureLevel.value)
-        }
+        if (Gdx.input.justTouched() && startButton.isTouched(getTouchPosition())) game.screen = GameScreen(game, textureLevel.value)
+        if (Gdx.input.justTouched() && chooseLevelButton.isTouched(getTouchPosition())) game.screen = ChooseLevelScreen(game)
         if (Gdx.input.justTouched() && soundOffButton.isTouched(getTouchPosition())) soundOff()
     }
 
     override fun screenDispose() {
         highScoreTextures.forEach { it.dispose() }
         bonusesCountTextures.forEach { it.dispose() }
-    }
-
-    fun setNextTextureLevel() {
-        textureLevel = TextureLevelPack.getById(textureLevel.next)
-    }
-
-    fun setPreviousTextureLevel() {
-        textureLevel = TextureLevelPack.getById(textureLevel.previous)
     }
 
     private fun soundOff() {
