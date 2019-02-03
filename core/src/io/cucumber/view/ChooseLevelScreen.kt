@@ -3,11 +3,7 @@ package io.cucumber.view
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.input.GestureDetector
-import io.cucumber.constant.ButtonConstants.HOME_BUTTON_HEIGHT
-import io.cucumber.constant.ButtonConstants.HOME_BUTTON_WIDTH
-import io.cucumber.constant.PreferenceConstants.TEXTURE_LEVEL
-import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
-import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
+import io.cucumber.constant.GameConstants.*
 import io.cucumber.controller.ChooseLevelScreenController
 import io.cucumber.model.base.Button
 import io.cucumber.model.texture.TextureLevelPack

@@ -15,9 +15,7 @@ class Button(
     val texture: Texture = Texture(texturePath)
     val bound: Rectangle = Rectangle(x, y, width, height)
 
-
     fun isTouched(position: Vector2): Boolean {
         return bound.contains(position)
     }
-
 }

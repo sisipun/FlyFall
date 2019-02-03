@@ -6,39 +6,12 @@ import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
-import io.cucumber.constant.BonusConstants.BONUS_CHANCE
-import io.cucumber.constant.BonusConstants.BONUS_LIFESPAN
-import io.cucumber.constant.BonusConstants.BONUS_SIZE
-import io.cucumber.constant.ButtonConstants.HOME_BUTTON_HEIGHT
-import io.cucumber.constant.ButtonConstants.HOME_BUTTON_WIDTH
-import io.cucumber.constant.ButtonConstants.PAUSE_BUTTON_HEIGHT
-import io.cucumber.constant.ButtonConstants.PAUSE_BUTTON_WIDTH
-import io.cucumber.constant.ButtonConstants.RESUME_BUTTON_HEIGHT
-import io.cucumber.constant.ButtonConstants.RESUME_BUTTON_WIDTH
-import io.cucumber.constant.EnemyConstants.ENEMY_MAX_HORIZONTAL_VELOCITY
-import io.cucumber.constant.EnemyConstants.ENEMY_MIN_HORIZONTAL_VELOCITY
-import io.cucumber.constant.EnemyConstants.ENEMY_VELOCITY_DELTA
-import io.cucumber.constant.HeroConstants.HERO_HORIZONTAL_VELOCITY
-import io.cucumber.constant.HeroConstants.HERO_SIZE
-import io.cucumber.constant.HeroConstants.HERO_VERTICAL_VELOCITY
-import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
-import io.cucumber.constant.PreferenceConstants.IS_SOUND_ENABLED
-import io.cucumber.constant.ScreenConstants.ENEMY_RESPAWN_BORDER
-import io.cucumber.constant.ScreenConstants.SCORE_HEIGHT
-import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
-import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
-import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
-import io.cucumber.constant.ScreenConstants.TIMER_HEIGHT
-import io.cucumber.constant.ScreenConstants.TIMER_MARGIN_WIDTH
-import io.cucumber.constant.ScreenConstants.WALL_HEIGHT
+import io.cucumber.constant.GameConstants.*
 import io.cucumber.factory.BonusFactory
 import io.cucumber.factory.EnemyGroupFactory
 import io.cucumber.model.Bonus
-import io.cucumber.model.Enemy
 import io.cucumber.model.EnemyGroup
 import io.cucumber.model.Hero
-import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
-import io.cucumber.model.Hero.Direction.UP_DIRECTION
 import io.cucumber.model.base.Button
 import io.cucumber.model.texture.TextureLevel
 import io.cucumber.utils.InputHelper
@@ -263,6 +236,7 @@ class GameScreen(
         val last = enemyGroup.enemies.last()
         if ((first.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.bound.x + first.bound.radius + ENEMY_RESPAWN_BORDER < 0) &&
             (last.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.bound.x + last.bound.radius + ENEMY_RESPAWN_BORDER < 0)) {
+            enemyGroup.enemies.clear()
             enemyGroup = generateEnemy()
         }
     }
@@ -290,8 +264,8 @@ class GameScreen(
     }
 
     private fun generateEnemy() = EnemyGroupFactory.create(
-        EnemyGroupFactory.GroupType.values()[random.nextInt(EnemyGroupFactory.GroupType.values().size)],
-        Enemy.Orientation.values()[random.nextInt(Enemy.Orientation.values().size)],
+        random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
+        Math.pow(-1.0, (random.nextInt(2) + 1.0)).toByte(),
         enemyVelocity,
         textureLevel.enemy
     )
@@ -307,5 +281,4 @@ class GameScreen(
         GAME,
         PAUSE
     }
-
 }

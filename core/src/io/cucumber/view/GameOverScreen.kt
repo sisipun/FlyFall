@@ -3,14 +3,7 @@ package io.cucumber.view
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
-import io.cucumber.constant.ButtonConstants.HOME_BUTTON_HEIGHT
-import io.cucumber.constant.ButtonConstants.HOME_BUTTON_WIDTH
-import io.cucumber.constant.PreferenceConstants.BONUSES_COUNT
-import io.cucumber.constant.PreferenceConstants.HIGH_SCORE
-import io.cucumber.constant.ScreenConstants.SCORE_HEIGHT
-import io.cucumber.constant.ScreenConstants.SCORE_WIDTH
-import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
-import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
+import io.cucumber.constant.GameConstants.*
 import io.cucumber.model.base.Button
 import io.cucumber.model.texture.TextureLevel
 import io.cucumber.utils.NumbersHelper

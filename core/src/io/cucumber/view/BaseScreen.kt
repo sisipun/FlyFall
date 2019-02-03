@@ -9,9 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import io.cucumber.constant.PreferenceConstants.PREFERENCE_NAME
-import io.cucumber.constant.ScreenConstants.SCREEN_HEIGHT
-import io.cucumber.constant.ScreenConstants.SCREEN_WIDTH
+import io.cucumber.constant.GameConstants.*
 
 
 abstract class BaseScreen(

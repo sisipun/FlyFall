@@ -1,7 +1,7 @@
 package io.cucumber.model
 
 import com.badlogic.gdx.graphics.Texture
-import io.cucumber.model.Hero.Direction.DOWN_DIRECTION
+import io.cucumber.constant.GameConstants.DOWN_DIRECTION
 import io.cucumber.model.base.Actor
 
 class Hero(
@@ -11,7 +11,7 @@ class Hero(
     horizontalVelocity: Float,
     verticalVelocity: Float,
     texture: Texture,
-    direction: Direction = DOWN_DIRECTION
+    direction: Byte = DOWN_DIRECTION
 ) : Actor(x, y, size, horizontalVelocity, verticalVelocity, texture) {
 
     var direction = direction
@@ -33,11 +33,6 @@ class Hero(
 
     fun moveRight() {
         position.add(velocity.x, 0f)
-    }
-
-    enum class Direction {
-        UP_DIRECTION,
-        DOWN_DIRECTION
     }
 
 }

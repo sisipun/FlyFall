@@ -1,8 +1,8 @@
 package io.cucumber.model
 
 import com.badlogic.gdx.graphics.Texture
+import io.cucumber.constant.GameConstants.MILLIS_IN_SECOND
 import io.cucumber.model.base.Actor
-import io.cucumber.utils.TimeUtils
 
 class Bonus(
     x: Float,
@@ -13,7 +13,7 @@ class Bonus(
 ) : Actor(x, y, size, 0F, 0F, texture) {
 
     override fun update(delta: Float) {
-        lifespan -= TimeUtils.secondsToMillis(delta)
+        lifespan -= delta * MILLIS_IN_SECOND
     }
 
 }
