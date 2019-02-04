@@ -1,4 +1,4 @@
-package io.cucumber.constant;
+package io.cucumber.utils.constant;
 
 public class GameConstants {
 

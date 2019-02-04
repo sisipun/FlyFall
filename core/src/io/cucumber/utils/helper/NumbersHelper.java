@@ -1,4 +1,4 @@
-package io.cucumber.utils;
+package io.cucumber.utils.helper;
 
 import com.badlogic.gdx.graphics.Texture;
 

@@ -6,16 +6,16 @@ import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
-import io.cucumber.constant.GameConstants.*
-import io.cucumber.factory.BonusFactory
-import io.cucumber.factory.EnemyGroupFactory
-import io.cucumber.model.Bonus
-import io.cucumber.model.EnemyGroup
-import io.cucumber.model.Hero
 import io.cucumber.model.base.Button
+import io.cucumber.model.characters.Bonus
+import io.cucumber.model.characters.EnemyGroup
+import io.cucumber.model.characters.Hero
 import io.cucumber.model.texture.TextureLevel
-import io.cucumber.utils.InputHelper
-import io.cucumber.utils.NumbersHelper
+import io.cucumber.service.factory.BonusFactory
+import io.cucumber.service.factory.EnemyGroupFactory
+import io.cucumber.utils.constant.GameConstants.*
+import io.cucumber.utils.helper.InputHelper
+import io.cucumber.utils.helper.NumbersHelper
 import io.cucumber.view.GameScreen.Stage.GAME
 import io.cucumber.view.GameScreen.Stage.PAUSE
 import java.util.*
@@ -55,21 +55,21 @@ class GameScreen(
         SCREEN_HEIGHT - 1.1F * PAUSE_BUTTON_HEIGHT,
         PAUSE_BUTTON_WIDTH,
         PAUSE_BUTTON_HEIGHT,
-        "timer.png"
+        timerTexture
     )
     private val resumeButton: Button = Button(
         SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
         RESUME_BUTTON_WIDTH,
         RESUME_BUTTON_HEIGHT,
-        "wall.png"
+        wallTexture
     )
     private val homeButton: Button = Button(
         SCREEN_WIDTH / 2 + RESUME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
         HOME_BUTTON_WIDTH,
         HOME_BUTTON_HEIGHT,
-        "wall.png"
+        wallTexture
     )
 
 
@@ -206,12 +206,12 @@ class GameScreen(
             return
         }
         if (hero.bound.y + 2 * hero.bound.radius + WALL_HEIGHT >= SCREEN_HEIGHT) {
-            hero.direction = DOWN_DIRECTION
+            hero.setDirection(DOWN_DIRECTION)
             generateBonus()
             raiseEnemyVelocity()
             flipSound?.play()
         } else if (hero.bound.y - WALL_HEIGHT <= 0) {
-            hero.direction = UP_DIRECTION
+            hero.setDirection(UP_DIRECTION)
             generateBonus()
             raiseEnemyVelocity()
             flipSound?.play()
@@ -242,13 +242,11 @@ class GameScreen(
     }
 
     override fun screenDispose() {
-        hero.dispose()
-        enemyGroup.dispose()
-        bonus?.dispose()
         flipSound?.dispose()
         bonusSound?.dispose()
         deathSound?.dispose()
         wallTexture.dispose()
+        timerTexture.dispose()
     }
 
     private fun generateBonus() {

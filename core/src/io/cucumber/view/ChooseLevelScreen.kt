@@ -2,26 +2,28 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.input.GestureDetector
-import io.cucumber.constant.GameConstants.*
 import io.cucumber.controller.ChooseLevelScreenController
 import io.cucumber.model.base.Button
-import io.cucumber.model.texture.TextureLevelPack
+import io.cucumber.model.texture.TextureLevel
+import io.cucumber.service.manager.TextureLevelManager
+import io.cucumber.utils.constant.GameConstants.*
 
-class ChooseLevelScreen(
-    game: Game
-) : BaseScreen(game) {
+class ChooseLevelScreen(game: Game, textureLevel: TextureLevel? = null) : BaseScreen(game) {
 
     private val controller: ChooseLevelScreenController = ChooseLevelScreenController(this)
 
-    private var textureLevel: TextureLevelPack = TextureLevelPack.getById(preferences.getInteger(TEXTURE_LEVEL))
+    private var textureLevel: TextureLevel = textureLevel ?: TextureLevelManager.get(preferences.getInteger(TEXTURE_LEVEL))
+
+    private val wallTexture: Texture = Texture("wall.png")
 
     private val homeButton: Button = Button(
         SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH / 2,
         SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
         HOME_BUTTON_WIDTH,
         HOME_BUTTON_HEIGHT,
-        "wall.png"
+        wallTexture
     )
 
 
@@ -31,7 +33,7 @@ class ChooseLevelScreen(
 
     override fun render() {
         batch.draw(
-            textureLevel.value.background,
+            textureLevel.background,
             0F,
             0F,
             SCREEN_WIDTH,
@@ -47,19 +49,22 @@ class ChooseLevelScreen(
     }
 
     override fun handleInput() {
-        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game)
+        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game, textureLevel)
     }
 
     fun setNextTextureLevel() {
-        textureLevel = TextureLevelPack.getById(textureLevel.next)
+        textureLevel = TextureLevelManager.getNext(textureLevel.id)
         preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
         preferences.flush()
     }
 
     fun setPreviousTextureLevel() {
-        textureLevel = TextureLevelPack.getById(textureLevel.previous)
+        textureLevel = TextureLevelManager.getPrevious(textureLevel.id)
         preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
         preferences.flush()
     }
 
+    override fun screenDispose() {
+        wallTexture.dispose()
+    }
 }

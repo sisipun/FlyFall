@@ -3,7 +3,7 @@ package io.cucumber.controller;
 import com.badlogic.gdx.input.GestureDetector.GestureAdapter;
 import io.cucumber.view.ChooseLevelScreen;
 
-import static io.cucumber.constant.GameConstants.MIN_FLING_DISTANCE;
+import static io.cucumber.utils.constant.GameConstants.MIN_FLING_DISTANCE;
 
 public class ChooseLevelScreenController extends GestureAdapter {
 

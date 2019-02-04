@@ -1,10 +1,10 @@
-package io.cucumber.factory;
+package io.cucumber.service.factory;
 
 import com.badlogic.gdx.graphics.Texture;
-import io.cucumber.model.Bonus;
+import io.cucumber.model.characters.Bonus;
 
-import static io.cucumber.constant.GameConstants.BONUS_LIFESPAN;
-import static io.cucumber.constant.GameConstants.BONUS_SIZE;
+import static io.cucumber.utils.constant.GameConstants.BONUS_LIFESPAN;
+import static io.cucumber.utils.constant.GameConstants.BONUS_SIZE;
 
 public class BonusFactory {
 

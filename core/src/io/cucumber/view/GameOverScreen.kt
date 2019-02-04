@@ -3,10 +3,10 @@ package io.cucumber.view
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
-import io.cucumber.constant.GameConstants.*
 import io.cucumber.model.base.Button
 import io.cucumber.model.texture.TextureLevel
-import io.cucumber.utils.NumbersHelper
+import io.cucumber.utils.constant.GameConstants.*
+import io.cucumber.utils.helper.NumbersHelper
 
 class GameOverScreen(
     game: Game, score: Int,
@@ -19,19 +19,21 @@ class GameOverScreen(
     private var highScoreTextures: List<Texture>
     private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
 
+    private val wallTexture: Texture = Texture("wall.png")
+
     private val homeButton: Button = Button(
         SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
         HOME_BUTTON_WIDTH,
         HOME_BUTTON_HEIGHT,
-        "wall.png"
+        wallTexture
     )
     private val restartButton: Button = Button(
         SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
         HOME_BUTTON_WIDTH,
         HOME_BUTTON_HEIGHT,
-        "wall.png"
+        wallTexture
     )
 
 
@@ -105,6 +107,6 @@ class GameOverScreen(
         scoreTextures.forEach { it.dispose() }
         highScoreTextures.forEach { it.dispose() }
         bonusesCountTextures.forEach { it.dispose() }
+        wallTexture.dispose()
     }
-
 }

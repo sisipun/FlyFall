@@ -1,8 +1,8 @@
-package io.cucumber.utils;
+package io.cucumber.utils.helper;
 
 import com.badlogic.gdx.Gdx;
 
-import static io.cucumber.constant.GameConstants.MAX_POINTERS_COUNT;
+import static io.cucumber.utils.constant.GameConstants.MAX_POINTERS_COUNT;
 
 public class InputHelper {
 

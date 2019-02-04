@@ -1,38 +1,27 @@
 package io.cucumber.model.base;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Shape2D;
 
-public abstract class Actor {
+public abstract class Actor<T extends Shape2D> {
 
-    protected final Vector2 position;
-    protected final Vector2 velocity;
-    private final float size;
-    private final Texture texture;
+    protected final T bound;
+    protected final Texture texture;
 
-    public Actor(float x, float y, float size, float horizontalVelocity, float verticalVelocity, Texture texture) {
-        this.position = new Vector2(x, y);
-        this.velocity = new Vector2(horizontalVelocity, verticalVelocity);
-        this.size = size;
+    public Actor(T bound, Texture texture) {
+        this.bound = bound;
         this.texture = texture;
     }
 
-    public Circle getBound() {
-        return new Circle(position.x, position.y, size / 2);
+    public void dispose() {
+        texture.dispose();
+    }
+
+    public T getBound() {
+        return bound;
     }
 
     public Texture getTexture() {
         return texture;
-    }
-
-    public boolean isCollides(Actor actor) {
-        return this.getBound().overlaps(actor.getBound());
-    }
-
-    public abstract void update(float delta);
-
-    public void dispose() {
-        texture.dispose();
     }
 }
