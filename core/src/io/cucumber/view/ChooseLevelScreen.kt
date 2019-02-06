@@ -10,19 +10,30 @@ import io.cucumber.model.texture.TextureLevel
 import io.cucumber.service.manager.TextureLevelManager
 import io.cucumber.utils.constant.GameConstants.*
 
-class ChooseLevelScreen(game: Game, textureLevel: TextureLevel? = null) : BaseScreen(game) {
+class ChooseLevelScreen(
+    game: Game,
+    private var bonusesCount: Int,
+    private var highScore: Int,
+    private val isSoundEnabled: Boolean,
+    private var textureLevel: TextureLevel
+) : BaseScreen(game) {
 
     private val controller: ChooseLevelScreenController = ChooseLevelScreenController(this)
-
-    private var textureLevel: TextureLevel = textureLevel ?: TextureLevelManager.get(preferences.getInteger(TEXTURE_LEVEL))
 
     private val wallTexture: Texture = Texture("wall.png")
 
     private val homeButton: Button = Button(
-        SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH / 2,
+        SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
         HOME_BUTTON_WIDTH,
         HOME_BUTTON_HEIGHT,
+        wallTexture
+    )
+    private val chooseButton: Button = Button(
+        SCREEN_WIDTH / 2 - CHOOSE_BUTTON_WIDTH,
+        SCREEN_HEIGHT / 2 - CHOOSE_BUTTON_HEIGHT / 2,
+        CHOOSE_BUTTON_WIDTH,
+        CHOOSE_BUTTON_HEIGHT,
         wallTexture
     )
 
@@ -46,22 +57,37 @@ class ChooseLevelScreen(game: Game, textureLevel: TextureLevel? = null) : BaseSc
             homeButton.bound.width,
             homeButton.bound.height
         )
+        batch.draw(
+            chooseButton.texture,
+            chooseButton.bound.x,
+            chooseButton.bound.y,
+            chooseButton.bound.width,
+            chooseButton.bound.height
+        )
     }
 
     override fun handleInput() {
-        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game, textureLevel)
+        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game, bonusesCount, highScore, isSoundEnabled)
+        if (Gdx.input.justTouched() && chooseButton.isTouched(getTouchPosition())) {
+            if (textureLevel.isActive) {
+                preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
+                preferences.flush()
+            } else if (bonusesCount >= textureLevel.cost) {
+                TextureLevelManager.activate(textureLevel.id)
+                bonusesCount -= textureLevel.cost
+                preferences.putInteger(BONUSES_COUNT, bonusesCount)
+                preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
+                preferences.flush()
+            }
+        }
     }
 
     fun setNextTextureLevel() {
         textureLevel = TextureLevelManager.getNext(textureLevel.id)
-        preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
-        preferences.flush()
     }
 
     fun setPreviousTextureLevel() {
         textureLevel = TextureLevelManager.getPrevious(textureLevel.id)
-        preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
-        preferences.flush()
     }
 
     override fun screenDispose() {

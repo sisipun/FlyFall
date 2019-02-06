@@ -10,11 +10,12 @@ import io.cucumber.utils.helper.NumbersHelper
 
 class GameOverScreen(
     game: Game, score: Int,
-    bonusesCount: Int,
+    private var bonusesCount: Int,
+    private var highScore: Int,
+    private val isSoundEnabled: Boolean,
     private val textureLevel: TextureLevel
 ) : BaseScreen(game) {
 
-    private var highScore: Int = preferences.getInteger(HIGH_SCORE)
     private var scoreTextures: List<Texture> = NumbersHelper.getTextures(score)
     private var highScoreTextures: List<Texture>
     private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
@@ -99,8 +100,8 @@ class GameOverScreen(
     }
 
     override fun handleInput() {
-        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game)
-        if (Gdx.input.justTouched() && restartButton.isTouched(getTouchPosition())) game.screen = GameScreen(game, textureLevel)
+        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game, bonusesCount, highScore, isSoundEnabled, textureLevel)
+        if (Gdx.input.justTouched() && restartButton.isTouched(getTouchPosition())) game.screen = GameScreen(game, bonusesCount, highScore, isSoundEnabled, textureLevel)
     }
 
     override fun screenDispose() {

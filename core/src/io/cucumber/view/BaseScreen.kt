@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.ScreenAdapter
+import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -19,7 +20,7 @@ abstract class BaseScreen(
     protected val preferences: Preferences = Gdx.app.getPreferences(PREFERENCE_NAME)
     protected val batch: SpriteBatch = SpriteBatch()
     protected val camera: OrthographicCamera = OrthographicCamera()
-
+    private val logger: FPSLogger = FPSLogger()
 
     init {
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -36,6 +37,7 @@ abstract class BaseScreen(
     protected open fun screenDispose() {}
 
     override fun render(delta: Float) {
+        logger.log()
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 

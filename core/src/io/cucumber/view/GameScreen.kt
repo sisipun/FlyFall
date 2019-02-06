@@ -22,6 +22,9 @@ import java.util.*
 
 class GameScreen(
     game: Game,
+    private var bonusesCount: Int,
+    private val highScore: Int,
+    private val isSoundEnabled: Boolean,
     private val textureLevel: TextureLevel
 ) : BaseScreen(game) {
 
@@ -30,7 +33,6 @@ class GameScreen(
     private var stage: Stage = GAME
 
     private var score: Int = 0
-    private var bonusesCount: Int = preferences.getInteger(BONUSES_COUNT)
     private var enemyVelocity: Float = ENEMY_MIN_HORIZONTAL_VELOCITY
 
     private val hero: Hero = Hero(
@@ -191,7 +193,7 @@ class GameScreen(
     override fun handleInput() {
         if (Gdx.input.justTouched() && pauseButton.isTouched(getTouchPosition())) stage = PAUSE
         if (Gdx.input.justTouched() && resumeButton.isTouched(getTouchPosition())) stage = GAME
-        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game)
+        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game, bonusesCount, highScore, isSoundEnabled, textureLevel)
         if (stage == PAUSE) {
             return
         }
@@ -229,7 +231,7 @@ class GameScreen(
         }
         if (enemyGroup.isCollides(hero)) {
             deathSound?.play()
-            game.screen = GameOverScreen(game, score, bonusesCount, textureLevel)
+            game.screen = GameOverScreen(game, score, bonusesCount, highScore, isSoundEnabled, textureLevel)
         }
 
         val first = enemyGroup.enemies.first()

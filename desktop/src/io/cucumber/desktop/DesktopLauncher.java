@@ -15,5 +15,4 @@ public class DesktopLauncher {
         config.width = (int) SCREEN_WIDTH;
         new LwjglApplication(new Game(), config);
     }
-
 }

@@ -9,13 +9,17 @@ public class TextureLevel {
     private Texture enemy;
     private Texture bonus;
     private Texture background;
+    private int cost;
+    private boolean active;
 
-    public TextureLevel(int id, TextureLevelInfo info) {
+    public TextureLevel(int id, String hero, String enemy, String bonus, String background, int cost, boolean active) {
         this.id = id;
-        this.hero = new Texture(info.getHero());
-        this.enemy = new Texture(info.getEnemy());
-        this.bonus = new Texture(info.getBonus());
-        this.background = new Texture(info.getBackground());
+        this.hero = new Texture(hero);
+        this.enemy = new Texture(enemy);
+        this.bonus = new Texture(bonus);
+        this.background = new Texture(background);
+        this.cost = cost;
+        this.active = active;
     }
 
     public void dispose() {
@@ -43,5 +47,17 @@ public class TextureLevel {
 
     public Texture getBackground() {
         return background;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void activate() {
+        this.active = true;
     }
 }

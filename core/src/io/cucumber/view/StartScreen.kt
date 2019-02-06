@@ -11,14 +11,19 @@ import io.cucumber.utils.helper.NumbersHelper
 
 class StartScreen(
     game: Game,
+    bonusCount: Int? = null,
+    highScore: Int? = null,
+    isSoundEnabled: Boolean? = null,
     textureLevel: TextureLevel? = null
 ) : BaseScreen(game) {
 
     private var textureLevel: TextureLevel
 
-    private var isSoundEnabled: Boolean = preferences.getBoolean(IS_SOUND_ENABLED)
-    private var highScoreTextures: List<Texture> = NumbersHelper.getTextures(preferences.getInteger(HIGH_SCORE))
-    private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(preferences.getInteger(BONUSES_COUNT))
+    private var isSoundEnabled: Boolean = isSoundEnabled ?: preferences.getBoolean(IS_SOUND_ENABLED)
+    private val highScore = highScore ?: preferences.getInteger(HIGH_SCORE)
+    private var highScoreTextures: List<Texture> = NumbersHelper.getTextures(this.highScore)
+    private val bonusCount = bonusCount ?: preferences.getInteger(BONUSES_COUNT)
+    private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(this.bonusCount)
 
     private val wallTexture = Texture("wall.png")
 
@@ -108,8 +113,8 @@ class StartScreen(
     }
 
     override fun handleInput() {
-        if (Gdx.input.justTouched() && startButton.isTouched(getTouchPosition())) game.screen = GameScreen(game, textureLevel)
-        if (Gdx.input.justTouched() && chooseLevelButton.isTouched(getTouchPosition())) game.screen = ChooseLevelScreen(game)
+        if (Gdx.input.justTouched() && startButton.isTouched(getTouchPosition())) game.screen = GameScreen(game, bonusCount, highScore, isSoundEnabled, textureLevel)
+        if (Gdx.input.justTouched() && chooseLevelButton.isTouched(getTouchPosition())) game.screen = ChooseLevelScreen(game, bonusCount, highScore, isSoundEnabled, textureLevel)
         if (Gdx.input.justTouched() && soundOffButton.isTouched(getTouchPosition())) soundOff()
     }
 

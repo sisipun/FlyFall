@@ -16,6 +16,8 @@ public class GameConstants {
     public static final float SOUND_OFF_BUTTON_HEIGHT = 80f;
     public static final float HOME_BUTTON_WIDTH = 80f;
     public static final float HOME_BUTTON_HEIGHT = 80f;
+    public static final float CHOOSE_BUTTON_WIDTH = 80f;
+    public static final float CHOOSE_BUTTON_HEIGHT = 80f;
     public static final float PAUSE_BUTTON_WIDTH = 40f;
     public static final float PAUSE_BUTTON_HEIGHT = 40f;
     public static final float RESUME_BUTTON_WIDTH = 80f;
@@ -38,6 +40,7 @@ public class GameConstants {
     public static final String BONUSES_COUNT = "bonuses_count";
     public static final String IS_SOUND_ENABLED = "is_sound_enabled";
     public static final String TEXTURE_LEVEL = "texture_level";
+    public static final String IS_ACTIVE_PATTERN = "is_active_%d";
 
     // Screen
     public static final float SCREEN_WIDTH = 1200f;
