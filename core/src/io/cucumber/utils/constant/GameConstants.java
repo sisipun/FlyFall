@@ -8,9 +8,9 @@ public class GameConstants {
     public static final float BONUS_LIFESPAN = 5000f;
 
     // Button
-    public static final float START_GAME_BUTTON_WIDTH = 220f;
+    public static final float START_GAME_BUTTON_WIDTH = 80f;
     public static final float START_GAME_BUTTON_HEIGHT = 80f;
-    public static final float CHOOSE_LEVEL_BUTTON_WIDTH = 220f;
+    public static final float CHOOSE_LEVEL_BUTTON_WIDTH = 80f;
     public static final float CHOOSE_LEVEL_BUTTON_HEIGHT = 80f;
     public static final float SOUND_OFF_BUTTON_WIDTH = 80f;
     public static final float SOUND_OFF_BUTTON_HEIGHT = 80f;

@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Shape2D;
 
 public abstract class Actor<T extends Shape2D> {
 
-    protected final T bound;
-    protected final Texture texture;
+    protected T bound;
+    protected Texture texture;
 
     public Actor(T bound, Texture texture) {
         this.bound = bound;
@@ -23,5 +23,13 @@ public abstract class Actor<T extends Shape2D> {
 
     public Texture getTexture() {
         return texture;
+    }
+
+    protected void setBound(T bound) {
+        this.bound = bound;
+    }
+
+    protected void setTexture(Texture texture) {
+        this.texture = texture;
     }
 }

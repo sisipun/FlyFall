@@ -20,21 +20,19 @@ class GameOverScreen(
     private var highScoreTextures: List<Texture>
     private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
 
-    private val wallTexture: Texture = Texture("wall.png")
-
     private val homeButton: Button = Button(
         SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
         HOME_BUTTON_WIDTH,
         HOME_BUTTON_HEIGHT,
-        wallTexture
+            Texture("not_button.png")
     )
     private val restartButton: Button = Button(
         SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH,
         SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
         HOME_BUTTON_WIDTH,
         HOME_BUTTON_HEIGHT,
-        wallTexture
+            Texture("play_button.png")
     )
 
 
@@ -108,6 +106,7 @@ class GameOverScreen(
         scoreTextures.forEach { it.dispose() }
         highScoreTextures.forEach { it.dispose() }
         bonusesCountTextures.forEach { it.dispose() }
-        wallTexture.dispose()
+        homeButton.dispose()
+        restartButton.dispose()
     }
 }

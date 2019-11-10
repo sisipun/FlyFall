@@ -21,11 +21,11 @@ import io.cucumber.view.GameScreen.Stage.PAUSE
 import java.util.*
 
 class GameScreen(
-    game: Game,
-    private var bonusesCount: Int,
-    private val highScore: Int,
-    private val isSoundEnabled: Boolean,
-    private val textureLevel: TextureLevel
+        game: Game,
+        private var bonusesCount: Int,
+        private val highScore: Int,
+        private val isSoundEnabled: Boolean,
+        private val textureLevel: TextureLevel
 ) : BaseScreen(game) {
 
     private val random = Random()
@@ -36,12 +36,12 @@ class GameScreen(
     private var enemyVelocity: Float = ENEMY_MIN_HORIZONTAL_VELOCITY
 
     private val hero: Hero = Hero(
-        SCREEN_WIDTH / 2,
-        SCREEN_HEIGHT / 2,
-        HERO_SIZE,
-        HERO_HORIZONTAL_VELOCITY,
-        -1 * HERO_VERTICAL_VELOCITY,
-        textureLevel.hero
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT / 2,
+            HERO_SIZE,
+            HERO_HORIZONTAL_VELOCITY,
+            -1 * HERO_VERTICAL_VELOCITY,
+            textureLevel.hero
     )
     private var enemyGroup: EnemyGroup = generateEnemy()
     private var bonus: Bonus? = null
@@ -53,25 +53,25 @@ class GameScreen(
 
     private var deathSound: Sound? = null
     private val pauseButton: Button = Button(
-        SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
-        SCREEN_HEIGHT - 1.1F * PAUSE_BUTTON_HEIGHT,
-        PAUSE_BUTTON_WIDTH,
-        PAUSE_BUTTON_HEIGHT,
-        timerTexture
+            SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
+            SCREEN_HEIGHT - 1.1F * PAUSE_BUTTON_HEIGHT,
+            PAUSE_BUTTON_WIDTH,
+            PAUSE_BUTTON_HEIGHT,
+            Texture("pause_button.png")
     )
     private val resumeButton: Button = Button(
-        SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH,
-        SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
-        RESUME_BUTTON_WIDTH,
-        RESUME_BUTTON_HEIGHT,
-        wallTexture
+            SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
+            RESUME_BUTTON_WIDTH,
+            RESUME_BUTTON_HEIGHT,
+            Texture("play_button.png")
     )
     private val homeButton: Button = Button(
-        SCREEN_WIDTH / 2 + RESUME_BUTTON_WIDTH,
-        SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
-        HOME_BUTTON_WIDTH,
-        HOME_BUTTON_HEIGHT,
-        wallTexture
+            SCREEN_WIDTH / 2 + RESUME_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
+            HOME_BUTTON_WIDTH,
+            HOME_BUTTON_HEIGHT,
+            Texture("not_button.png")
     )
 
 
@@ -95,97 +95,97 @@ class GameScreen(
 
     override fun render() {
         batch.draw(
-            textureLevel.background,
-            0F,
-            0F,
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT
+                textureLevel.background,
+                0F,
+                0F,
+                SCREEN_WIDTH,
+                SCREEN_HEIGHT
         )
         batch.draw(
-            hero.texture,
-            hero.bound.x,
-            hero.bound.y,
-            2 * hero.bound.radius,
-            2 * hero.bound.radius
+                hero.texture,
+                hero.bound.x,
+                hero.bound.y,
+                2 * hero.bound.radius,
+                2 * hero.bound.radius
         )
         enemyGroup.enemies.forEach {
             batch.draw(
-                it.texture,
-                it.bound.x,
-                it.bound.y,
-                2 * it.bound.radius,
-                2 * it.bound.radius
+                    it.texture,
+                    it.bound.x,
+                    it.bound.y,
+                    2 * it.bound.radius,
+                    2 * it.bound.radius
             )
         }
         batch.draw(
-            wallTexture,
-            0F,
-            0F,
-            SCREEN_WIDTH,
-            WALL_HEIGHT
+                wallTexture,
+                0F,
+                0F,
+                SCREEN_WIDTH,
+                WALL_HEIGHT
         )
         batch.draw(
-            wallTexture,
-            0F,
-            SCREEN_HEIGHT - WALL_HEIGHT,
-            SCREEN_WIDTH,
-            WALL_HEIGHT
+                wallTexture,
+                0F,
+                SCREEN_HEIGHT - WALL_HEIGHT,
+                SCREEN_WIDTH,
+                WALL_HEIGHT
         )
         val scoreTextures = NumbersHelper.getTextures(score)
         scoreTextures.forEachIndexed { index, texture ->
             batch.draw(
-                texture,
-                (index + 1) * SCORE_WIDTH,
-                SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
-                SCORE_WIDTH,
-                SCORE_HEIGHT
+                    texture,
+                    (index + 1) * SCORE_WIDTH,
+                    SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
+                    SCORE_WIDTH,
+                    SCORE_HEIGHT
             )
         }
         bonus?.let {
             val lifespanFactor = (BONUS_LIFESPAN - it.lifespan) / BONUS_LIFESPAN
             batch.draw(
-                it.texture,
-                it.bound.x,
-                it.bound.y,
-                2 * it.bound.radius,
-                2 * it.bound.radius
+                    it.texture,
+                    it.bound.x,
+                    it.bound.y,
+                    2 * it.bound.radius,
+                    2 * it.bound.radius
             )
             batch.draw(
-                timerTexture,
-                SCREEN_WIDTH / 2,
-                TIMER_HEIGHT,
-                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
-                TIMER_HEIGHT
+                    timerTexture,
+                    SCREEN_WIDTH / 2,
+                    TIMER_HEIGHT,
+                    (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
+                    TIMER_HEIGHT
             )
             batch.draw(
-                timerTexture,
-                TIMER_MARGIN_WIDTH + ((SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * lifespanFactor),
-                TIMER_HEIGHT,
-                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
-                TIMER_HEIGHT
+                    timerTexture,
+                    TIMER_MARGIN_WIDTH + ((SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * lifespanFactor),
+                    TIMER_HEIGHT,
+                    (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
+                    TIMER_HEIGHT
             )
         }
         batch.draw(
-            pauseButton.texture,
-            pauseButton.bound.x,
-            pauseButton.bound.y,
-            pauseButton.bound.width,
-            pauseButton.bound.height
+                pauseButton.texture,
+                pauseButton.bound.x,
+                pauseButton.bound.y,
+                pauseButton.bound.width,
+                pauseButton.bound.height
         )
         if (stage == PAUSE) {
             batch.draw(
-                resumeButton.texture,
-                resumeButton.bound.x,
-                resumeButton.bound.y,
-                resumeButton.bound.width,
-                resumeButton.bound.height
+                    resumeButton.texture,
+                    resumeButton.bound.x,
+                    resumeButton.bound.y,
+                    resumeButton.bound.width,
+                    resumeButton.bound.height
             )
             batch.draw(
-                homeButton.texture,
-                homeButton.bound.x,
-                homeButton.bound.y,
-                homeButton.bound.width,
-                homeButton.bound.height
+                    homeButton.texture,
+                    homeButton.bound.x,
+                    homeButton.bound.y,
+                    homeButton.bound.width,
+                    homeButton.bound.height
             )
         }
     }
@@ -237,7 +237,7 @@ class GameScreen(
         val first = enemyGroup.enemies.first()
         val last = enemyGroup.enemies.last()
         if ((first.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.bound.x + first.bound.radius + ENEMY_RESPAWN_BORDER < 0) &&
-            (last.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.bound.x + last.bound.radius + ENEMY_RESPAWN_BORDER < 0)) {
+                (last.bound.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.bound.x + last.bound.radius + ENEMY_RESPAWN_BORDER < 0)) {
             enemyGroup.enemies.clear()
             enemyGroup = generateEnemy()
         }
@@ -249,6 +249,9 @@ class GameScreen(
         deathSound?.dispose()
         wallTexture.dispose()
         timerTexture.dispose()
+        pauseButton.dispose()
+        resumeButton.dispose()
+        homeButton.dispose()
     }
 
     private fun generateBonus() {
@@ -264,10 +267,10 @@ class GameScreen(
     }
 
     private fun generateEnemy() = EnemyGroupFactory.create(
-        random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
-        Math.pow(-1.0, (random.nextInt(2) + 1.0)).toByte(),
-        enemyVelocity,
-        textureLevel.enemy
+            random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
+            Math.pow(-1.0, (random.nextInt(2) + 1.0)).toByte(),
+            enemyVelocity,
+            textureLevel.enemy
     )
 
     private fun raiseEnemyVelocity() {
