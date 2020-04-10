@@ -86,12 +86,12 @@ class ChooseLevelScreen(
     }
 
     fun setNextTextureLevel() {
-        textureLevel = TextureLevelManager.getNext(textureLevel.id)
+        textureLevel = TextureLevelManager.getNext(textureLevel)
         chooseButton.setSwitcher(textureLevel.isActive)
     }
 
     fun setPreviousTextureLevel() {
-        textureLevel = TextureLevelManager.getPrevious(textureLevel.id)
+        textureLevel = TextureLevelManager.getPrevious(textureLevel)
         chooseButton.setSwitcher(textureLevel.isActive)
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.IntMap;
 import io.cucumber.model.texture.TextureLevel;
+import io.cucumber.model.texture.TextureLevelInfo;
 
 import static io.cucumber.utils.constant.GameConstants.IS_ACTIVE_PATTERN;
 import static io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME;
@@ -13,33 +14,51 @@ public class TextureLevelManager {
     private static final int TEXTURE_LEVELS_COUNT = 4;
     private static Preferences preferences = Gdx.app.getPreferences(PREFERENCE_NAME);
 
-    private static IntMap<TextureLevel> levels = new IntMap<TextureLevel>(TEXTURE_LEVELS_COUNT);
+    private static IntMap<TextureLevelInfo> levels = new IntMap<TextureLevelInfo>(TEXTURE_LEVELS_COUNT);
 
     static {
-        levels.put(0, new TextureLevel(0, "hero.png", "enemy.png", "bonus.png", "white_background.png", 0, true));
-        levels.put(1, new TextureLevel(1, "hero.png", "bonus.png", "enemy.png", "gray_background.png", 100, isActive(1)));
-        levels.put(2, new TextureLevel(2, "bonus.png", "enemy.png", "hero.png", "timer.png", 100, isActive(2)));
-        levels.put(3, new TextureLevel(3, "ghost_hero.png", "ghost_enemy.png", "ghost_bonus.png", "ghost_background.png", 100, isActive(3)));
+        levels.put(0, new TextureLevelInfo(0, "hero.png", "enemy.png", "bonus.png", "white_background.png"));
+        levels.put(1, new TextureLevelInfo(1, "hero.png", "bonus.png", "enemy.png", "gray_background.png", 100));
+        levels.put(2, new TextureLevelInfo(2, "bonus.png", "enemy.png", "hero.png", "timer.png", 150));
+        levels.put(3, new TextureLevelInfo(3, "ghost_hero.png", "ghost_enemy.png", "ghost_bonus.png", "ghost_background.png", 200));
+
+        for (TextureLevelInfo levelInfo : levels.values()) {
+            TextureLevel level = get(levelInfo.getId());
+            level.dispose();
+        }
     }
 
     public static TextureLevel get(int id) {
-        return levels.get(id);
-    }
-
-    public static TextureLevel getNext(int id) {
-        id++;
-        if (id > TEXTURE_LEVELS_COUNT - 1) {
+        if (id >= TEXTURE_LEVELS_COUNT) {
             id = 0;
         }
-        return get(id);
+
+        TextureLevelInfo levelInfo = levels.get(id);
+        return new TextureLevel(levelInfo.getId(), levelInfo.getHeroTexturePath(),
+                levelInfo.getEnemyTexturePath(), levelInfo.getBonusTexturePath(),
+                levelInfo.getBackgroundTexturePath(), levelInfo.getCost(),
+                levelInfo.isStarterPack() || isActive(levelInfo.getId()));
     }
 
-    public static TextureLevel getPrevious(int id) {
-        id--;
-        if (id < 0) {
-            id = TEXTURE_LEVELS_COUNT - 1;
+    public static TextureLevel getNext(TextureLevel current) {
+        int nextId = current.getId() + 1;
+        current.dispose();
+
+        if (nextId >= TEXTURE_LEVELS_COUNT) {
+            nextId = 0;
         }
-        return get(id);
+
+        return get(nextId);
+    }
+
+    public static TextureLevel getPrevious(TextureLevel current) {
+        int previousId = current.getId() - 1;
+        current.dispose();
+
+        if (previousId < 0) {
+            previousId = TEXTURE_LEVELS_COUNT - 1;
+        }
+        return get(previousId);
     }
 
     public static void activate(int id) {
