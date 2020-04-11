@@ -2,39 +2,41 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.utils.Array
 import io.cucumber.model.base.Button
+import io.cucumber.model.texture.Score
 import io.cucumber.model.texture.TextureLevel
 import io.cucumber.utils.constant.GameConstants.*
-import io.cucumber.utils.helper.NumbersHelper
 
 class GameOverScreen(
-    game: Game, score: Int,
-    private var bonusesCount: Int,
-    private var highScore: Int,
-    private val isSoundEnabled: Boolean,
-    private val textureLevel: TextureLevel
-) : BaseScreen(game) {
+        game: Game, score: Int,
+        private var bonusesCount: Int,
+        private var highScore: Int,
+        private val isSoundEnabled: Boolean,
+        textureLevel: TextureLevel
+) : BaseScreen(game, textureLevel) {
 
-    private var scoreTextures: List<Texture> = NumbersHelper.getTextures(score)
-    private var highScoreTextures: List<Texture>
-    private var bonusesCountTextures: List<Texture> = NumbersHelper.getTextures(bonusesCount)
+    private val background: Image
+
+    private val highScoreActor: Score
+    private val scoreActor: Score = Score(0F, SCREEN_HEIGHT / 2 + SCORE_HEIGHT, SCORE_WIDTH, SCORE_HEIGHT, score)
+    private val bonusesCountActor: Score = Score(0F, SCREEN_HEIGHT / 2 - SCORE_HEIGHT, SCORE_WIDTH, SCORE_HEIGHT, bonusesCount)
 
     private val homeButton: Button = Button(
-        SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
-        SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
-        HOME_BUTTON_WIDTH,
-        HOME_BUTTON_HEIGHT,
-            Texture("not_button.png")
+            SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
+            HOME_BUTTON_WIDTH,
+            HOME_BUTTON_HEIGHT,
+            this.textureLevel.notButton
     )
     private val restartButton: Button = Button(
-        SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH,
-        SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
-        HOME_BUTTON_WIDTH,
-        HOME_BUTTON_HEIGHT,
-            Texture("play_button.png")
+            SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
+            HOME_BUTTON_WIDTH,
+            HOME_BUTTON_HEIGHT,
+            this.textureLevel.playButton
     )
-
 
     init {
         if (score > highScore) {
@@ -43,58 +45,12 @@ class GameOverScreen(
         }
         preferences.putInteger(BONUSES_COUNT, bonusesCount)
         preferences.flush()
-        highScoreTextures = NumbersHelper.getTextures(highScore)
-    }
+        highScoreActor = Score(0F, SCREEN_HEIGHT / 2, SCORE_WIDTH, SCORE_HEIGHT, highScore)
 
-    override fun render() {
-        batch.draw(
-            textureLevel.background,
-            0F,
-            0F,
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT
-        )
-        scoreTextures.forEachIndexed { index, texture ->
-            batch.draw(
-                texture,
-                (index + 1) * SCORE_WIDTH,
-                SCREEN_HEIGHT / 2 + SCORE_HEIGHT,
-                SCORE_WIDTH,
-                SCORE_HEIGHT
-            )
-        }
-        highScoreTextures.forEachIndexed { index, texture ->
-            batch.draw(
-                texture,
-                (index + 1) * SCORE_WIDTH,
-                SCREEN_HEIGHT / 2,
-                SCORE_WIDTH,
-                SCORE_HEIGHT
-            )
-        }
-        bonusesCountTextures.forEachIndexed { index, texture ->
-            batch.draw(
-                texture,
-                (index + 1) * SCORE_WIDTH,
-                SCREEN_HEIGHT / 2 - SCORE_HEIGHT,
-                SCORE_WIDTH,
-                SCORE_HEIGHT
-            )
-        }
-        batch.draw(
-            homeButton.texture,
-            homeButton.bound.x,
-            homeButton.bound.y,
-            homeButton.bound.width,
-            homeButton.bound.height
-        )
-        batch.draw(
-            restartButton.texture,
-            restartButton.bound.x,
-            restartButton.bound.y,
-            restartButton.bound.width,
-            restartButton.bound.height
-        )
+        this.background = Image(textureLevel.background)
+        this.background.setBounds(0F, 0F, SCORE_WIDTH, SCORE_HEIGHT)
+
+        addActors(Array.with(homeButton, restartButton, scoreActor, highScoreActor, bonusesCountActor))
     }
 
     override fun handleInput() {
@@ -103,10 +59,8 @@ class GameOverScreen(
     }
 
     override fun screenDispose() {
-        scoreTextures.forEach { it.dispose() }
-        highScoreTextures.forEach { it.dispose() }
-        bonusesCountTextures.forEach { it.dispose() }
-        homeButton.dispose()
-        restartButton.dispose()
+        scoreActor.dispose()
+        highScoreActor.dispose()
+        bonusesCountActor.dispose()
     }
 }

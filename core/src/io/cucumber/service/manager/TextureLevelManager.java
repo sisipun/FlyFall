@@ -17,10 +17,10 @@ public class TextureLevelManager {
     private static IntMap<TextureLevelInfo> levels = new IntMap<TextureLevelInfo>(TEXTURE_LEVELS_COUNT);
 
     static {
-        levels.put(0, new TextureLevelInfo(0, "hero.png", "enemy.png", "bonus.png", "white_background.png"));
-        levels.put(1, new TextureLevelInfo(1, "hero.png", "bonus.png", "enemy.png", "gray_background.png", 100));
-        levels.put(2, new TextureLevelInfo(2, "bonus.png", "enemy.png", "hero.png", "timer.png", 150));
-        levels.put(3, new TextureLevelInfo(3, "ghost_hero.png", "ghost_enemy.png", "ghost_bonus.png", "ghost_background.png", 200));
+        levels.put(0, new TextureLevelInfo(0, "hero.png", "enemy.png", "bonus.png", "white_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png"));
+        levels.put(1, new TextureLevelInfo(1, "hero.png", "bonus.png", "enemy.png", "gray_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", 100));
+        levels.put(2, new TextureLevelInfo(2, "bonus.png", "enemy.png", "hero.png", "timer.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", 150));
+        levels.put(3, new TextureLevelInfo(3, "ghost_hero.png", "ghost_enemy.png", "ghost_bonus.png", "ghost_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", 200));
 
         for (TextureLevelInfo levelInfo : levels.values()) {
             TextureLevel level = get(levelInfo.getId());
@@ -34,15 +34,11 @@ public class TextureLevelManager {
         }
 
         TextureLevelInfo levelInfo = levels.get(id);
-        return new TextureLevel(levelInfo.getId(), levelInfo.getHeroTexturePath(),
-                levelInfo.getEnemyTexturePath(), levelInfo.getBonusTexturePath(),
-                levelInfo.getBackgroundTexturePath(), levelInfo.getCost(),
-                levelInfo.isStarterPack() || isActive(levelInfo.getId()));
+        return new TextureLevel(levelInfo, isActive(levelInfo.getId()));
     }
 
     public static TextureLevel getNext(TextureLevel current) {
         int nextId = current.getId() + 1;
-        current.dispose();
 
         if (nextId >= TEXTURE_LEVELS_COUNT) {
             nextId = 0;
@@ -53,7 +49,6 @@ public class TextureLevelManager {
 
     public static TextureLevel getPrevious(TextureLevel current) {
         int previousId = current.getId() - 1;
-        current.dispose();
 
         if (previousId < 0) {
             previousId = TEXTURE_LEVELS_COUNT - 1;

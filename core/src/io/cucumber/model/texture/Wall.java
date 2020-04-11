@@ -1,33 +1,29 @@
-package io.cucumber.model.base;
+package io.cucumber.model.texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
+import io.cucumber.model.base.Actor;
 import io.cucumber.model.bound.RectangleBound;
 
-public class Button extends Actor<Rectangle> {
+public class Wall extends Actor<Rectangle> {
 
-    protected Texture currentTexture;
+    private final Texture texture;
 
-    public Button(float x, float y, float width, float height, Texture currentTexture) {
+    public Wall(float x, float y, float width, float height, Texture texture) {
         super(new RectangleBound(x, y, width, height));
-        this.currentTexture = currentTexture;
+        this.texture = texture;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-                currentTexture,
+                texture,
                 getX(),
                 getY(),
                 getWidth(),
                 getHeight()
         );
-    }
-
-    public boolean isTouched(Vector2 position) {
-        return contains(position);
     }
 }

@@ -1,6 +1,8 @@
 package io.cucumber.model.characters;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+
 import io.cucumber.model.base.DynamicActor;
 
 import static io.cucumber.utils.constant.GameConstants.DOWN_DIRECTION;
@@ -15,16 +17,27 @@ public class Hero extends DynamicActor {
     }
 
     @Override
-    public void update(float delta) {
-        bound.y += velocity.y * delta;
+    public void draw(Batch batch, float parentAlpha) {
+        batch.draw(
+                currentTexture,
+                getX(),
+                getY(),
+                getWidth(),
+                getHeight()
+        );
+    }
+
+    @Override
+    public void act(float delta) {
+        setY(getY() + velocity.y * delta);
     }
 
     public void moveLeft() {
-        bound.x += velocity.x * -1;
+        setX(getX() + velocity.x * -1);
     }
 
     public void moveRight() {
-        bound.x += velocity.x;
+        setX(getX() + velocity.x);
     }
 
     public void setDirection(byte direction) {

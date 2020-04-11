@@ -8,8 +8,8 @@ import static io.cucumber.utils.constant.GameConstants.BONUS_SIZE;
 
 public class BonusFactory {
 
-    public static Bonus create(float x, float y, Texture texture) {
-        return new Bonus(x, y, BONUS_SIZE, texture, BONUS_LIFESPAN);
+    public static Bonus create(float x, float y, Texture texture, Texture timerTexture) {
+        return new Bonus(x, y, BONUS_SIZE, texture, timerTexture, BONUS_LIFESPAN);
     }
 
     private BonusFactory() {

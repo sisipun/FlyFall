@@ -1,14 +1,18 @@
 package io.cucumber.model.characters;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 import io.cucumber.model.base.DynamicActor;
 
-public class EnemyGroup {
+public class EnemyGroup extends Group{
 
     private final Array<Enemy> enemies;
 
     public EnemyGroup(Array<Enemy> enemies) {
         this.enemies = enemies;
+        for(Enemy enemy: enemies) {
+            addActor(enemy);
+        }
     }
 
     public boolean isCollides(DynamicActor actor) {
@@ -21,19 +25,6 @@ public class EnemyGroup {
         }
 
         return false;
-    }
-
-    public void update(float delta) {
-        for (Enemy enemy : enemies) {
-            enemy.update(delta);
-        }
-    }
-
-    public void dispose() {
-        for (Enemy enemy : enemies) {
-            enemy.dispose();
-        }
-        enemies.clear();
     }
 
     public Array<Enemy> getEnemies() {

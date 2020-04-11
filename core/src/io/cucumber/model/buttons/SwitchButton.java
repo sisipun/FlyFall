@@ -20,13 +20,7 @@ public class SwitchButton extends Button {
     public void setSwitcher(boolean switcher) {
         if (this.switcher != switcher) {
             this.switcher = switcher;
-            this.setTexture(switcher ? firstTexture : secondTexture);
+            this.currentTexture = switcher ? firstTexture : secondTexture;
         }
-    }
-
-    @Override
-    public void dispose() {
-        firstTexture.dispose();
-        secondTexture.dispose();
     }
 }

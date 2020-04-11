@@ -1,9 +1,9 @@
 package io.cucumber.utils.helper;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class NumbersHelper {
@@ -21,17 +21,18 @@ public class NumbersHelper {
             new Texture("9.png")
     );
 
-    public static List<Texture> getTextures(int value) {
-        List<Texture> textures = new LinkedList<Texture>();
+    public static Array<Texture> getTextures(int value) {
+        Array<Texture> textures = new Array<Texture>();
         if (value == 0) {
             textures.add(numbersSymbols.get(0));
         }
 
         while (value > 0) {
             int number = value % 10;
-            textures.add(0, numbersSymbols.get(number));
+            textures.add(numbersSymbols.get(number));
             value /= 10;
         }
+        textures.reverse();
 
         return textures;
     }
