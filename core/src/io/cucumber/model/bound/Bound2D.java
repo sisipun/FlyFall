@@ -1,7 +1,6 @@
 package io.cucumber.model.bound;
 
 import com.badlogic.gdx.math.Shape2D;
-import com.badlogic.gdx.math.Vector2;
 
 public abstract class Bound2D<T extends Shape2D> {
 
@@ -22,8 +21,6 @@ public abstract class Bound2D<T extends Shape2D> {
     public abstract void setHeight(float height);
 
     public abstract boolean overlaps(Bound2D<T> otherBound);
-
-    public abstract boolean contains(Vector2 point);
 
     protected abstract T getBound();
 

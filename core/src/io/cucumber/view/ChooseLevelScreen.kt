@@ -1,11 +1,12 @@
 package io.cucumber.view
 
 import com.badlogic.gdx.Game
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.input.GestureDetector
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
-import io.cucumber.controller.ChooseLevelScreenController
-import io.cucumber.model.base.Button
+import io.cucumber.model.buttons.ImageButton
 import io.cucumber.model.buttons.SwitchButton
 import io.cucumber.model.texture.TextureLevel
 import io.cucumber.service.manager.TextureLevelManager
@@ -13,15 +14,13 @@ import io.cucumber.utils.constant.GameConstants.*
 
 class ChooseLevelScreen(
         game: Game,
-        private var bonusesCount: Int,
+        private var bonusCount: Int,
         private var highScore: Int,
-        private val isSoundEnabled: Boolean,
+        private val isSoundOn: Boolean,
         textureLevel: TextureLevel
 ) : BaseScreen(game, textureLevel) {
 
-    private val controller: ChooseLevelScreenController = ChooseLevelScreenController(this)
-
-    private var homeButton: Button = Button(
+    private var homeButton: Button = ImageButton(
             SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
             SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
@@ -39,32 +38,14 @@ class ChooseLevelScreen(
     )
 
     init {
-        Gdx.input.inputProcessor = GestureDetector(controller)
-        addActors(Array.with(homeButton, chooseButton))
-    }
-
-    override fun handleInput() {
-        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game, bonusesCount, highScore, isSoundEnabled)
-        if (Gdx.input.justTouched() && chooseButton.isTouched(getTouchPosition())) {
-            if (textureLevel.isActive) {
-                preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
-                preferences.flush()
-                game.screen = StartScreen(game, bonusesCount, highScore, isSoundEnabled)
-            } else if (bonusesCount >= textureLevel.cost) {
-                TextureLevelManager.activate(textureLevel.id)
-                bonusesCount -= textureLevel.cost
-                preferences.putInteger(BONUSES_COUNT, bonusesCount)
-                preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
-                preferences.flush()
-                chooseButton.setSwitcher(textureLevel.isActive)
-            }
-        }
+        initButtons()
     }
 
     private fun initButtons() {
         homeButton.remove()
         chooseButton.remove()
-        homeButton = Button(
+
+        homeButton = ImageButton(
                 SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
                 SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
                 HOME_BUTTON_WIDTH,
@@ -80,18 +61,44 @@ class ChooseLevelScreen(
                 textureLevel.buyButton,
                 textureLevel.isActive
         )
+
+        homeButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                game.screen = StartScreen(this@ChooseLevelScreen.game, this@ChooseLevelScreen.bonusCount, this@ChooseLevelScreen.highScore,
+                        this@ChooseLevelScreen.isSoundOn, this@ChooseLevelScreen.textureLevel)
+            }
+        })
+        chooseButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                if (textureLevel.isActive) {
+                    preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
+                    preferences.flush()
+                    game.screen = StartScreen(game, bonusCount, highScore, isSoundOn)
+                } else if (bonusCount >= textureLevel.cost) {
+                    TextureLevelManager.activate(textureLevel.id)
+                    bonusCount -= textureLevel.cost
+                    preferences.putInteger(BONUSES_COUNT, bonusCount)
+                    preferences.putInteger(TEXTURE_LEVEL, textureLevel.id)
+                    preferences.flush()
+                    chooseButton.setSwitcher(textureLevel.isActive)
+                }
+            }
+        })
+        addBackgroundListener(object : ActorGestureListener() {
+            override fun fling(event: InputEvent?, velocityX: Float, velocityY: Float, button: Int) {
+                if (velocityX > MIN_FLING_DISTANCE) {
+                    changeTextureLevel(TextureLevelManager.getPrevious(textureLevel))
+                    chooseButton.setSwitcher(textureLevel.isActive)
+                    initButtons()
+                }
+                if (velocityX < -1 * MIN_FLING_DISTANCE) {
+                    changeTextureLevel(TextureLevelManager.getNext(textureLevel))
+                    chooseButton.setSwitcher(textureLevel.isActive)
+                    initButtons()
+                }
+            }
+        })
+
         addActors(Array.with(homeButton, chooseButton))
-    }
-
-    fun setNextTextureLevel() {
-        changeTextureLevel(TextureLevelManager.getNext(textureLevel))
-        chooseButton.setSwitcher(textureLevel.isActive)
-        initButtons()
-    }
-
-    fun setPreviousTextureLevel() {
-        changeTextureLevel(TextureLevelManager.getPrevious(textureLevel))
-        chooseButton.setSwitcher(textureLevel.isActive)
-        initButtons()
     }
 }

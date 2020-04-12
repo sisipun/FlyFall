@@ -1,7 +1,6 @@
 package io.cucumber.model.base;
 
 import com.badlogic.gdx.math.Shape2D;
-import com.badlogic.gdx.math.Vector2;
 
 import io.cucumber.model.bound.Bound2D;
 
@@ -16,10 +15,6 @@ public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.s
 
     public boolean overlaps(Actor<T> actor) {
         return bound.overlaps(actor.bound);
-    }
-
-    public boolean contains(Vector2 point) {
-        return bound.contains(point);
     }
 
     @Override

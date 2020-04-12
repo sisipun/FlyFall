@@ -1,7 +1,6 @@
 package io.cucumber.model.bound;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 public class RectangleBound extends Bound2D<Rectangle> {
 
@@ -54,11 +53,6 @@ public class RectangleBound extends Bound2D<Rectangle> {
     @Override
     public boolean overlaps(Bound2D<Rectangle> otherBound) {
         return bound.overlaps(otherBound.getBound());
-    }
-
-    @Override
-    public boolean contains(Vector2 point) {
-        return bound.contains(point);
     }
 
     @Override

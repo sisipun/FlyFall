@@ -12,12 +12,22 @@ import io.cucumber.utils.helper.NumbersHelper;
 public class Score extends Actor<Rectangle> {
 
     protected final Array<Texture> scoreTextures;
+    private final ScoreItemDrawer itemDrawer;
     private int score;
 
     public Score(float x, float y, float width, float height, int score) {
+        this(x, y, width, height, score, ScoreItemAlign.RIGHT);
+    }
+
+    public Score(float x, float y, float width, float height, int score, ScoreItemAlign align) {
         super(new RectangleBound(x, y, width, height));
         this.score = score;
         this.scoreTextures = NumbersHelper.getTextures(score);
+        if (ScoreItemAlign.CENTER.equals(align)) {
+            this.itemDrawer = new CenterScoreItemDrawer();
+        } else {
+            this.itemDrawer = new RightScoreItemDrawer();
+        }
     }
 
     public void setScore(int score) {
@@ -37,18 +47,8 @@ public class Score extends Actor<Rectangle> {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         for (int i = 0; i < scoreTextures.size; i++) {
-            drawItem(batch, i);
+            itemDrawer.drawItem(batch, scoreTextures, i, getX(), getY(), getWidth(), getHeight());
         }
-    }
-
-    protected void drawItem(Batch batch, int index) {
-        batch.draw(
-                scoreTextures.get(index),
-                getX() + (index + 1) * getWidth(),
-                getY(),
-                getWidth(),
-                getHeight()
-        );
     }
 
     @Override
@@ -58,4 +58,40 @@ public class Score extends Actor<Rectangle> {
         }
         super.dispose();
     }
+
+    public enum ScoreItemAlign {
+        CENTER,
+        RIGHT
+    }
+
+    interface ScoreItemDrawer {
+        void drawItem(Batch batch, Array<Texture> scoreTextures, int index, float x, float y, float width, float height);
+    }
+
+    static class CenterScoreItemDrawer implements ScoreItemDrawer {
+
+        public void drawItem(Batch batch, Array<Texture> scoreTextures, int index, float x, float y, float width, float height) {
+            batch.draw(
+                    scoreTextures.get(index),
+                    x + (index - scoreTextures.size / 2) * width,
+                    y,
+                    width,
+                    height
+            );
+        }
+    }
+
+    static class RightScoreItemDrawer implements ScoreItemDrawer {
+
+        public void drawItem(Batch batch, Array<Texture> scoreTextures, int index, float x, float y, float width, float height) {
+            batch.draw(
+                    scoreTextures.get(index),
+                    x + (index + 1) * width,
+                    y,
+                    width,
+                    height
+            );
+        }
+    }
+
 }

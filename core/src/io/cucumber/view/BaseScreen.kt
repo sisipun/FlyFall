@@ -7,9 +7,8 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Array
@@ -24,7 +23,7 @@ abstract class BaseScreen(
 ) : ScreenAdapter() {
 
     protected val preferences: Preferences = Gdx.app.getPreferences(PREFERENCE_NAME)
-    protected val camera: OrthographicCamera = OrthographicCamera()
+    private val camera: OrthographicCamera = OrthographicCamera()
     private val logger: FPSLogger = FPSLogger()
     private val stage: Stage = Stage()
 
@@ -36,13 +35,13 @@ abstract class BaseScreen(
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT)
         background.setBounds(0F, 0F, SCREEN_WIDTH, SCREEN_HEIGHT)
         addActor(background)
+        stage.keyboardFocus = background
+        Gdx.input.inputProcessor = stage
     }
 
     protected open fun update(delta: Float) {
         stage.act(delta)
     }
-
-    protected open fun handleInput() {}
 
     protected open fun stateCheck() {}
 
@@ -57,6 +56,7 @@ abstract class BaseScreen(
             addActor(actor)
         }
     }
+
     protected fun changeTextureLevel(textureLevel: TextureLevel) {
         this.textureLevel.dispose()
         this.textureLevel = textureLevel
@@ -68,6 +68,10 @@ abstract class BaseScreen(
         this.background = newBackground
     }
 
+    protected fun addBackgroundListener(listener: EventListener) {
+        background.addListener(listener)
+    }
+
     override fun render(delta: Float) {
         logger.log()
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f)
@@ -76,7 +80,6 @@ abstract class BaseScreen(
         update(delta)
         camera.update()
         stage.draw()
-        handleInput()
         stateCheck()
     }
 
@@ -88,10 +91,5 @@ abstract class BaseScreen(
         stage.actors.forEach { it.remove() }
         stage.clear()
         screenDispose()
-    }
-
-    fun getTouchPosition(): Vector2 {
-        val unproject = camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0F))
-        return Vector2(unproject.x, unproject.y)
     }
 }

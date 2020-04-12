@@ -1,7 +1,6 @@
 package io.cucumber.model.bound;
 
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Vector2;
 
 public class CircleBound extends Bound2D<Circle> {
 
@@ -54,11 +53,6 @@ public class CircleBound extends Bound2D<Circle> {
     @Override
     public boolean overlaps(Bound2D<Circle> otherBound) {
         return bound.overlaps(otherBound.getBound());
-    }
-
-    @Override
-    public boolean contains(Vector2 point) {
-        return bound.contains(point);
     }
 
     @Override

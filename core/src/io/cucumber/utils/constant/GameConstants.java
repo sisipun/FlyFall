@@ -30,7 +30,7 @@ public class GameConstants {
     public static final float ENEMY_SIZE = 50f;
 
     // Hero
-    public static final float HERO_HORIZONTAL_VELOCITY = 9f;
+    public static final float HERO_HORIZONTAL_VELOCITY = 400f;
     public static final float HERO_VERTICAL_VELOCITY = 450f;
     public static final float HERO_SIZE = 50f;
 
@@ -64,13 +64,12 @@ public class GameConstants {
     public static final byte SMALL_WALL_GROUP = 4;
     public static final byte WALL_GROUP = 5;
 
-    // Orientations
-    public static final byte LEFT_ORIENTATION = -1;
-    public static final byte RIGHT_ORIENTATION = 1;
-
     // Directions
     public static final byte DOWN_DIRECTION = -1;
     public static final byte UP_DIRECTION = 1;
+    public static final byte LEFT_DIRECTION = -1;
+    public static final byte RIGHT_DIRECTION = 1;
+    public static final byte NOT_MOVE = 0;
 
     // Time
     public static final short MILLIS_IN_SECOND = 1000;

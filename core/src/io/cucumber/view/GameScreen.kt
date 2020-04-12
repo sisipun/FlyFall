@@ -5,27 +5,30 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
-import io.cucumber.model.base.Button
+import io.cucumber.model.buttons.ImageButton
 import io.cucumber.model.characters.Bonus
 import io.cucumber.model.characters.EnemyGroup
 import io.cucumber.model.characters.Hero
 import io.cucumber.model.texture.Score
+import io.cucumber.model.texture.SimpleRectangle
 import io.cucumber.model.texture.TextureLevel
-import io.cucumber.model.texture.Wall
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
 import io.cucumber.utils.constant.GameConstants.*
-import io.cucumber.utils.helper.InputHelper
 import io.cucumber.view.GameScreen.State.GAME
 import io.cucumber.view.GameScreen.State.PAUSE
 import java.util.*
 
 class GameScreen(
         game: Game,
-        private var bonusesCount: Int,
+        private var bonusCount: Int,
         private val highScore: Int,
-        private val isSoundEnabled: Boolean,
+        private val isSoundOn: Boolean,
         textureLevel: TextureLevel
 ) : BaseScreen(game, textureLevel) {
 
@@ -50,24 +53,24 @@ class GameScreen(
     private var bonusSound: Sound? = null
     private var deathSound: Sound? = null
 
-    private val topWall: Wall = Wall(0F, 0F, SCREEN_WIDTH, WALL_HEIGHT, textureLevel.wall)
-    private val bottomWall: Wall = Wall(0F, SCREEN_HEIGHT - WALL_HEIGHT, SCREEN_WIDTH, WALL_HEIGHT, textureLevel.wall)
+    private val topWall: SimpleRectangle = SimpleRectangle(0F, 0F, SCREEN_WIDTH, WALL_HEIGHT, textureLevel.wall)
+    private val bottomWall: SimpleRectangle = SimpleRectangle(0F, SCREEN_HEIGHT - WALL_HEIGHT, SCREEN_WIDTH, WALL_HEIGHT, textureLevel.wall)
     private val scoreActor: Score = Score(0F, SCREEN_HEIGHT - 2 * SCORE_HEIGHT, SCORE_WIDTH, SCORE_HEIGHT, 0)
-    private val pauseButton: Button = Button(
+    private val pauseButton: Button = ImageButton(
             SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
             SCREEN_HEIGHT - 1.1F * PAUSE_BUTTON_HEIGHT,
             PAUSE_BUTTON_WIDTH,
             PAUSE_BUTTON_HEIGHT,
             this.textureLevel.pauseButton
     )
-    private val resumeButton: Button = Button(
+    private val resumeButton: Button = ImageButton(
             SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH,
             SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
             RESUME_BUTTON_WIDTH,
             RESUME_BUTTON_HEIGHT,
             this.textureLevel.playButton
     )
-    private val homeButton: Button = Button(
+    private val homeButton: Button = ImageButton(
             SCREEN_WIDTH / 2 + RESUME_BUTTON_WIDTH,
             SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
@@ -81,6 +84,59 @@ class GameScreen(
             bonusSound = Gdx.audio.newSound(Gdx.files.internal("bonus.wav"))
             deathSound = Gdx.audio.newSound(Gdx.files.internal("death.mp3"))
         }
+
+        pauseButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                gameState = PAUSE
+                addActors(Array.with(resumeButton, homeButton))
+            }
+        })
+        resumeButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                gameState = GAME
+                resumeButton.remove()
+                homeButton.remove()
+            }
+        })
+        homeButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                game.screen = StartScreen(this@GameScreen.game, this@GameScreen.bonusCount, this@GameScreen.highScore,
+                        this@GameScreen.isSoundOn, this@GameScreen.textureLevel)
+            }
+        })
+        addBackgroundListener(object: InputListener() {
+            override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
+                if (gameState == PAUSE) return false
+
+                if (LEFT == keycode && hero.x > 0) hero.moveLeft()
+                if (RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                return true
+            }
+
+            override fun keyUp(event: InputEvent?, keycode: Int): Boolean {
+                if (gameState == PAUSE) return false
+
+                if (LEFT == keycode && hero.moveDirection == LEFT_DIRECTION ||
+                        RIGHT == keycode && hero.moveDirection == RIGHT_DIRECTION) hero.stop()
+                return true
+            }
+
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                if (gameState == PAUSE) return false
+
+                if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.moveLeft()
+                if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+
+                return true
+            }
+
+            override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
+                if (gameState == PAUSE) return
+
+                hero.stop()
+            }
+        })
+
         addActors(Array.with(topWall, bottomWall, hero, enemyGroup, pauseButton, scoreActor))
     }
 
@@ -92,37 +148,17 @@ class GameScreen(
         scoreActor.addScore((delta * 1000).toInt())
     }
 
-    override fun handleInput() {
-        if (Gdx.input.justTouched() && pauseButton.isTouched(getTouchPosition())) {
-            gameState = PAUSE
-            addActors(Array.with(resumeButton, homeButton))
-        }
-        if (Gdx.input.justTouched() && resumeButton.isTouched(getTouchPosition())) {
-            gameState = GAME
-            resumeButton.remove()
-            homeButton.remove()
-        }
-        if (Gdx.input.justTouched() && homeButton.isTouched(getTouchPosition())) game.screen = StartScreen(game, bonusesCount, highScore, isSoundEnabled, textureLevel)
-        if (gameState == PAUSE) {
-            return
-        }
-        if (Gdx.input.isKeyPressed(LEFT) && hero.x > 0) hero.moveLeft()
-        if (Gdx.input.isKeyPressed(RIGHT) && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
-        if (Gdx.input.isTouched && InputHelper.getLastTouchX() < SCREEN_WIDTH / 2 && hero.x > 0) hero.moveLeft()
-        if (Gdx.input.isTouched && InputHelper.getLastTouchX() > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
-    }
-
     override fun stateCheck() {
         if (gameState == PAUSE) {
             return
         }
         if (hero.y + hero.height + WALL_HEIGHT >= SCREEN_HEIGHT) {
-            hero.setDirection(DOWN_DIRECTION)
+            hero.setDirectionY(DOWN_DIRECTION)
             generateBonus()
             raiseEnemyVelocity()
             flipSound?.play()
         } else if (hero.y - WALL_HEIGHT <= 0) {
-            hero.setDirection(UP_DIRECTION)
+            hero.setDirectionY(UP_DIRECTION)
             generateBonus()
             raiseEnemyVelocity()
             flipSound?.play()
@@ -130,7 +166,7 @@ class GameScreen(
 
         bonus?.let {
             if (it.isCollides(hero)) {
-                bonusesCount++
+                bonusCount++
                 bonusSound?.play()
                 it.remove()
                 bonus = null
@@ -142,7 +178,7 @@ class GameScreen(
         }
         if (enemyGroup.isCollides(hero)) {
             deathSound?.play()
-            game.screen = GameOverScreen(game, scoreActor.score, bonusesCount, highScore, isSoundEnabled, textureLevel)
+            game.screen = GameOverScreen(game, scoreActor.score, bonusCount, highScore, isSoundOn, textureLevel)
         }
 
         val first = enemyGroup.enemies.first()
