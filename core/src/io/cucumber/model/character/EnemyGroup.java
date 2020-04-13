@@ -1,10 +1,10 @@
-package io.cucumber.model.characters;
+package io.cucumber.model.character;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 import io.cucumber.model.base.DynamicActor;
 
-public class EnemyGroup extends Group{
+public class EnemyGroup extends Group {
 
     private final Array<Enemy> enemies;
 
@@ -25,6 +25,12 @@ public class EnemyGroup extends Group{
         }
 
         return false;
+    }
+
+    @Override
+    public boolean remove() {
+        enemies.clear();
+        return super.remove();
     }
 
     public Array<Enemy> getEnemies() {

@@ -1,4 +1,4 @@
-package io.cucumber.model.buttons;
+package io.cucumber.model.button;
 
 import com.badlogic.gdx.graphics.Texture;
 

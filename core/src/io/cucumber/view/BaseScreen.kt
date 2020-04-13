@@ -12,14 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Array
-import io.cucumber.model.texture.TextureLevel
-import io.cucumber.service.manager.TextureLevelManager
+import io.cucumber.model.level.LevelAssets
+import io.cucumber.service.manager.LevelManager
 import io.cucumber.utils.constant.GameConstants.*
 
 
 abstract class BaseScreen(
-    protected val game: Game,
-    textureLevel: TextureLevel?
+        protected val game: Game,
+        levelAssets: LevelAssets?
 ) : ScreenAdapter() {
 
     protected val preferences: Preferences = Gdx.app.getPreferences(PREFERENCE_NAME)
@@ -27,9 +27,9 @@ abstract class BaseScreen(
     private val logger: FPSLogger = FPSLogger()
     private val stage: Stage = Stage()
 
-    protected var textureLevel: TextureLevel = textureLevel
-            ?: TextureLevelManager.get(preferences.getInteger(TEXTURE_LEVEL))
-    private var background: Image = Image(this.textureLevel.background)
+    protected var levelAssets: LevelAssets = levelAssets
+            ?: LevelManager.get(preferences.getInteger(TEXTURE_LEVEL))
+    private var background: Image = Image(this.levelAssets.background)
 
     init {
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -39,13 +39,11 @@ abstract class BaseScreen(
         Gdx.input.inputProcessor = stage
     }
 
-    protected open fun update(delta: Float) {
+    protected open fun act(delta: Float) {
         stage.act(delta)
     }
 
     protected open fun stateCheck() {}
-
-    protected open fun screenDispose() {}
 
     protected fun addActor(actor: Actor) {
         stage.addActor(actor)
@@ -57,11 +55,11 @@ abstract class BaseScreen(
         }
     }
 
-    protected fun changeTextureLevel(textureLevel: TextureLevel) {
-        this.textureLevel.dispose()
-        this.textureLevel = textureLevel
+    protected fun changeTextureLevel(levelAssets: LevelAssets) {
+        this.levelAssets.dispose()
+        this.levelAssets = levelAssets
 
-        val newBackground = Image(textureLevel.background)
+        val newBackground = Image(levelAssets.background)
         newBackground.setBounds(0F, 0F, SCREEN_WIDTH, SCREEN_HEIGHT)
         stage.actors[0] = newBackground
         this.background.remove()
@@ -77,7 +75,7 @@ abstract class BaseScreen(
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        update(delta)
+        act(delta)
         camera.update()
         stage.draw()
         stateCheck()
@@ -90,6 +88,5 @@ abstract class BaseScreen(
     override fun dispose() {
         stage.actors.forEach { it.remove() }
         stage.clear()
-        screenDispose()
     }
 }

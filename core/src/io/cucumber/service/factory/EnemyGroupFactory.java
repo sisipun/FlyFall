@@ -2,8 +2,8 @@ package io.cucumber.service.factory;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
-import io.cucumber.model.characters.Enemy;
-import io.cucumber.model.characters.EnemyGroup;
+import io.cucumber.model.character.Enemy;
+import io.cucumber.model.character.EnemyGroup;
 
 import static io.cucumber.utils.constant.GameConstants.*;
 

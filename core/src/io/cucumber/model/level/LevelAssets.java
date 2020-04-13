@@ -1,8 +1,10 @@
-package io.cucumber.model.texture;
+package io.cucumber.model.level;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
-public class TextureLevel {
+public class LevelAssets {
 
     private final int id;
     private final Texture hero;
@@ -19,10 +21,13 @@ public class TextureLevel {
     private final Texture soundOnButton;
     private final Texture pauseButton;
     private final Texture buyButton;
+    private final Sound flipSound;
+    private final Sound bonusSound;
+    private final Sound deathSound;
     private final int cost;
     private boolean active;
 
-    public TextureLevel(TextureLevelInfo levelInfo, boolean active) {
+    public LevelAssets(LevelInfo levelInfo, boolean active) {
         this.id = levelInfo.getId();
         this.hero = new Texture(levelInfo.getHero());
         this.enemy = new Texture(levelInfo.getEnemy());
@@ -38,6 +43,9 @@ public class TextureLevel {
         this.soundOnButton = new Texture(levelInfo.getSoundOnButton());
         this.pauseButton = new Texture(levelInfo.getPauseButton());
         this.buyButton = new Texture(levelInfo.getBuyButton());
+        this.flipSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getFlipSound()));
+        this.bonusSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getBonusSound()));
+        this.deathSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getDeathSound()));
         this.cost = levelInfo.getCost();
         this.active = levelInfo.isStarterPack() || active;
     }
@@ -115,6 +123,18 @@ public class TextureLevel {
 
     public Texture getBuyButton() {
         return buyButton;
+    }
+
+    public Sound getFlipSound() {
+        return flipSound;
+    }
+
+    public Sound getBonusSound() {
+        return bonusSound;
+    }
+
+    public Sound getDeathSound() {
+        return deathSound;
     }
 
     public int getCost() {
