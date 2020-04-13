@@ -1,6 +1,6 @@
 package io.cucumber.model.texture;
 
-public class TextureLevelInfo {
+public class LevelInfo {
 
     private final int id;
     private final String hero;
@@ -17,13 +17,17 @@ public class TextureLevelInfo {
     private final String soundOnButton;
     private final String pauseButton;
     private final String buyButton;
+    private final String flipSound;
+    private final String bonusSound;
+    private final String deathSound;
     private final int cost;
     private final boolean starterPack;
 
-    public TextureLevelInfo(int id, String hero, String enemy, String bonus, String background,
-                            String timer, String wall, String okButton, String playButton,
-                            String chooseButton, String notButton, String soundOffButton,
-                            String soundOnButton, String pauseButton, String buyButton, int cost) {
+    public LevelInfo(int id, String hero, String enemy, String bonus, String background,
+                     String timer, String wall, String okButton, String playButton,
+                     String chooseButton, String notButton, String soundOffButton,
+                     String soundOnButton, String pauseButton, String buyButton,
+                     String flipSound, String bonusSound, String deathSound, int cost) {
         this.id = id;
         this.hero = hero;
         this.enemy = enemy;
@@ -39,14 +43,18 @@ public class TextureLevelInfo {
         this.soundOnButton = soundOnButton;
         this.pauseButton = pauseButton;
         this.buyButton = buyButton;
+        this.flipSound = flipSound;
+        this.bonusSound = bonusSound;
+        this.deathSound = deathSound;
         this.cost = cost;
         this.starterPack = false;
     }
 
-    public TextureLevelInfo(int id, String hero, String enemy, String bonus, String background,
-                            String timer, String wall, String okButton, String playButton,
-                            String chooseButton, String notButton, String soundOffButton,
-                            String soundOnButton, String pauseButton, String buyButton) {
+    public LevelInfo(int id, String hero, String enemy, String bonus, String background,
+                     String timer, String wall, String okButton, String playButton,
+                     String chooseButton, String notButton, String soundOffButton,
+                     String soundOnButton, String pauseButton, String buyButton,
+                     String flipSound, String bonusSound, String deathSound) {
         this.id = id;
         this.hero = hero;
         this.enemy = enemy;
@@ -62,6 +70,9 @@ public class TextureLevelInfo {
         this.soundOnButton = soundOnButton;
         this.pauseButton = pauseButton;
         this.buyButton = buyButton;
+        this.flipSound = flipSound;
+        this.bonusSound = bonusSound;
+        this.deathSound = deathSound;
         this.cost = 0;
         this.starterPack = true;
     }
@@ -125,6 +136,18 @@ public class TextureLevelInfo {
 
     public String getBuyButton() {
         return buyButton;
+    }
+
+    public String getFlipSound() {
+        return flipSound;
+    }
+
+    public String getBonusSound() {
+        return bonusSound;
+    }
+
+    public String getDeathSound() {
+        return deathSound;
     }
 
     public int getCost() {

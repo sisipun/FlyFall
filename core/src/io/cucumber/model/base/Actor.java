@@ -13,7 +13,7 @@ public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.s
         setBounds(bound.getX(), bound.getY(), bound.getWidth(), bound.getHeight());
     }
 
-    public boolean overlaps(Actor<T> actor) {
+    public boolean isCollides(Actor<T> actor) {
         return bound.overlaps(actor.bound);
     }
 
@@ -39,8 +39,5 @@ public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.s
     public void setHeight(float height) {
         bound.setHeight(height);
         super.setHeight(height);
-    }
-
-    public void dispose() {
     }
 }

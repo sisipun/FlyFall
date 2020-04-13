@@ -1,22 +1,20 @@
 package io.cucumber.view
 
 import com.badlogic.gdx.Game
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.Button
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
-import io.cucumber.model.buttons.ImageButton
-import io.cucumber.model.characters.Bonus
-import io.cucumber.model.characters.EnemyGroup
-import io.cucumber.model.characters.Hero
+import io.cucumber.model.button.ImageButton
+import io.cucumber.model.character.Bonus
+import io.cucumber.model.character.EnemyGroup
+import io.cucumber.model.character.Hero
+import io.cucumber.model.texture.LevelAssets
 import io.cucumber.model.texture.Score
 import io.cucumber.model.texture.SimpleRectangle
-import io.cucumber.model.texture.TextureLevel
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
 import io.cucumber.utils.constant.GameConstants.*
@@ -29,60 +27,78 @@ class GameScreen(
         private var bonusCount: Int,
         private val highScore: Int,
         private val isSoundOn: Boolean,
-        textureLevel: TextureLevel
-) : BaseScreen(game, textureLevel) {
+        levelAssets: LevelAssets
+) : BaseScreen(game, levelAssets) {
 
+    // Screen
     private val random = Random()
-
-
     private var gameState: State = GAME
     private var enemyVelocity: Float = ENEMY_MIN_HORIZONTAL_VELOCITY
 
+    private var flipSound: Sound? = null
+    private var bonusSound: Sound? = null
+    private var deathSound: Sound? = null
+
+    // Actors
     private val hero: Hero = Hero(
             SCREEN_WIDTH / 2,
             SCREEN_HEIGHT / 2,
             HERO_SIZE,
             HERO_HORIZONTAL_VELOCITY,
             -1 * HERO_VERTICAL_VELOCITY,
-            textureLevel.hero
+            this.levelAssets.hero
     )
-    private var enemyGroup: EnemyGroup = generateEnemy()
+    private var enemyGroup: EnemyGroup? = null
     private var bonus: Bonus? = null
 
-    private var flipSound: Sound? = null
-    private var bonusSound: Sound? = null
-    private var deathSound: Sound? = null
-
-    private val topWall: SimpleRectangle = SimpleRectangle(0F, 0F, SCREEN_WIDTH, WALL_HEIGHT, textureLevel.wall)
-    private val bottomWall: SimpleRectangle = SimpleRectangle(0F, SCREEN_HEIGHT - WALL_HEIGHT, SCREEN_WIDTH, WALL_HEIGHT, textureLevel.wall)
-    private val scoreActor: Score = Score(0F, SCREEN_HEIGHT - 2 * SCORE_HEIGHT, SCORE_WIDTH, SCORE_HEIGHT, 0)
-    private val pauseButton: Button = ImageButton(
+    private val topWall: SimpleRectangle = SimpleRectangle(
+            0F,
+            0F,
+            SCREEN_WIDTH,
+            WALL_HEIGHT,
+            this.levelAssets.wall
+    )
+    private val bottomWall: SimpleRectangle = SimpleRectangle(
+            0F,
+            SCREEN_HEIGHT - WALL_HEIGHT,
+            SCREEN_WIDTH,
+            WALL_HEIGHT,
+            this.levelAssets.wall
+    )
+    private val scoreActor: Score = Score(
+            0F,
+            SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
+            SCORE_WIDTH,
+            SCORE_HEIGHT,
+            0
+    )
+    private val pauseButton: ImageButton = ImageButton(
             SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
             SCREEN_HEIGHT - 1.1F * PAUSE_BUTTON_HEIGHT,
             PAUSE_BUTTON_WIDTH,
             PAUSE_BUTTON_HEIGHT,
-            this.textureLevel.pauseButton
+            this.levelAssets.pauseButton
     )
-    private val resumeButton: Button = ImageButton(
+    private val resumeButton: ImageButton = ImageButton(
             SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH,
             SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
             RESUME_BUTTON_WIDTH,
             RESUME_BUTTON_HEIGHT,
-            this.textureLevel.playButton
+            this.levelAssets.playButton
     )
-    private val homeButton: Button = ImageButton(
+    private val homeButton: ImageButton = ImageButton(
             SCREEN_WIDTH / 2 + RESUME_BUTTON_WIDTH,
             SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
             HOME_BUTTON_HEIGHT,
-            this.textureLevel.notButton
+            this.levelAssets.notButton
     )
 
     init {
-        if (preferences.getBoolean(IS_SOUND_ENABLED)) {
-            flipSound = Gdx.audio.newSound(Gdx.files.internal("flip.wav"))
-            bonusSound = Gdx.audio.newSound(Gdx.files.internal("bonus.wav"))
-            deathSound = Gdx.audio.newSound(Gdx.files.internal("death.mp3"))
+        if (isSoundOn) {
+            flipSound = this.levelAssets.flipSound
+            bonusSound = this.levelAssets.bonusSound
+            deathSound = this.levelAssets.deathSound
         }
 
         pauseButton.addListener(object : ClickListener() {
@@ -100,8 +116,13 @@ class GameScreen(
         })
         homeButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                game.screen = StartScreen(this@GameScreen.game, this@GameScreen.bonusCount, this@GameScreen.highScore,
-                        this@GameScreen.isSoundOn, this@GameScreen.textureLevel)
+                game.screen = StartScreen(
+                        this@GameScreen.game,
+                        this@GameScreen.bonusCount,
+                        this@GameScreen.highScore,
+                        this@GameScreen.isSoundOn,
+                        this@GameScreen.levelAssets
+                )
             }
         })
         addBackgroundListener(object: InputListener() {
@@ -116,8 +137,8 @@ class GameScreen(
             override fun keyUp(event: InputEvent?, keycode: Int): Boolean {
                 if (gameState == PAUSE) return false
 
-                if (LEFT == keycode && hero.moveDirection == LEFT_DIRECTION ||
-                        RIGHT == keycode && hero.moveDirection == RIGHT_DIRECTION) hero.stop()
+                if (LEFT == keycode && hero.moveDirection == LEFT_DIRECTION
+                        || RIGHT == keycode && hero.moveDirection == RIGHT_DIRECTION) hero.stop()
                 return true
             }
 
@@ -137,14 +158,14 @@ class GameScreen(
             }
         })
 
-        addActors(Array.with(topWall, bottomWall, hero, enemyGroup, pauseButton, scoreActor))
+        addActors(Array.with(topWall, bottomWall, hero, pauseButton, scoreActor))
     }
 
-    override fun update(delta: Float) {
+    override fun act(delta: Float) {
         if (gameState == PAUSE) {
             return
         }
-        super.update(delta)
+        super.act(delta)
         scoreActor.addScore((delta * 1000).toInt())
     }
 
@@ -176,27 +197,31 @@ class GameScreen(
                 bonus = null
             }
         }
-        if (enemyGroup.isCollides(hero)) {
-            deathSound?.play()
-            game.screen = GameOverScreen(game, scoreActor.score, bonusCount, highScore, isSoundOn, textureLevel)
-        }
+        enemyGroup?.let {
+            if (it.isCollides(hero)) {
+                deathSound?.play()
+                game.screen = GameOverScreen(game, scoreActor.score, bonusCount, highScore, isSoundOn, levelAssets)
+            }
 
-        val first = enemyGroup.enemies.first()
-        val last = enemyGroup.enemies.last()
-        if ((first.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.x + first.width + ENEMY_RESPAWN_BORDER < 0) &&
-                (last.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.x + last.width + ENEMY_RESPAWN_BORDER < 0)) {
-            enemyGroup.enemies.clear()
-            enemyGroup.remove()
-            enemyGroup = generateEnemy()
-            addActor(enemyGroup)
+            val first = it.enemies.first()
+            val last = it.enemies.last()
+            if ((first.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.x + first.width + ENEMY_RESPAWN_BORDER < 0) &&
+                    (last.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.x + last.width + ENEMY_RESPAWN_BORDER < 0)) {
+                it.enemies.clear()
+                it.remove()
+                enemyGroup = null
+            }
+        }
+        if (enemyGroup == null) {
+            generateEnemy()
         }
     }
 
-    override fun screenDispose() {
+    override fun dispose() {
         flipSound?.dispose()
         bonusSound?.dispose()
         deathSound?.dispose()
-        enemyGroup.clear()
+        super.dispose()
     }
 
     private fun generateBonus() {
@@ -208,16 +233,19 @@ class GameScreen(
         if (hero.x > SCREEN_WIDTH / 2) {
             x /= 2
         }
-        bonus = BonusFactory.create(x, y, textureLevel.bonus, textureLevel.timer)
+        bonus = BonusFactory.create(x, y, levelAssets.bonus, levelAssets.timer)
         bonus?.let { addActor(it) }
     }
 
-    private fun generateEnemy() = EnemyGroupFactory.create(
-            random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
-            Math.pow(-1.0, (random.nextInt(2) + 1.0)).toByte(),
-            enemyVelocity,
-            textureLevel.enemy
-    )
+    private fun generateEnemy() {
+        enemyGroup = EnemyGroupFactory.create(
+                random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
+                Math.pow(-1.0, (random.nextInt(2) + 1.0)).toByte(),
+                enemyVelocity,
+                levelAssets.enemy
+        )
+        enemyGroup?.let { addActor(it) }
+    }
 
     private fun raiseEnemyVelocity() {
         if (enemyVelocity >= ENEMY_MAX_HORIZONTAL_VELOCITY) {

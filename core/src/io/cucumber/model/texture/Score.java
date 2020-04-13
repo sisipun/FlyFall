@@ -11,7 +11,7 @@ import io.cucumber.utils.helper.NumbersHelper;
 
 public class Score extends Actor<Rectangle> {
 
-    protected final Array<Texture> scoreTextures;
+    private final Array<Texture> scoreTextures;
     private final ScoreItemDrawer itemDrawer;
     private int score;
 
@@ -30,14 +30,10 @@ public class Score extends Actor<Rectangle> {
         }
     }
 
-    public void setScore(int score) {
-        this.score = score;
-        this.scoreTextures.clear();
-        this.scoreTextures.addAll(NumbersHelper.getTextures(score));
-    }
-
     public void addScore(int score) {
-        setScore(this.score + score);
+        this.score += score;
+        this.scoreTextures.clear();
+        this.scoreTextures.addAll(NumbersHelper.getTextures(this.score));
     }
 
     public int getScore() {
@@ -52,11 +48,11 @@ public class Score extends Actor<Rectangle> {
     }
 
     @Override
-    public void dispose() {
+    public boolean remove() {
         for (int i = 0; i < scoreTextures.size; i++) {
             scoreTextures.get(i).dispose();
         }
-        super.dispose();
+        return super.remove();
     }
 
     public enum ScoreItemAlign {

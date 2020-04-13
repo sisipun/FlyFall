@@ -38,7 +38,7 @@ public class GameConstants {
     public static final String PREFERENCE_NAME = "preferences";
     public static final String HIGH_SCORE = "high_score";
     public static final String BONUSES_COUNT = "bonuses_count";
-    public static final String IS_SOUND_ENABLED = "is_sound_enabled";
+    public static final String IS_SOUND_DISABLED = "is_sound_disabled";
     public static final String TEXTURE_LEVEL = "texture_level";
     public static final String IS_ACTIVE_PATTERN = "is_active_%d";
 
@@ -76,7 +76,6 @@ public class GameConstants {
 
     // Control
     public static final short MIN_FLING_DISTANCE = 100;
-    public static final short MAX_POINTERS_COUNT = 4;
 
     private GameConstants() {
     }

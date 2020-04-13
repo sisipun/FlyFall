@@ -17,8 +17,4 @@ public abstract class DynamicActor extends Actor<Circle> {
         this.velocity = new Vector2(horizontalVelocity, verticalVelocity);
         this.currentTexture = currentTexture;
     }
-
-    public boolean isCollides(DynamicActor actor) {
-        return overlaps(actor);
-    }
 }
