@@ -77,6 +77,10 @@ public class GameConstants {
     // Control
     public static final short MIN_FLING_DISTANCE = 100;
 
+    // Actions
+    public static final float ENEMY_ROTATION_ANGEL = 360f;
+    public static final float ENEMY_ROTATION_DURATION = 1f;
+
     private GameConstants() {
     }
 }

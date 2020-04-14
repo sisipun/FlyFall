@@ -11,6 +11,7 @@ public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.s
     public Actor(Bound2D<T> bound) {
         this.bound = bound;
         setBounds(bound.getX(), bound.getY(), bound.getWidth(), bound.getHeight());
+        setOrigin(getWidth()/ 2, getHeight() / 2);
     }
 
     public boolean isCollides(Actor<T> actor) {

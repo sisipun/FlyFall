@@ -1,7 +1,6 @@
 package io.cucumber.model.character;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 
 import io.cucumber.model.base.DynamicActor;
 
@@ -15,18 +14,8 @@ public class Enemy extends DynamicActor {
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.draw(
-                currentTexture,
-                getX(),
-                getY(),
-                getWidth(),
-                getHeight()
-        );
-    }
-
-    @Override
     public void act(float delta) {
+        super.act(delta);
         setX(getX() + velocity.x * -1 * orientation * delta);
     }
 }

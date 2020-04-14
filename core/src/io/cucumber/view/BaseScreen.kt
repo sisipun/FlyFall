@@ -6,7 +6,6 @@ import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -23,7 +22,6 @@ abstract class BaseScreen(
 ) : ScreenAdapter() {
 
     protected val preferences: Preferences = Gdx.app.getPreferences(PREFERENCE_NAME)
-    private val camera: OrthographicCamera = OrthographicCamera()
     private val logger: FPSLogger = FPSLogger()
     private val stage: Stage = Stage()
 
@@ -32,7 +30,6 @@ abstract class BaseScreen(
     private var background: Image = Image(this.levelAssets.background)
 
     init {
-        camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT)
         background.setBounds(0F, 0F, SCREEN_WIDTH, SCREEN_HEIGHT)
         addActor(background)
         stage.keyboardFocus = background
@@ -55,7 +52,7 @@ abstract class BaseScreen(
         }
     }
 
-    protected fun changeTextureLevel(levelAssets: LevelAssets) {
+    protected fun reloadLevelAssets(levelAssets: LevelAssets) {
         this.levelAssets.dispose()
         this.levelAssets = levelAssets
 
@@ -76,16 +73,18 @@ abstract class BaseScreen(
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         act(delta)
-        camera.update()
         stage.draw()
         stateCheck()
+        super.render(delta)
     }
 
     override fun resize(width: Int, height: Int) {
+        super.resize(width, height)
         stage.viewport.update(width, height, true)
     }
 
     override fun dispose() {
+        super.dispose()
         stage.actors.forEach { it.remove() }
         stage.clear()
     }

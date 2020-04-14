@@ -24,14 +24,8 @@ public class Bonus extends DynamicActor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
         float lifespanFactor = (BONUS_LIFESPAN - lifespan) / BONUS_LIFESPAN;
-        batch.draw(
-                currentTexture,
-                getX(),
-                getY(),
-                getWidth(),
-                getHeight()
-        );
         batch.draw(
                 timerTexture,
                 SCREEN_WIDTH / 2,
@@ -50,6 +44,7 @@ public class Bonus extends DynamicActor {
 
     @Override
     public void act(float delta) {
+        super.act(delta);
         lifespan -= delta * MILLIS_IN_SECOND;
     }
 

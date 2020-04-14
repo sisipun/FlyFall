@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.level.LevelAssets
-import io.cucumber.model.texture.Score
+import io.cucumber.model.component.Score
 import io.cucumber.utils.constant.GameConstants.*
 
 class GameOverScreen(

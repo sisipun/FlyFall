@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.button.SwitchImageButton
+import io.cucumber.model.component.Score
+import io.cucumber.model.component.Score.ScoreItemAlign.CENTER
 import io.cucumber.model.level.LevelAssets
-import io.cucumber.model.texture.Score
-import io.cucumber.model.texture.Score.ScoreItemAlign.CENTER
 import io.cucumber.utils.constant.GameConstants.*
 
 class StartScreen(
@@ -92,7 +92,7 @@ class StartScreen(
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 isSoundOn = !isSoundOn
                 soundOffButton.setSwitcher(isSoundOn)
-                preferences.putBoolean(IS_SOUND_DISABLED, isSoundOn)
+                preferences.putBoolean(IS_SOUND_DISABLED, !isSoundOn)
                 preferences.flush()
             }
         })

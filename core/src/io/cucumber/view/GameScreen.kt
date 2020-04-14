@@ -6,15 +6,17 @@ import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.character.Bonus
 import io.cucumber.model.character.EnemyGroup
 import io.cucumber.model.character.Hero
+import io.cucumber.model.component.Score
+import io.cucumber.model.component.SimpleRectangle
 import io.cucumber.model.level.LevelAssets
-import io.cucumber.model.texture.Score
-import io.cucumber.model.texture.SimpleRectangle
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
 import io.cucumber.utils.constant.GameConstants.*
@@ -244,7 +246,18 @@ class GameScreen(
                 enemyVelocity,
                 levelAssets.enemy
         )
-        enemyGroup?.let { addActor(it) }
+
+        enemyGroup?.let {
+            it.enemies.forEach { enemy ->
+                run {
+                    val action = RepeatAction()
+                    action.count = RepeatAction.FOREVER
+                    action.action = Actions.rotateBy(ENEMY_ROTATION_ANGEL, ENEMY_ROTATION_DURATION)
+                    enemy.addAction(action)
+                }
+            }
+            addActor(it)
+        }
     }
 
     private fun raiseEnemyVelocity() {

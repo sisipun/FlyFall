@@ -1,7 +1,6 @@
 package io.cucumber.model.character;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 
 import io.cucumber.model.base.DynamicActor;
 
@@ -22,18 +21,8 @@ public class Hero extends DynamicActor {
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.draw(
-                currentTexture,
-                getX(),
-                getY(),
-                getWidth(),
-                getHeight()
-        );
-    }
-
-    @Override
     public void act(float delta) {
+        super.act(delta);
         setY(getY() + velocity.y * delta);
         setX(getX() + velocity.x * delta * directionX);
     }
