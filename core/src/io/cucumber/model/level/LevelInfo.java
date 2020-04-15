@@ -20,6 +20,7 @@ public class LevelInfo {
     private final String flipSound;
     private final String bonusSound;
     private final String deathSound;
+    private final String titleFont;
     private final int cost;
     private final boolean starterPack;
 
@@ -27,7 +28,8 @@ public class LevelInfo {
                      String timer, String wall, String okButton, String playButton,
                      String chooseButton, String notButton, String soundOffButton,
                      String soundOnButton, String pauseButton, String buyButton,
-                     String flipSound, String bonusSound, String deathSound, int cost) {
+                     String flipSound, String bonusSound, String deathSound, String titleFont,
+                     int cost) {
         this.id = id;
         this.hero = hero;
         this.enemy = enemy;
@@ -46,6 +48,7 @@ public class LevelInfo {
         this.flipSound = flipSound;
         this.bonusSound = bonusSound;
         this.deathSound = deathSound;
+        this.titleFont = titleFont;
         this.cost = cost;
         this.starterPack = false;
     }
@@ -54,7 +57,7 @@ public class LevelInfo {
                      String timer, String wall, String okButton, String playButton,
                      String chooseButton, String notButton, String soundOffButton,
                      String soundOnButton, String pauseButton, String buyButton,
-                     String flipSound, String bonusSound, String deathSound) {
+                     String flipSound, String bonusSound, String deathSound, String titleFont) {
         this.id = id;
         this.hero = hero;
         this.enemy = enemy;
@@ -73,6 +76,7 @@ public class LevelInfo {
         this.flipSound = flipSound;
         this.bonusSound = bonusSound;
         this.deathSound = deathSound;
+        this.titleFont = titleFont;
         this.cost = 0;
         this.starterPack = true;
     }
@@ -148,6 +152,10 @@ public class LevelInfo {
 
     public String getDeathSound() {
         return deathSound;
+    }
+
+    public String getTitleFont() {
+        return titleFont;
     }
 
     public int getCost() {

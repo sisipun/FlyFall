@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
@@ -19,8 +20,9 @@ class ChooseLevelScreen(
         private var bonusCount: Int,
         private var highScore: Int,
         private val isSoundOn: Boolean,
-        levelAssets: LevelAssets
-) : BaseScreen(game, levelAssets) {
+        levelAssets: LevelAssets,
+        background: Image? = null
+) : BaseScreen(game, levelAssets, background) {
 
     // Actors
     private var homeButton: ImageButton? = null
@@ -82,7 +84,8 @@ class ChooseLevelScreen(
                         bonusCount,
                         highScore,
                         isSoundOn,
-                        levelAssets
+                        levelAssets,
+                        getBackground()
                 )
             }
         })
@@ -95,7 +98,9 @@ class ChooseLevelScreen(
                             game,
                             bonusCount,
                             highScore,
-                            isSoundOn
+                            isSoundOn,
+                            levelAssets,
+                            getBackground()
                     )
                 } else if (bonusCount >= levelAssets.cost) {
                     bonusCount -= levelAssets.cost

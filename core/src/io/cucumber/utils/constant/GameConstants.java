@@ -22,6 +22,8 @@ public class GameConstants {
     public static final float PAUSE_BUTTON_HEIGHT = 40f;
     public static final float RESUME_BUTTON_WIDTH = 80f;
     public static final float RESUME_BUTTON_HEIGHT = 80f;
+    public static final float RESTART_BUTTON_WIDTH = 80f;
+    public static final float RESTART_BUTTON_HEIGHT = 80f;
 
     // Enemy
     public static final float ENEMY_MIN_HORIZONTAL_VELOCITY = 400f;
@@ -80,6 +82,14 @@ public class GameConstants {
     // Actions
     public static final float ENEMY_ROTATION_ANGEL = 360f;
     public static final float ENEMY_ROTATION_DURATION = 1f;
+
+    // Texts
+    public static final String TITLE_LABEL_TEXT = "Fly Fall".toUpperCase();
+    public static final String PAUSE_LABEL_TEXT = "Pause".toUpperCase();
+    public static final String SCORE_LABEL_TEXT = "Score - ".toUpperCase();
+    public static final String HIGH_SCORE_LABEL_TEXT = "High score - ".toUpperCase();
+    public static final String BONUS_LABEL_TEXT = "Bonus - ".toUpperCase();
+
 
     private GameConstants() {
     }

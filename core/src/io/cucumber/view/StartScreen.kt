@@ -2,67 +2,83 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.button.SwitchImageButton
-import io.cucumber.model.component.Score
-import io.cucumber.model.component.Score.ScoreItemAlign.CENTER
+import io.cucumber.model.component.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.utils.constant.GameConstants.*
+
 
 class StartScreen(
         game: Game,
         bonusCount: Int? = null,
         highScore: Int? = null,
-        isSoundEnabled: Boolean? = null,
-        levelAssets: LevelAssets? = null
-) : BaseScreen(game, levelAssets) {
+        isSoundOn: Boolean? = null,
+        levelAssets: LevelAssets? = null,
+        background: Image? = null
+) : BaseScreen(game, levelAssets, background) {
 
     // Preferences
-    private var isSoundOn: Boolean = isSoundEnabled ?: !preferences.getBoolean(IS_SOUND_DISABLED)
+    private var isSoundOn: Boolean = isSoundOn ?: !preferences.getBoolean(IS_SOUND_DISABLED)
     private val highScore = highScore ?: preferences.getInteger(HIGH_SCORE)
     private val bonusCount = bonusCount ?: preferences.getInteger(BONUSES_COUNT)
 
     // Actors
-    private val highScoreActor: Score = Score(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
-            SCORE_WIDTH,
-            SCORE_HEIGHT,
-            this.highScore,
-            CENTER
+    private val highScoreActor: TextLabel = TextLabel(
+            SCREEN_WIDTH / 2 + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
+            4 * SCORE_HEIGHT,
+            this.highScore.toString(),
+            this.labelFont
     )
-    private val bonusesCountActor: Score = Score(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT - 4 * SCORE_HEIGHT,
-            SCORE_WIDTH,
-            SCORE_HEIGHT,
-            this.bonusCount,
-            CENTER
+    private val bonusCountActor: TextLabel = TextLabel(
+            SCREEN_WIDTH / 2  + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
+            2 * SCORE_HEIGHT,
+            this.bonusCount.toString(),
+            this.labelFont
     )
     private val startButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - START_GAME_BUTTON_WIDTH / 2,
+            SCREEN_WIDTH / 2 - START_GAME_BUTTON_WIDTH / 2 - 2 * START_GAME_BUTTON_WIDTH,
             SCREEN_HEIGHT / 2 - START_GAME_BUTTON_HEIGHT / 2,
             START_GAME_BUTTON_WIDTH,
             START_GAME_BUTTON_HEIGHT,
             this.levelAssets.playButton
     )
     private val chooseLevelButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - CHOOSE_LEVEL_BUTTON_WIDTH / 2,
-            SCREEN_HEIGHT / 2 - 4 * CHOOSE_LEVEL_BUTTON_HEIGHT / 2,
+            SCREEN_WIDTH / 2 - SOUND_OFF_BUTTON_WIDTH / 2,
+            SCREEN_HEIGHT / 2 - CHOOSE_LEVEL_BUTTON_HEIGHT / 2,
             CHOOSE_LEVEL_BUTTON_WIDTH,
             CHOOSE_LEVEL_BUTTON_HEIGHT,
             this.levelAssets.chooseButton
     )
     private val soundOffButton: SwitchImageButton = SwitchImageButton(
-            SCREEN_WIDTH / 2 - SOUND_OFF_BUTTON_WIDTH / 2,
-            SCREEN_HEIGHT / 2 - 7 * SOUND_OFF_BUTTON_HEIGHT / 2,
+            SCREEN_WIDTH / 2 - CHOOSE_LEVEL_BUTTON_WIDTH / 2 + 2 * CHOOSE_LEVEL_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2 - SOUND_OFF_BUTTON_HEIGHT / 2,
             SOUND_OFF_BUTTON_WIDTH,
             SOUND_OFF_BUTTON_HEIGHT,
             this.levelAssets.soundOffButton,
             this.levelAssets.soundOnButton,
-            isSoundOn
+            this.isSoundOn
+    )
+    private val title: TextLabel = TextLabel(
+            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 - SCREEN_WIDTH / 16,
+            SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4,
+            TITLE_LABEL_TEXT,
+            this.titleFont
+    )
+    private val highScoreLabel: TextLabel = TextLabel(
+            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 + SCREEN_WIDTH / 64,
+            4 * SCORE_HEIGHT,
+            HIGH_SCORE_LABEL_TEXT,
+            this.labelFont
+    )
+    private val bonusCountLabel: TextLabel = TextLabel(
+            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8  + SCREEN_WIDTH / 16 ,
+            2 * SCORE_HEIGHT,
+            BONUS_LABEL_TEXT,
+            this.labelFont
     )
 
     init {
@@ -73,7 +89,8 @@ class StartScreen(
                         this@StartScreen.bonusCount,
                         this@StartScreen.highScore,
                         this@StartScreen.isSoundOn,
-                        this@StartScreen.levelAssets
+                        this@StartScreen.levelAssets,
+                        this@StartScreen.getBackground()
                 )
             }
         })
@@ -84,19 +101,21 @@ class StartScreen(
                         this@StartScreen.bonusCount,
                         this@StartScreen.highScore,
                         this@StartScreen.isSoundOn,
-                        this@StartScreen.levelAssets
+                        this@StartScreen.levelAssets,
+                        this@StartScreen.getBackground()
                 )
             }
         })
         soundOffButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                isSoundOn = !isSoundOn
-                soundOffButton.setSwitcher(isSoundOn)
-                preferences.putBoolean(IS_SOUND_DISABLED, !isSoundOn)
+                this@StartScreen.isSoundOn = !this@StartScreen.isSoundOn
+                soundOffButton.setSwitcher(this@StartScreen.isSoundOn)
+                preferences.putBoolean(IS_SOUND_DISABLED, !this@StartScreen.isSoundOn)
                 preferences.flush()
             }
         })
 
-        addActors(Array.with(startButton, chooseLevelButton, soundOffButton, highScoreActor, bonusesCountActor))
+        addActors(Array.with(startButton, chooseLevelButton, soundOffButton, highScoreActor,
+                bonusCountActor, title, highScoreLabel, bonusCountLabel))
     }
 }

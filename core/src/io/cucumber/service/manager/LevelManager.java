@@ -11,36 +11,44 @@ import static io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME;
 
 public class LevelManager {
 
-    private static final int TEXTURE_LEVELS_COUNT = 4;
+    private static final int LEVEL_ASSETS_COUNT = 4;
     private static Preferences preferences = Gdx.app.getPreferences(PREFERENCE_NAME);
 
-    private static IntMap<LevelInfo> levels = new IntMap<LevelInfo>(TEXTURE_LEVELS_COUNT);
+    private static IntMap<LevelInfo> levels = new IntMap<LevelInfo>(LEVEL_ASSETS_COUNT);
+    private static IntMap<LevelAssets> levelAssets = new IntMap<LevelAssets>(LEVEL_ASSETS_COUNT);
 
     static {
-        levels.put(0, new LevelInfo(0, "hero.png", "enemy.png", "bonus.png", "white_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3"));
-        levels.put(1, new LevelInfo(1, "hero.png", "bonus.png", "enemy.png", "gray_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", 100));
-        levels.put(2, new LevelInfo(2, "bonus.png", "enemy.png", "hero.png", "timer.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", 150));
-        levels.put(3, new LevelInfo(3, "ghost_hero.png", "ghost_enemy.png", "ghost_bonus.png", "ghost_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", 200));
+        levels.put(0, new LevelInfo(0, "hero.png", "enemy.png", "bonus.png", "white_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", "title_font.ttf"));
+        levels.put(1, new LevelInfo(1, "hero.png", "bonus.png", "enemy.png", "gray_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", "title_font.ttf", 100));
+        levels.put(2, new LevelInfo(2, "bonus.png", "enemy.png", "hero.png", "timer.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", "title_font.ttf", 150));
+        levels.put(3, new LevelInfo(3, "ghost_hero.png", "ghost_enemy.png", "ghost_bonus.png", "ghost_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", "title_font.ttf", 200));
+    }
 
+    public static void loadLevels() {
         for (LevelInfo levelInfo : levels.values()) {
-            LevelAssets level = get(levelInfo.getId());
-            level.dispose();
+            LevelAssets level = new LevelAssets(levelInfo, isActive(levelInfo.getId()));
+            levelAssets.put(levelInfo.getId(), level);
+        }
+    }
+
+    public static void removeLevels() {
+        for (LevelAssets levelAsset : levelAssets.values()) {
+            levelAsset.dispose();
         }
     }
 
     public static LevelAssets get(int id) {
-        if (id >= TEXTURE_LEVELS_COUNT) {
+        if (id >= LEVEL_ASSETS_COUNT) {
             id = 0;
         }
 
-        LevelInfo levelInfo = levels.get(id);
-        return new LevelAssets(levelInfo, isActive(levelInfo.getId()));
+        return levelAssets.get(id);
     }
 
     public static LevelAssets getNext(LevelAssets current) {
         int nextId = current.getId() + 1;
 
-        if (nextId >= TEXTURE_LEVELS_COUNT) {
+        if (nextId >= LEVEL_ASSETS_COUNT) {
             nextId = 0;
         }
 
@@ -51,7 +59,7 @@ public class LevelManager {
         int previousId = current.getId() - 1;
 
         if (previousId < 0) {
-            previousId = TEXTURE_LEVELS_COUNT - 1;
+            previousId = LEVEL_ASSETS_COUNT - 1;
         }
         return get(previousId);
     }

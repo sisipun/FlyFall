@@ -24,6 +24,7 @@ public class LevelAssets {
     private final Sound flipSound;
     private final Sound bonusSound;
     private final Sound deathSound;
+    private final String titleFont;
     private final int cost;
     private boolean active;
 
@@ -46,6 +47,7 @@ public class LevelAssets {
         this.flipSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getFlipSound()));
         this.bonusSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getBonusSound()));
         this.deathSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getDeathSound()));
+        this.titleFont = levelInfo.getTitleFont();
         this.cost = levelInfo.getCost();
         this.active = levelInfo.isStarterPack() || active;
     }
@@ -63,6 +65,11 @@ public class LevelAssets {
         notButton.dispose();
         soundOffButton.dispose();
         soundOnButton.dispose();
+        pauseButton.dispose();
+        buyButton.dispose();
+        flipSound.dispose();
+        bonusSound.dispose();
+        deathSound.dispose();
     }
 
     public int getId() {
@@ -135,6 +142,10 @@ public class LevelAssets {
 
     public Sound getDeathSound() {
         return deathSound;
+    }
+
+    public String getTitleFont() {
+        return titleFont;
     }
 
     public int getCost() {

@@ -8,14 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.character.Bonus
 import io.cucumber.model.character.EnemyGroup
 import io.cucumber.model.character.Hero
-import io.cucumber.model.component.Score
+import io.cucumber.model.component.ScoreLabel
 import io.cucumber.model.component.SimpleRectangle
+import io.cucumber.model.component.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
@@ -29,8 +31,9 @@ class GameScreen(
         private var bonusCount: Int,
         private val highScore: Int,
         private val isSoundOn: Boolean,
-        levelAssets: LevelAssets
-) : BaseScreen(game, levelAssets) {
+        levelAssets: LevelAssets,
+        background: Image? = null
+) : BaseScreen(game, levelAssets, background) {
 
     // Screen
     private val random = Random()
@@ -67,12 +70,11 @@ class GameScreen(
             WALL_HEIGHT,
             this.levelAssets.wall
     )
-    private val scoreActor: Score = Score(
-            0F,
-            SCREEN_HEIGHT - 2 * SCORE_HEIGHT,
+    private val scoreActor: ScoreLabel = ScoreLabel(
             SCORE_WIDTH,
-            SCORE_HEIGHT,
-            0
+            SCREEN_HEIGHT - SCORE_HEIGHT,
+            0,
+            this.labelFont
     )
     private val pauseButton: ImageButton = ImageButton(
             SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
@@ -95,6 +97,12 @@ class GameScreen(
             HOME_BUTTON_HEIGHT,
             this.levelAssets.notButton
     )
+    private val pauseTitle: TextLabel = TextLabel(
+            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 10,
+            SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4,
+            PAUSE_LABEL_TEXT,
+            this.titleFont
+    )
 
     init {
         if (isSoundOn) {
@@ -106,7 +114,7 @@ class GameScreen(
         pauseButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 gameState = PAUSE
-                addActors(Array.with(resumeButton, homeButton))
+                addActors(Array.with(resumeButton, homeButton, pauseTitle))
             }
         })
         resumeButton.addListener(object : ClickListener() {
@@ -114,6 +122,7 @@ class GameScreen(
                 gameState = GAME
                 resumeButton.remove()
                 homeButton.remove()
+                pauseTitle.remove()
             }
         })
         homeButton.addListener(object : ClickListener() {
@@ -123,7 +132,8 @@ class GameScreen(
                         this@GameScreen.bonusCount,
                         this@GameScreen.highScore,
                         this@GameScreen.isSoundOn,
-                        this@GameScreen.levelAssets
+                        this@GameScreen.levelAssets,
+                        this@GameScreen.getBackground()
                 )
             }
         })
@@ -217,13 +227,6 @@ class GameScreen(
         if (enemyGroup == null) {
             generateEnemy()
         }
-    }
-
-    override fun dispose() {
-        flipSound?.dispose()
-        bonusSound?.dispose()
-        deathSound?.dispose()
-        super.dispose()
     }
 
     private fun generateBonus() {
