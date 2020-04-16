@@ -18,10 +18,10 @@ public class LevelManager {
     private static IntMap<LevelAssets> levelAssets = new IntMap<LevelAssets>(LEVEL_ASSETS_COUNT);
 
     static {
-        levels.put(0, new LevelInfo(0, "hero.png", "enemy.png", "bonus.png", "white_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", "title_font.ttf"));
-        levels.put(1, new LevelInfo(1, "hero.png", "bonus.png", "enemy.png", "gray_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", "title_font.ttf", 100));
-        levels.put(2, new LevelInfo(2, "bonus.png", "enemy.png", "hero.png", "timer.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", "title_font.ttf", 150));
-        levels.put(3, new LevelInfo(3, "ghost_hero.png", "ghost_enemy.png", "ghost_bonus.png", "ghost_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "flip.wav", "bonus.wav", "death.mp3", "title_font.ttf", 200));
+        levels.put(0, new LevelInfo(0, "hero.png", "enemy.png", "bonus.png", "white_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "left_button.png", "right_button.png", "flip.wav", "bonus.wav", "death.mp3"));
+        levels.put(1, new LevelInfo(1, "hero.png", "bonus.png", "enemy.png", "gray_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "left_button.png", "right_button.png","flip.wav", "bonus.wav", "death.mp3", 100));
+        levels.put(2, new LevelInfo(2, "bonus.png", "enemy.png", "hero.png", "timer.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "left_button.png", "right_button.png","flip.wav", "bonus.wav", "death.mp3", 150));
+        levels.put(3, new LevelInfo(3, "ghost_hero.png", "ghost_enemy.png", "ghost_bonus.png", "ghost_background.png", "timer.png", "wall.png", "ok_button.png", "play_button.png", "choose_button.png", "not_button.png", "sound_off_button.png", "sound_on_button.png", "pause_button.png", "buy_button.png", "left_button.png", "right_button.png","flip.wav", "bonus.wav", "death.mp3", 200));
     }
 
     public static void loadLevels() {
@@ -72,5 +72,8 @@ public class LevelManager {
 
     private static boolean isActive(int id) {
         return preferences.getBoolean(String.format(IS_ACTIVE_PATTERN, id));
+    }
+
+    private LevelManager() {
     }
 }

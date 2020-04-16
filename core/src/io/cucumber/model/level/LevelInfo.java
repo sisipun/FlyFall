@@ -17,18 +17,19 @@ public class LevelInfo {
     private final String soundOnButton;
     private final String pauseButton;
     private final String buyButton;
+    private final String leftButton;
+    private final String rightButton;
     private final String flipSound;
     private final String bonusSound;
     private final String deathSound;
-    private final String titleFont;
     private final int cost;
     private final boolean starterPack;
 
     public LevelInfo(int id, String hero, String enemy, String bonus, String background,
                      String timer, String wall, String okButton, String playButton,
                      String chooseButton, String notButton, String soundOffButton,
-                     String soundOnButton, String pauseButton, String buyButton,
-                     String flipSound, String bonusSound, String deathSound, String titleFont,
+                     String soundOnButton, String pauseButton, String buyButton, String leftButton,
+                     String rightButton, String flipSound, String bonusSound, String deathSound,
                      int cost) {
         this.id = id;
         this.hero = hero;
@@ -45,10 +46,11 @@ public class LevelInfo {
         this.soundOnButton = soundOnButton;
         this.pauseButton = pauseButton;
         this.buyButton = buyButton;
+        this.leftButton = leftButton;
+        this.rightButton = rightButton;
         this.flipSound = flipSound;
         this.bonusSound = bonusSound;
         this.deathSound = deathSound;
-        this.titleFont = titleFont;
         this.cost = cost;
         this.starterPack = false;
     }
@@ -56,8 +58,8 @@ public class LevelInfo {
     public LevelInfo(int id, String hero, String enemy, String bonus, String background,
                      String timer, String wall, String okButton, String playButton,
                      String chooseButton, String notButton, String soundOffButton,
-                     String soundOnButton, String pauseButton, String buyButton,
-                     String flipSound, String bonusSound, String deathSound, String titleFont) {
+                     String soundOnButton, String pauseButton, String buyButton, String leftButton,
+                     String rightButton, String flipSound, String bonusSound, String deathSound) {
         this.id = id;
         this.hero = hero;
         this.enemy = enemy;
@@ -73,14 +75,14 @@ public class LevelInfo {
         this.soundOnButton = soundOnButton;
         this.pauseButton = pauseButton;
         this.buyButton = buyButton;
+        this.leftButton = leftButton;
+        this.rightButton = rightButton;
         this.flipSound = flipSound;
         this.bonusSound = bonusSound;
         this.deathSound = deathSound;
-        this.titleFont = titleFont;
         this.cost = 0;
         this.starterPack = true;
     }
-
 
     public int getId() {
         return id;
@@ -142,6 +144,14 @@ public class LevelInfo {
         return buyButton;
     }
 
+    public String getLeftButton() {
+        return leftButton;
+    }
+
+    public String getRightButton() {
+        return rightButton;
+    }
+
     public String getFlipSound() {
         return flipSound;
     }
@@ -152,10 +162,6 @@ public class LevelInfo {
 
     public String getDeathSound() {
         return deathSound;
-    }
-
-    public String getTitleFont() {
-        return titleFont;
     }
 
     public int getCost() {

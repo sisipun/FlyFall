@@ -1,6 +1,5 @@
 package io.cucumber.view
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Input.Keys.LEFT
 import com.badlogic.gdx.Input.Keys.RIGHT
 import com.badlogic.gdx.audio.Sound
@@ -8,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
+import io.cucumber.Game
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.character.Bonus
 import io.cucumber.model.character.EnemyGroup
@@ -21,6 +20,9 @@ import io.cucumber.model.component.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
+import io.cucumber.service.manager.FontManager
+import io.cucumber.service.manager.FontManager.FontType.LABEL
+import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.utils.constant.GameConstants.*
 import io.cucumber.view.GameScreen.State.GAME
 import io.cucumber.view.GameScreen.State.PAUSE
@@ -31,9 +33,8 @@ class GameScreen(
         private var bonusCount: Int,
         private val highScore: Int,
         private val isSoundOn: Boolean,
-        levelAssets: LevelAssets,
-        background: Image? = null
-) : BaseScreen(game, levelAssets, background) {
+        levelAssets: LevelAssets
+) : BaseScreen(game, levelAssets) {
 
     // Screen
     private val random = Random()
@@ -74,7 +75,7 @@ class GameScreen(
             SCORE_WIDTH,
             SCREEN_HEIGHT - SCORE_HEIGHT,
             0,
-            this.labelFont
+            FontManager.get(LABEL)
     )
     private val pauseButton: ImageButton = ImageButton(
             SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
@@ -101,7 +102,7 @@ class GameScreen(
             SCREEN_WIDTH / 2 - SCREEN_WIDTH / 10,
             SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4,
             PAUSE_LABEL_TEXT,
-            this.titleFont
+            FontManager.get(TITLE)
     )
 
     init {
@@ -132,8 +133,7 @@ class GameScreen(
                         this@GameScreen.bonusCount,
                         this@GameScreen.highScore,
                         this@GameScreen.isSoundOn,
-                        this@GameScreen.levelAssets,
-                        this@GameScreen.getBackground()
+                        this@GameScreen.levelAssets
                 )
             }
         })

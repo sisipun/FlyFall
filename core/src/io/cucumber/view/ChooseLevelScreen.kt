@@ -1,13 +1,14 @@
 package io.cucumber.view
 
-import com.badlogic.gdx.Game
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
+import io.cucumber.Game
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.button.SwitchImageButton
 import io.cucumber.model.component.SimpleCircle
@@ -20,13 +21,14 @@ class ChooseLevelScreen(
         private var bonusCount: Int,
         private var highScore: Int,
         private val isSoundOn: Boolean,
-        levelAssets: LevelAssets,
-        background: Image? = null
-) : BaseScreen(game, levelAssets, background) {
+        levelAssets: LevelAssets
+) : BaseScreen(game, levelAssets) {
 
     // Actors
     private var homeButton: ImageButton? = null
     private var chooseButton: SwitchImageButton? = null
+    private var leftButton: ImageButton? = null
+    private var rightButton: ImageButton? = null
     private var hero: SimpleCircle? = null
     private var enemy: SimpleCircle? = null
     private var bonus: SimpleCircle? = null
@@ -58,6 +60,20 @@ class ChooseLevelScreen(
                 this.levelAssets.buyButton,
                 this.levelAssets.isActive
         )
+        leftButton = ImageButton(
+                CHOOSE_BUTTON_WIDTH,
+                SCREEN_HEIGHT / 2 - CHOOSE_BUTTON_HEIGHT / 2,
+                CHOOSE_BUTTON_WIDTH,
+                CHOOSE_BUTTON_HEIGHT,
+                this.levelAssets.leftButton
+        )
+        rightButton = ImageButton(
+                SCREEN_WIDTH - 2 * CHOOSE_BUTTON_WIDTH,
+                SCREEN_HEIGHT / 2 - CHOOSE_BUTTON_HEIGHT / 2,
+                CHOOSE_BUTTON_WIDTH,
+                CHOOSE_BUTTON_HEIGHT,
+                this.levelAssets.rightButton
+        )
         hero = SimpleCircle(
                 SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 + HERO_SIZE / 4,
                 SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4 - HERO_SIZE / 4,
@@ -79,51 +95,62 @@ class ChooseLevelScreen(
 
         homeButton?.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                clearStage()
                 game.screen = StartScreen(
                         game,
                         bonusCount,
                         highScore,
-                        isSoundOn,
-                        levelAssets,
-                        getBackground()
+                        isSoundOn
                 )
             }
         })
         chooseButton?.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 if (levelAssets.isActive) {
-                    preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
-                    preferences.flush()
+                    game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
+                    game.preferences.flush()
                     game.screen = StartScreen(
                             game,
                             bonusCount,
                             highScore,
                             isSoundOn,
-                            levelAssets,
-                            getBackground()
+                            levelAssets
                     )
                 } else if (bonusCount >= levelAssets.cost) {
                     bonusCount -= levelAssets.cost
-                    preferences.putInteger(BONUSES_COUNT, bonusCount)
-                    preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
+                    game.preferences.putInteger(BONUSES_COUNT, bonusCount)
+                    game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
                     LevelManager.activate(levelAssets.id)
-                    preferences.flush()
+                    game.preferences.flush()
                     chooseButton?.setSwitcher(levelAssets.isActive)
                 }
+            }
+        })
+        leftButton?.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                setPreviousLevel()
+            }
+        })
+        rightButton?.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                setNextLevel()
             }
         })
         addBackgroundListener(object : ActorGestureListener() {
             override fun fling(event: InputEvent?, velocityX: Float, velocityY: Float, button: Int) {
                 if (velocityX > MIN_FLING_DISTANCE) {
-                    reloadLevelAssets(LevelManager.getPrevious(levelAssets))
-                    chooseButton?.setSwitcher(levelAssets.isActive)
-                    reloadButtons()
+                    setPreviousLevel()
                 }
                 if (velocityX < -1 * MIN_FLING_DISTANCE) {
-                    reloadLevelAssets(LevelManager.getNext(levelAssets))
-                    chooseButton?.setSwitcher(levelAssets.isActive)
-                    reloadButtons()
+                    setNextLevel()
                 }
+            }
+        })
+        addBackgroundListener(object: InputListener() {
+            override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
+                if (Input.Keys.LEFT == keycode) setPreviousLevel()
+                if (Input.Keys.RIGHT == keycode) setNextLevel()
+                return true
             }
         })
 
@@ -132,6 +159,18 @@ class ChooseLevelScreen(
         action.action = Actions.rotateBy(ENEMY_ROTATION_ANGEL, ENEMY_ROTATION_DURATION)
         enemy?.addAction(action)
 
-        addActors(Array.with(homeButton, chooseButton, hero, enemy, bonus))
+        addActors(Array.with(homeButton, chooseButton, leftButton, rightButton, hero, enemy, bonus))
+    }
+
+    private fun setPreviousLevel() {
+        reloadLevelAssets(LevelManager.getPrevious(levelAssets))
+        chooseButton?.setSwitcher(levelAssets.isActive)
+        reloadButtons()
+    }
+
+    private fun setNextLevel() {
+        reloadLevelAssets(LevelManager.getNext(levelAssets))
+        chooseButton?.setSwitcher(levelAssets.isActive)
+        reloadButtons()
     }
 }

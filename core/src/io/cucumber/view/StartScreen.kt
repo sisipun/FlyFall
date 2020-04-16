@@ -1,14 +1,16 @@
 package io.cucumber.view
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
+import io.cucumber.Game
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.button.SwitchImageButton
 import io.cucumber.model.component.TextLabel
 import io.cucumber.model.level.LevelAssets
+import io.cucumber.service.manager.FontManager
+import io.cucumber.service.manager.FontManager.FontType.LABEL
+import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.utils.constant.GameConstants.*
 
 
@@ -17,27 +19,26 @@ class StartScreen(
         bonusCount: Int? = null,
         highScore: Int? = null,
         isSoundOn: Boolean? = null,
-        levelAssets: LevelAssets? = null,
-        background: Image? = null
-) : BaseScreen(game, levelAssets, background) {
+        levelAssets: LevelAssets? = null
+) : BaseScreen(game, levelAssets) {
 
     // Preferences
-    private var isSoundOn: Boolean = isSoundOn ?: !preferences.getBoolean(IS_SOUND_DISABLED)
-    private val highScore = highScore ?: preferences.getInteger(HIGH_SCORE)
-    private val bonusCount = bonusCount ?: preferences.getInteger(BONUSES_COUNT)
+    private var isSoundOn: Boolean = isSoundOn ?: !game.preferences.getBoolean(IS_SOUND_DISABLED)
+    private val highScore = highScore ?: game.preferences.getInteger(HIGH_SCORE)
+    private val bonusCount = bonusCount ?: game.preferences.getInteger(BONUSES_COUNT)
 
     // Actors
     private val highScoreActor: TextLabel = TextLabel(
             SCREEN_WIDTH / 2 + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
             4 * SCORE_HEIGHT,
             this.highScore.toString(),
-            this.labelFont
+            FontManager.get(LABEL)
     )
     private val bonusCountActor: TextLabel = TextLabel(
             SCREEN_WIDTH / 2  + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
             2 * SCORE_HEIGHT,
             this.bonusCount.toString(),
-            this.labelFont
+            FontManager.get(LABEL)
     )
     private val startButton: ImageButton = ImageButton(
             SCREEN_WIDTH / 2 - START_GAME_BUTTON_WIDTH / 2 - 2 * START_GAME_BUTTON_WIDTH,
@@ -66,19 +67,19 @@ class StartScreen(
             SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 - SCREEN_WIDTH / 16,
             SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4,
             TITLE_LABEL_TEXT,
-            this.titleFont
+            FontManager.get(TITLE)
     )
     private val highScoreLabel: TextLabel = TextLabel(
             SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 + SCREEN_WIDTH / 64,
             4 * SCORE_HEIGHT,
             HIGH_SCORE_LABEL_TEXT,
-            this.labelFont
+            FontManager.get(LABEL)
     )
     private val bonusCountLabel: TextLabel = TextLabel(
             SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8  + SCREEN_WIDTH / 16 ,
             2 * SCORE_HEIGHT,
             BONUS_LABEL_TEXT,
-            this.labelFont
+            FontManager.get(LABEL)
     )
 
     init {
@@ -89,8 +90,7 @@ class StartScreen(
                         this@StartScreen.bonusCount,
                         this@StartScreen.highScore,
                         this@StartScreen.isSoundOn,
-                        this@StartScreen.levelAssets,
-                        this@StartScreen.getBackground()
+                        this@StartScreen.levelAssets
                 )
             }
         })
@@ -101,8 +101,7 @@ class StartScreen(
                         this@StartScreen.bonusCount,
                         this@StartScreen.highScore,
                         this@StartScreen.isSoundOn,
-                        this@StartScreen.levelAssets,
-                        this@StartScreen.getBackground()
+                        this@StartScreen.levelAssets
                 )
             }
         })
@@ -110,8 +109,8 @@ class StartScreen(
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 this@StartScreen.isSoundOn = !this@StartScreen.isSoundOn
                 soundOffButton.setSwitcher(this@StartScreen.isSoundOn)
-                preferences.putBoolean(IS_SOUND_DISABLED, !this@StartScreen.isSoundOn)
-                preferences.flush()
+                game.preferences.putBoolean(IS_SOUND_DISABLED, !this@StartScreen.isSoundOn)
+                game.preferences.flush()
             }
         })
 

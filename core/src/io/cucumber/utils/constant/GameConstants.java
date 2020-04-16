@@ -90,6 +90,8 @@ public class GameConstants {
     public static final String HIGH_SCORE_LABEL_TEXT = "High score - ".toUpperCase();
     public static final String BONUS_LABEL_TEXT = "Bonus - ".toUpperCase();
 
+    // Actor names
+    public static final String BACKGROUND_NAME = "Background";
 
     private GameConstants() {
     }

@@ -21,10 +21,11 @@ public class LevelAssets {
     private final Texture soundOnButton;
     private final Texture pauseButton;
     private final Texture buyButton;
+    private final Texture leftButton;
+    private final Texture rightButton;
     private final Sound flipSound;
     private final Sound bonusSound;
     private final Sound deathSound;
-    private final String titleFont;
     private final int cost;
     private boolean active;
 
@@ -44,10 +45,11 @@ public class LevelAssets {
         this.soundOnButton = new Texture(levelInfo.getSoundOnButton());
         this.pauseButton = new Texture(levelInfo.getPauseButton());
         this.buyButton = new Texture(levelInfo.getBuyButton());
+        this.leftButton = new Texture(levelInfo.getLeftButton());
+        this.rightButton = new Texture(levelInfo.getRightButton());
         this.flipSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getFlipSound()));
         this.bonusSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getBonusSound()));
         this.deathSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getDeathSound()));
-        this.titleFont = levelInfo.getTitleFont();
         this.cost = levelInfo.getCost();
         this.active = levelInfo.isStarterPack() || active;
     }
@@ -132,6 +134,14 @@ public class LevelAssets {
         return buyButton;
     }
 
+    public Texture getLeftButton() {
+        return leftButton;
+    }
+
+    public Texture getRightButton() {
+        return rightButton;
+    }
+
     public Sound getFlipSound() {
         return flipSound;
     }
@@ -142,10 +152,6 @@ public class LevelAssets {
 
     public Sound getDeathSound() {
         return deathSound;
-    }
-
-    public String getTitleFont() {
-        return titleFont;
     }
 
     public int getCost() {
