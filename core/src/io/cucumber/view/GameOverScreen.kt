@@ -1,6 +1,9 @@
 package io.cucumber.view
 
+import com.badlogic.gdx.Input.Keys.ENTER
+import com.badlogic.gdx.Input.Keys.ESCAPE
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
@@ -85,28 +88,43 @@ class GameOverScreen(
 
         homeButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                game.screen = StartScreen(
-                        this@GameOverScreen.game,
-                        this@GameOverScreen.bonusCount,
-                        this@GameOverScreen.highScore,
-                        this@GameOverScreen.isSoundOn,
-                        this@GameOverScreen.levelAssets
-                )
+                home()
             }
         })
         restartButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                game.screen = GameScreen(
-                        this@GameOverScreen.game,
-                        this@GameOverScreen.bonusCount,
-                        this@GameOverScreen.highScore,
-                        this@GameOverScreen.isSoundOn,
-                        this@GameOverScreen.levelAssets
-                )
+                restart()
+            }
+        })
+        addBackgroundListener(object: InputListener() {
+            override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
+                if (ENTER == keycode) restart()
+                if (ESCAPE == keycode) home()
+                return true
             }
         })
 
         addActors(Array.with(homeButton, restartButton, scoreActor, highScoreActor,
                 bonusesCountActor, scoreLabel, highScoreLabel, bonusCountLabel))
+    }
+
+    private fun restart() {
+        game.screen = GameScreen(
+                this.game,
+                this.bonusCount,
+                this.highScore,
+                this.isSoundOn,
+                this.levelAssets
+        )
+    }
+
+    private fun home() {
+        game.screen = StartScreen(
+                this.game,
+                this.bonusCount,
+                this.highScore,
+                this.isSoundOn,
+                this.levelAssets
+        )
     }
 }

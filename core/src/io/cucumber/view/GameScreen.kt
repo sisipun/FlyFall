@@ -1,7 +1,6 @@
 package io.cucumber.view
 
-import com.badlogic.gdx.Input.Keys.LEFT
-import com.badlogic.gdx.Input.Keys.RIGHT
+import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
@@ -114,51 +113,41 @@ class GameScreen(
 
         pauseButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                gameState = PAUSE
-                addActors(Array.with(resumeButton, homeButton, pauseTitle))
+                pauseGame()
             }
         })
         resumeButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                gameState = GAME
-                resumeButton.remove()
-                homeButton.remove()
-                pauseTitle.remove()
+                resumeGame()
             }
         })
         homeButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                game.screen = StartScreen(
-                        this@GameScreen.game,
-                        this@GameScreen.bonusCount,
-                        this@GameScreen.highScore,
-                        this@GameScreen.isSoundOn,
-                        this@GameScreen.levelAssets
-                )
+                home()
             }
         })
         addBackgroundListener(object: InputListener() {
             override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
-                if (gameState == PAUSE) return false
-
-                if (LEFT == keycode && hero.x > 0) hero.moveLeft()
-                if (RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                if (gameState == GAME && ESCAPE == keycode) pauseGame()
+                else if (gameState == PAUSE && ESCAPE == keycode) home()
+                else if (gameState == PAUSE && ENTER == keycode) resumeGame()
+                else if (gameState == PAUSE) return false
+                else if (LEFT == keycode && hero.x > 0) hero.moveLeft()
+                else if (RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
                 return true
             }
 
             override fun keyUp(event: InputEvent?, keycode: Int): Boolean {
                 if (gameState == PAUSE) return false
-
-                if (LEFT == keycode && hero.moveDirection == LEFT_DIRECTION
+                else if (LEFT == keycode && hero.moveDirection == LEFT_DIRECTION
                         || RIGHT == keycode && hero.moveDirection == RIGHT_DIRECTION) hero.stop()
                 return true
             }
 
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 if (gameState == PAUSE) return false
-
-                if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.moveLeft()
-                if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.moveLeft()
+                else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
 
                 return true
             }
@@ -185,13 +174,13 @@ class GameScreen(
         if (gameState == PAUSE) {
             return
         }
-        if (hero.y + hero.height + WALL_HEIGHT >= SCREEN_HEIGHT) {
-            hero.setDirectionY(DOWN_DIRECTION)
+        if (hero.y + hero.height + WALL_HEIGHT >= SCREEN_HEIGHT && hero.directionY == UP_DIRECTION) {
+            hero.directionY = DOWN_DIRECTION
             generateBonus()
             raiseEnemyVelocity()
             flipSound?.play()
-        } else if (hero.y - WALL_HEIGHT <= 0) {
-            hero.setDirectionY(UP_DIRECTION)
+        } else if (hero.y - WALL_HEIGHT <= 0 && hero.directionY == DOWN_DIRECTION) {
+            hero.directionY = UP_DIRECTION
             generateBonus()
             raiseEnemyVelocity()
             flipSound?.play()
@@ -227,6 +216,28 @@ class GameScreen(
         if (enemyGroup == null) {
             generateEnemy()
         }
+    }
+
+    private fun pauseGame() {
+        gameState = PAUSE
+        addActors(Array.with(resumeButton, homeButton, pauseTitle))
+    }
+
+    private fun resumeGame() {
+        gameState = GAME
+        resumeButton.remove()
+        homeButton.remove()
+        pauseTitle.remove()
+    }
+
+    private fun home() {
+        game.screen = StartScreen(
+                this.game,
+                this.bonusCount,
+                this.highScore,
+                this.isSoundOn,
+                this.levelAssets
+        )
     }
 
     private fun generateBonus() {

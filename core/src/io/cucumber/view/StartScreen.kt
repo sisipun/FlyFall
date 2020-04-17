@@ -1,6 +1,8 @@
 package io.cucumber.view
 
+import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
@@ -85,36 +87,56 @@ class StartScreen(
     init {
         startButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                game.screen = GameScreen(
-                        this@StartScreen.game,
-                        this@StartScreen.bonusCount,
-                        this@StartScreen.highScore,
-                        this@StartScreen.isSoundOn,
-                        this@StartScreen.levelAssets
-                )
+                play()
             }
         })
         chooseLevelButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                game.screen = ChooseLevelScreen(
-                        this@StartScreen.game,
-                        this@StartScreen.bonusCount,
-                        this@StartScreen.highScore,
-                        this@StartScreen.isSoundOn,
-                        this@StartScreen.levelAssets
-                )
+                changeLevel()
             }
         })
         soundOffButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                this@StartScreen.isSoundOn = !this@StartScreen.isSoundOn
-                soundOffButton.setSwitcher(this@StartScreen.isSoundOn)
-                game.preferences.putBoolean(IS_SOUND_DISABLED, !this@StartScreen.isSoundOn)
-                game.preferences.flush()
+                changeSound()
+            }
+        })
+        addBackgroundListener(object: InputListener() {
+            override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
+                if (ENTER == keycode) play()
+                if (R == keycode) changeLevel()
+                if (M == keycode) changeSound()
+                return true
             }
         })
 
         addActors(Array.with(startButton, chooseLevelButton, soundOffButton, highScoreActor,
                 bonusCountActor, title, highScoreLabel, bonusCountLabel))
+    }
+
+    private fun play() {
+        game.screen = GameScreen(
+                this.game,
+                this.bonusCount,
+                this.highScore,
+                this.isSoundOn,
+                this.levelAssets
+        )
+    }
+
+    private fun changeLevel() {
+        game.screen = ChooseLevelScreen(
+                this.game,
+                this.bonusCount,
+                this.highScore,
+                this.isSoundOn,
+                this.levelAssets
+        )
+    }
+
+    private fun changeSound() {
+        this.isSoundOn = !this.isSoundOn
+        soundOffButton.setSwitcher(this.isSoundOn)
+        game.preferences.putBoolean(IS_SOUND_DISABLED, !this.isSoundOn)
+        game.preferences.flush()
     }
 }

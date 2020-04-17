@@ -23,9 +23,8 @@ abstract class BaseScreen(
     private var background: Image = Image(this.levelAssets.background)
 
     init {
-        clearStage()
+        game.stage.clear()
         this.background.setBounds(0F, 0F, SCREEN_WIDTH, SCREEN_HEIGHT)
-        this.background.name = BACKGROUND_NAME
         addActor(this.background)
         game.stage.keyboardFocus = this.background
     }
@@ -66,19 +65,10 @@ abstract class BaseScreen(
         this.levelAssets = levelAssets
         this.background = Image(levelAssets.background)
         this.background.setBounds(0F, 0F, SCREEN_WIDTH, SCREEN_HEIGHT)
-        this.background.name = BACKGROUND_NAME
         game.stage.actors[0] = this.background
     }
 
     protected fun addBackgroundListener(listener: EventListener) {
         background.addListener(listener)
-    }
-
-    protected fun clearStage() {
-        game.stage.clear()
-    }
-
-    protected fun clearStage(exceptActorNames: Array<String>) {
-        game.stage.actors.filter { !exceptActorNames.contains(it.name) }.forEach { it.remove() }
     }
 }

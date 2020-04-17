@@ -8,14 +8,16 @@ import io.cucumber.model.font.FontInfo;
 import io.cucumber.model.font.FontParams;
 import io.cucumber.utils.helper.FontHelper;
 
+import static io.cucumber.utils.constant.GameConstants.DEFAULT_FONT;
+
 public class FontManager {
 
     private static IntMap<FontInfo> fontsInfo = new IntMap<FontInfo>(FontType.values().length);
     private static IntMap<BitmapFont> fonts = new IntMap<BitmapFont>(FontType.values().length);
 
     static {
-        fontsInfo.put(FontType.TITLE.ordinal(), new FontInfo(FontType.TITLE.ordinal(), "title_font.ttf", new FontParams(50, Color.GOLD)));
-        fontsInfo.put(FontType.LABEL.ordinal(), new FontInfo(FontType.LABEL.ordinal(), "title_font.ttf", new FontParams(10, Color.GOLD)));
+        fontsInfo.put(FontType.TITLE.ordinal(), new FontInfo(FontType.TITLE.ordinal(), DEFAULT_FONT, new FontParams(50, Color.GOLD)));
+        fontsInfo.put(FontType.LABEL.ordinal(), new FontInfo(FontType.LABEL.ordinal(), DEFAULT_FONT, new FontParams(10, Color.GOLD)));
     }
 
     public static void loadFonts() {

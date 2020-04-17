@@ -43,6 +43,10 @@ public class Hero extends DynamicActor {
         return directionX;
     }
 
+    public byte getDirectionY() {
+        return directionY;
+    }
+
     public void setDirectionY(byte directionY) {
         if (this.directionY != directionY) {
             velocity.y = velocity.y * -1;

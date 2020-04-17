@@ -1,6 +1,6 @@
 package io.cucumber.view
 
-import com.badlogic.gdx.Input
+import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -95,35 +95,12 @@ class ChooseLevelScreen(
 
         homeButton?.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                clearStage()
-                game.screen = StartScreen(
-                        game,
-                        bonusCount,
-                        highScore,
-                        isSoundOn
-                )
+                back()
             }
         })
         chooseButton?.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                if (levelAssets.isActive) {
-                    game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
-                    game.preferences.flush()
-                    game.screen = StartScreen(
-                            game,
-                            bonusCount,
-                            highScore,
-                            isSoundOn,
-                            levelAssets
-                    )
-                } else if (bonusCount >= levelAssets.cost) {
-                    bonusCount -= levelAssets.cost
-                    game.preferences.putInteger(BONUSES_COUNT, bonusCount)
-                    game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
-                    LevelManager.activate(levelAssets.id)
-                    game.preferences.flush()
-                    chooseButton?.setSwitcher(levelAssets.isActive)
-                }
+                chooseLevel()
             }
         })
         leftButton?.addListener(object : ClickListener() {
@@ -148,8 +125,10 @@ class ChooseLevelScreen(
         })
         addBackgroundListener(object: InputListener() {
             override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
-                if (Input.Keys.LEFT == keycode) setPreviousLevel()
-                if (Input.Keys.RIGHT == keycode) setNextLevel()
+                if (LEFT == keycode) setPreviousLevel()
+                if (RIGHT == keycode) setNextLevel()
+                if (ENTER == keycode) chooseLevel()
+                if (ESCAPE == keycode) back()
                 return true
             }
         })
@@ -172,5 +151,35 @@ class ChooseLevelScreen(
         reloadLevelAssets(LevelManager.getNext(levelAssets))
         chooseButton?.setSwitcher(levelAssets.isActive)
         reloadButtons()
+    }
+
+    private fun chooseLevel() {
+        if (levelAssets.isActive) {
+            game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
+            game.preferences.flush()
+            game.screen = StartScreen(
+                    game,
+                    bonusCount,
+                    highScore,
+                    isSoundOn,
+                    levelAssets
+            )
+        } else if (bonusCount >= levelAssets.cost) {
+            bonusCount -= levelAssets.cost
+            game.preferences.putInteger(BONUSES_COUNT, bonusCount)
+            game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
+            LevelManager.activate(levelAssets.id)
+            game.preferences.flush()
+            chooseButton?.setSwitcher(levelAssets.isActive)
+        }
+    }
+
+    private fun back() {
+        game.screen = StartScreen(
+                game,
+                bonusCount,
+                highScore,
+                isSoundOn
+        )
     }
 }
