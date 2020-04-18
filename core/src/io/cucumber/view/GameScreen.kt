@@ -132,15 +132,17 @@ class GameScreen(
                 else if (gameState == PAUSE && ESCAPE == keycode) home()
                 else if (gameState == PAUSE && ENTER == keycode) resumeGame()
                 else if (gameState == PAUSE) return false
-                else if (LEFT == keycode && hero.x > 0) hero.moveLeft()
-                else if (RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+
+                if (LEFT == keycode && hero.x > 0) hero.moveLeft()
+                if (RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
                 return true
             }
 
             override fun keyUp(event: InputEvent?, keycode: Int): Boolean {
                 if (gameState == PAUSE) return false
-                else if (LEFT == keycode && hero.moveDirection == LEFT_DIRECTION
-                        || RIGHT == keycode && hero.moveDirection == RIGHT_DIRECTION) hero.stop()
+
+                if (LEFT == keycode) hero.stopLeft()
+                if (RIGHT == keycode) hero.stopRight()
                 return true
             }
 
@@ -155,7 +157,8 @@ class GameScreen(
             override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
                 if (gameState == PAUSE) return
 
-                hero.stop()
+                else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.stopLeft()
+                else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.stopRight()
             }
         })
 
@@ -184,6 +187,12 @@ class GameScreen(
             generateBonus()
             raiseEnemyVelocity()
             flipSound?.play()
+        }
+
+        if (hero.x < 0) {
+            hero.stopLeft()
+        } else if (hero.x + hero.width > SCREEN_WIDTH) {
+            hero.stopRight()
         }
 
         bonus?.let {

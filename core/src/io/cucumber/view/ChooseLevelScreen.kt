@@ -12,7 +12,10 @@ import io.cucumber.Game
 import io.cucumber.model.button.ImageButton
 import io.cucumber.model.button.SwitchImageButton
 import io.cucumber.model.component.SimpleCircle
+import io.cucumber.model.component.TextLabel
 import io.cucumber.model.level.LevelAssets
+import io.cucumber.service.manager.FontManager
+import io.cucumber.service.manager.FontManager.FontType.COST
 import io.cucumber.service.manager.LevelManager
 import io.cucumber.utils.constant.GameConstants.*
 
@@ -32,6 +35,8 @@ class ChooseLevelScreen(
     private var hero: SimpleCircle? = null
     private var enemy: SimpleCircle? = null
     private var bonus: SimpleCircle? = null
+    private var costActor: TextLabel? = null
+    private var costLabel: TextLabel? = null
 
     init {
         reloadButtons()
@@ -40,9 +45,13 @@ class ChooseLevelScreen(
     private fun reloadButtons() {
         homeButton?.remove()
         chooseButton?.remove()
+        leftButton?.remove()
+        rightButton?.remove()
         hero?.remove()
         enemy?.remove()
         bonus?.remove()
+        costActor?.remove()
+        costLabel?.remove()
 
         homeButton = ImageButton(
                 SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
@@ -92,7 +101,6 @@ class ChooseLevelScreen(
                 BONUS_SIZE / 2,
                 this.levelAssets.bonus
         )
-
         homeButton?.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 back()
@@ -139,6 +147,22 @@ class ChooseLevelScreen(
         enemy?.addAction(action)
 
         addActors(Array.with(homeButton, chooseButton, leftButton, rightButton, hero, enemy, bonus))
+
+        if (!levelAssets.isActive) {
+            costActor = TextLabel(
+                    SCREEN_WIDTH / 2 + SCREEN_WIDTH / 16 + SCREEN_WIDTH / 32,
+                    SCREEN_HEIGHT - 6 * SCORE_HEIGHT,
+                    this.levelAssets.cost.toString(),
+                    FontManager.get(COST)
+            )
+            costLabel = TextLabel(
+                    SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 + SCREEN_WIDTH / 32,
+                    SCREEN_HEIGHT - 6 * SCORE_HEIGHT,
+                    COST_LABEL_TEXT,
+                    FontManager.get(COST)
+            )
+            addActors(Array.with(costActor, costLabel))
+        }
     }
 
     private fun setPreviousLevel() {
@@ -171,6 +195,8 @@ class ChooseLevelScreen(
             LevelManager.activate(levelAssets.id)
             game.preferences.flush()
             chooseButton?.setSwitcher(levelAssets.isActive)
+            costActor?.remove()
+            costLabel?.remove()
         }
     }
 

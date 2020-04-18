@@ -41,7 +41,6 @@ public class GameConstants {
     public static final String HIGH_SCORE = "high_score";
     public static final String BONUSES_COUNT = "bonuses_count";
     public static final String IS_SOUND_DISABLED = "is_sound_disabled";
-    public static final String IS_ACCEL_ENABLED = "is_accel_disabled";
     public static final String TEXTURE_LEVEL = "texture_level";
     public static final String IS_ACTIVE_PATTERN = "is_active_%d";
 
@@ -91,6 +90,7 @@ public class GameConstants {
     public static final String SCORE_LABEL_TEXT = "Score - ".toUpperCase();
     public static final String HIGH_SCORE_LABEL_TEXT = "High score - ".toUpperCase();
     public static final String BONUS_LABEL_TEXT = "Bonus - ".toUpperCase();
+    public static final String COST_LABEL_TEXT = "Cost - ".toUpperCase();
 
     // Assets
     public static final String DEFAULT_FONT = "font.ttf";

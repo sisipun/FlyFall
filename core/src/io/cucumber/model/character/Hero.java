@@ -13,11 +13,13 @@ public class Hero extends DynamicActor {
 
     private byte directionY;
     private byte directionX;
+    private byte previousDirectionX;
 
     public Hero(float x, float y, float size, float horizontalVelocity, float verticalVelocity, Texture texture) {
         super(x, y, size, horizontalVelocity, verticalVelocity, texture);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
+        this.previousDirectionX = NOT_MOVE;
     }
 
     @Override
@@ -28,19 +30,41 @@ public class Hero extends DynamicActor {
     }
 
     public void moveLeft() {
+        this.previousDirectionX = this.directionX;
         this.directionX = LEFT_DIRECTION;
     }
 
     public void moveRight() {
+        this.previousDirectionX = this.directionX;
         this.directionX = RIGHT_DIRECTION;
     }
 
-    public void stop() {
-        this.directionX = NOT_MOVE;
+    public void stopLeft() {
+        if (this.directionX != LEFT_DIRECTION && this.previousDirectionX != LEFT_DIRECTION) {
+            this.directionX = NOT_MOVE;
+        }
+        else if (this.directionX != RIGHT_DIRECTION) {
+            if (this.previousDirectionX == RIGHT_DIRECTION) {
+                this.directionX = RIGHT_DIRECTION;
+            } else {
+                this.directionX = NOT_MOVE;
+            }
+        }
+        this.previousDirectionX = NOT_MOVE;
     }
 
-    public byte getMoveDirection() {
-        return directionX;
+    public void stopRight() {
+        if (this.directionX != RIGHT_DIRECTION && this.previousDirectionX != RIGHT_DIRECTION) {
+            this.directionX = NOT_MOVE;
+        }
+        else if (this.directionX != LEFT_DIRECTION) {
+            if (this.previousDirectionX == LEFT_DIRECTION) {
+                this.directionX = LEFT_DIRECTION;
+            } else {
+                this.directionX = NOT_MOVE;
+            }
+        }
+        this.previousDirectionX = NOT_MOVE;
     }
 
     public byte getDirectionY() {

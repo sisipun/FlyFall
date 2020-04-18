@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.utils.viewport.StretchViewport
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.LevelManager
-import io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME
+import io.cucumber.utils.constant.GameConstants.*
 import io.cucumber.view.LoadScreen
 import io.cucumber.view.StartScreen
 
@@ -20,7 +21,8 @@ class Game : com.badlogic.gdx.Game() {
         private set
 
     override fun create() {
-        stage = Stage()
+        val screenViewport = StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
+        stage = Stage(screenViewport)
         setScreen(LoadScreen(this))
     }
 
