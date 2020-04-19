@@ -1,4 +1,4 @@
-package io.cucumber.model.component;
+package io.cucumber.model.component.text;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 

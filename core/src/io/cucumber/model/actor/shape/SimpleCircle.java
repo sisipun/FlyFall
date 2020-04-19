@@ -1,4 +1,4 @@
-package io.cucumber.model.component;
+package io.cucumber.model.actor.shape;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Circle;

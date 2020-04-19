@@ -4,10 +4,8 @@ import com.badlogic.gdx.math.Circle;
 
 public class CircleBound extends Bound2D<Circle> {
 
-    private final Circle bound;
-
     public CircleBound(float x, float y, float radius) {
-        this.bound = new Circle(x, y, radius);
+        super(new Circle(x, y, radius));
     }
 
     @Override

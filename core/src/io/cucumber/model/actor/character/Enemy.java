@@ -1,4 +1,4 @@
-package io.cucumber.model.character;
+package io.cucumber.model.actor.character;
 
 import com.badlogic.gdx.graphics.Texture;
 

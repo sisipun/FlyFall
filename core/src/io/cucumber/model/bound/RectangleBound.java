@@ -4,10 +4,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class RectangleBound extends Bound2D<Rectangle> {
 
-    private final Rectangle bound;
-
     public RectangleBound(float x, float y, float width, float height) {
-        this.bound = new Rectangle(x, y, width, height);
+        super(new Rectangle(x, y, width, height));
     }
 
     @Override

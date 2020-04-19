@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
-import io.cucumber.model.button.ImageButton
-import io.cucumber.model.button.SwitchImageButton
-import io.cucumber.model.component.TextLabel
+import io.cucumber.model.component.text.TextLabel
+import io.cucumber.model.component.button.ImageButton
+import io.cucumber.model.component.button.SwitchImageButton
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.LABEL
@@ -30,35 +30,23 @@ class StartScreen(
     private val bonusCount = bonusCount ?: game.preferences.getInteger(BONUSES_COUNT)
 
     // Actors
-    private val highScoreActor: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2 + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
-            4 * SCORE_HEIGHT,
-            this.highScore.toString(),
-            FontManager.get(LABEL)
-    )
-    private val bonusCountActor: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2  + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
-            2 * SCORE_HEIGHT,
-            this.bonusCount.toString(),
-            FontManager.get(LABEL)
-    )
     private val startButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - START_GAME_BUTTON_WIDTH / 2 - 2 * START_GAME_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - START_GAME_BUTTON_HEIGHT / 2,
+            SCREEN_WIDTH / 2 - 2 * START_GAME_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2,
             START_GAME_BUTTON_WIDTH,
             START_GAME_BUTTON_HEIGHT,
             this.levelAssets.playButton
     )
     private val chooseLevelButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - SOUND_OFF_BUTTON_WIDTH / 2,
-            SCREEN_HEIGHT / 2 - CHOOSE_LEVEL_BUTTON_HEIGHT / 2,
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT / 2,
             CHOOSE_LEVEL_BUTTON_WIDTH,
             CHOOSE_LEVEL_BUTTON_HEIGHT,
             this.levelAssets.chooseButton
     )
     private val soundOffButton: SwitchImageButton = SwitchImageButton(
-            SCREEN_WIDTH / 2 - CHOOSE_LEVEL_BUTTON_WIDTH / 2 + 2 * CHOOSE_LEVEL_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - SOUND_OFF_BUTTON_HEIGHT / 2,
+            SCREEN_WIDTH / 2 + 2 * CHOOSE_LEVEL_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2,
             SOUND_OFF_BUTTON_WIDTH,
             SOUND_OFF_BUTTON_HEIGHT,
             this.levelAssets.soundOffButton,
@@ -66,21 +54,21 @@ class StartScreen(
             this.isSoundOn
     )
     private val title: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 - SCREEN_WIDTH / 16,
+            SCREEN_WIDTH / 2,
             SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4,
             TITLE_LABEL_TEXT,
             FontManager.get(TITLE)
     )
     private val highScoreLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 + SCREEN_WIDTH / 64,
+            SCREEN_WIDTH / 2,
             4 * SCORE_HEIGHT,
-            HIGH_SCORE_LABEL_TEXT,
+            HIGH_SCORE_LABEL_TEXT + this.highScore.toString(),
             FontManager.get(LABEL)
     )
     private val bonusCountLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8  + SCREEN_WIDTH / 16 ,
+            SCREEN_WIDTH / 2,
             2 * SCORE_HEIGHT,
-            BONUS_LABEL_TEXT,
+            BONUS_LABEL_TEXT + this.bonusCount.toString(),
             FontManager.get(LABEL)
     )
 
@@ -109,8 +97,8 @@ class StartScreen(
             }
         })
 
-        addActors(Array.with(startButton, chooseLevelButton, soundOffButton, highScoreActor,
-                bonusCountActor, title, highScoreLabel, bonusCountLabel))
+        addActors(Array.with(startButton, chooseLevelButton, soundOffButton, title, highScoreLabel,
+                bonusCountLabel))
     }
 
     private fun play() {

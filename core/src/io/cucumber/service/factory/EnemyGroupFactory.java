@@ -2,8 +2,8 @@ package io.cucumber.service.factory;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
-import io.cucumber.model.character.Enemy;
-import io.cucumber.model.character.EnemyGroup;
+import io.cucumber.model.actor.character.Enemy;
+import io.cucumber.model.actor.character.EnemyGroup;
 
 import static io.cucumber.utils.constant.GameConstants.*;
 
@@ -31,69 +31,69 @@ public class EnemyGroupFactory {
 
     private static EnemyGroup createSmallSnake(byte orientation, float velocity, Texture texture) {
         Array<Enemy> enemies = new Array<Enemy>(2);
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH + orientation * ENEMY_DISTANCE,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH + orientation * ENEMY_DISTANCE,
+                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, texture, orientation));
         return new EnemyGroup(enemies);
     }
 
     private static EnemyGroup createLadder(byte orientation, float velocity, Texture texture) {
         Array<Enemy> enemies = new Array<Enemy>(4);
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_DISTANCE - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH + orientation * ENEMY_DISTANCE,
-                HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 3) - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH + 2 * orientation * ENEMY_DISTANCE,
-                HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 3) - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH + 3 * orientation * ENEMY_DISTANCE,
-                HALF_SCREEN_HEIGHT + ENEMY_DISTANCE - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT - ENEMY_DISTANCE, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH + orientation * ENEMY_DISTANCE,
+                HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 3), ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH + 2 * orientation * ENEMY_DISTANCE,
+                HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 3), ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH + 3 * orientation * ENEMY_DISTANCE,
+                HALF_SCREEN_HEIGHT + ENEMY_DISTANCE, ENEMY_SIZE, velocity, texture, orientation));
         return new EnemyGroup(enemies);
     }
 
     private static EnemyGroup createSnake(byte orientation, float velocity, Texture texture) {
         Array<Enemy> enemies = new Array<Enemy>(4);
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH +
-                orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH +
-                2 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH +
-                3 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
+                orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
+                2 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
+                3 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, texture, orientation));
         return new EnemyGroup(enemies);
     }
 
     private static EnemyGroup createLadderSnake(byte orientation, float velocity, Texture texture) {
         Array<Enemy> enemies = new Array<Enemy>(4);
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 + ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH +
-                orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 - ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH +
-                2 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 + ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH +
-                3 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 - ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT + ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
+                orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
+                2 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT + ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
+                3 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, texture, orientation));
         return new EnemyGroup(enemies);
     }
 
     private static EnemyGroup createSmallWall(byte orientation, float velocity, Texture texture) {
         Array<Enemy> enemies = new Array<Enemy>(2);
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 + HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 - HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT + HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT - HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, texture, orientation));
         return new EnemyGroup(enemies);
     }
 
     private static EnemyGroup createWall(byte orientation, float velocity, Texture texture) {
         Array<Enemy> enemies = new Array<Enemy>(2);
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 + 2 * HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2, ENEMY_SIZE, velocity, texture, orientation));
-        enemies.add(new Enemy(HALF_SCREEN_WIDTH - ENEMY_SIZE / 2 + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_SIZE / 2 - 2 * HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT + 2 * HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, texture, orientation));
+        enemies.add(new Enemy(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT - 2 * HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, texture, orientation));
         return new EnemyGroup(enemies);
     }
 

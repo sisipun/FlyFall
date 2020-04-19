@@ -1,4 +1,4 @@
-package io.cucumber.model.button;
+package io.cucumber.model.component.button;
 
 import com.badlogic.gdx.graphics.Texture;
 
@@ -16,14 +16,6 @@ public class SwitchImageButton extends ImageButton {
         this.switcher = switcher;
         this.firstStyle = new ImageButtonStyle(null, null, null, TextureHelper.toDrawable(firstTexture), null, null);
         this.secondStyle = new ImageButtonStyle(null, null, null, TextureHelper.toDrawable(secondTexture), null, null);
-    }
-
-    public SwitchImageButton(float x, float y, float width, float height, ImageButtonStyle firstStyle,
-                             ImageButtonStyle secondStyle, boolean switcher) {
-        super(x, y, width, height, switcher ? firstStyle : firstStyle);
-        this.switcher = switcher;
-        this.firstStyle = firstStyle;
-        this.secondStyle = secondStyle;
     }
 
     public void setSwitcher(boolean switcher) {

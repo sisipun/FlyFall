@@ -7,9 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
-import io.cucumber.model.button.ImageButton
-import io.cucumber.model.component.ScoreLabel
-import io.cucumber.model.component.TextLabel
+import io.cucumber.model.component.text.TextLabel
+import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.LABEL
@@ -25,49 +24,31 @@ class GameOverScreen(
 ) : BaseScreen(game, levelAssets) {
 
     // Actors
-    private val highScoreActor: ScoreLabel
-    private val scoreActor: ScoreLabel = ScoreLabel(
-            SCREEN_WIDTH / 2 + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
-            6 * SCORE_HEIGHT,
-            this.score,
-            FontManager.get(LABEL)
-    )
-    private val bonusesCountActor: ScoreLabel = ScoreLabel(
-            SCREEN_WIDTH / 2  + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
-            2 * SCORE_HEIGHT,
-            this.bonusCount,
-            FontManager.get(LABEL)
-    )
     private val homeButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - HOME_BUTTON_WIDTH / 2 + HOME_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
+            SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
             HOME_BUTTON_HEIGHT,
             this.levelAssets.notButton
     )
     private val restartButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - RESTART_BUTTON_WIDTH / 2 - RESTART_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - RESTART_BUTTON_HEIGHT / 2,
+            SCREEN_WIDTH / 2 - RESTART_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2,
             RESTART_BUTTON_WIDTH,
             RESTART_BUTTON_HEIGHT,
             this.levelAssets.playButton
     )
     private val scoreLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8  + SCREEN_WIDTH / 16,
+            SCREEN_WIDTH / 2,
             6 * SCORE_HEIGHT,
-            SCORE_LABEL_TEXT,
+            SCORE_LABEL_TEXT + this.score,
             FontManager.get(LABEL)
     )
-    private val highScoreLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 + SCREEN_WIDTH / 64,
-            4 * SCORE_HEIGHT,
-            HIGH_SCORE_LABEL_TEXT,
-            FontManager.get(LABEL)
-    )
+    private val highScoreLabel: TextLabel
     private val bonusCountLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8  + SCREEN_WIDTH / 16 ,
+            SCREEN_WIDTH / 2,
             2 * SCORE_HEIGHT,
-            BONUS_LABEL_TEXT,
+            BONUS_LABEL_TEXT + this.bonusCount,
             FontManager.get(LABEL)
     )
 
@@ -79,10 +60,10 @@ class GameOverScreen(
         game.preferences.putInteger(BONUSES_COUNT, bonusCount)
         game.preferences.flush()
 
-        highScoreActor = ScoreLabel(
-                SCREEN_WIDTH / 2 + SCREEN_WIDTH / 32 - SCREEN_WIDTH / 64,
+        highScoreLabel = TextLabel(
+                SCREEN_WIDTH / 2,
                 4 * SCORE_HEIGHT,
-                highScore,
+                HIGH_SCORE_LABEL_TEXT + highScore,
                 FontManager.get(LABEL)
         )
 
@@ -104,8 +85,8 @@ class GameOverScreen(
             }
         })
 
-        addActors(Array.with(homeButton, restartButton, scoreActor, highScoreActor,
-                bonusesCountActor, scoreLabel, highScoreLabel, bonusCountLabel))
+        addActors(Array.with(homeButton, restartButton, scoreLabel, highScoreLabel,
+                bonusCountLabel))
     }
 
     private fun restart() {

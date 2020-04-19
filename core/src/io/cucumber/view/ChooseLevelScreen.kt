@@ -9,10 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
-import io.cucumber.model.button.ImageButton
-import io.cucumber.model.button.SwitchImageButton
-import io.cucumber.model.component.SimpleCircle
-import io.cucumber.model.component.TextLabel
+import io.cucumber.model.actor.shape.SimpleCircle
+import io.cucumber.model.component.button.ImageButton
+import io.cucumber.model.component.button.SwitchImageButton
+import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.COST
@@ -35,7 +35,6 @@ class ChooseLevelScreen(
     private var hero: SimpleCircle? = null
     private var enemy: SimpleCircle? = null
     private var bonus: SimpleCircle? = null
-    private var costActor: TextLabel? = null
     private var costLabel: TextLabel? = null
 
     init {
@@ -50,7 +49,6 @@ class ChooseLevelScreen(
         hero?.remove()
         enemy?.remove()
         bonus?.remove()
-        costActor?.remove()
         costLabel?.remove()
 
         homeButton = ImageButton(
@@ -77,27 +75,27 @@ class ChooseLevelScreen(
                 this.levelAssets.leftButton
         )
         rightButton = ImageButton(
-                SCREEN_WIDTH - 2 * CHOOSE_BUTTON_WIDTH,
+                SCREEN_WIDTH - CHOOSE_BUTTON_WIDTH,
                 SCREEN_HEIGHT / 2 - CHOOSE_BUTTON_HEIGHT / 2,
                 CHOOSE_BUTTON_WIDTH,
                 CHOOSE_BUTTON_HEIGHT,
                 this.levelAssets.rightButton
         )
         hero = SimpleCircle(
-                SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 + HERO_SIZE / 4,
-                SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4 - HERO_SIZE / 4,
+                SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8,
+                SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
                 HERO_SIZE / 2,
                 this.levelAssets.hero
         )
         enemy = SimpleCircle(
-                SCREEN_WIDTH / 2 + ENEMY_SIZE / 4,
-                SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4 - ENEMY_SIZE / 4,
+                SCREEN_WIDTH / 2,
+                SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
                 ENEMY_SIZE / 2,
                 this.levelAssets.enemy
         )
         bonus = SimpleCircle(
-                SCREEN_WIDTH / 2 + SCREEN_WIDTH / 8 + BONUS_SIZE / 4,
-                SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4 - BONUS_SIZE / 4,
+                SCREEN_WIDTH / 2 + SCREEN_WIDTH / 8,
+                SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
                 BONUS_SIZE / 2,
                 this.levelAssets.bonus
         )
@@ -149,19 +147,13 @@ class ChooseLevelScreen(
         addActors(Array.with(homeButton, chooseButton, leftButton, rightButton, hero, enemy, bonus))
 
         if (!levelAssets.isActive) {
-            costActor = TextLabel(
-                    SCREEN_WIDTH / 2 + SCREEN_WIDTH / 16 + SCREEN_WIDTH / 32,
-                    SCREEN_HEIGHT - 6 * SCORE_HEIGHT,
-                    this.levelAssets.cost.toString(),
-                    FontManager.get(COST)
-            )
             costLabel = TextLabel(
-                    SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8 + SCREEN_WIDTH / 32,
+                    SCREEN_WIDTH / 2,
                     SCREEN_HEIGHT - 6 * SCORE_HEIGHT,
-                    COST_LABEL_TEXT,
+                    COST_LABEL_TEXT + this.levelAssets.cost.toString(),
                     FontManager.get(COST)
             )
-            addActors(Array.with(costActor, costLabel))
+            addActors(Array.with(costLabel))
         }
     }
 
@@ -195,7 +187,6 @@ class ChooseLevelScreen(
             LevelManager.activate(levelAssets.id)
             game.preferences.flush()
             chooseButton?.setSwitcher(levelAssets.isActive)
-            costActor?.remove()
             costLabel?.remove()
         }
     }

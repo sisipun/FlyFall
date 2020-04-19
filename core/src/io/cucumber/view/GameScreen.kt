@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
-import io.cucumber.model.button.ImageButton
-import io.cucumber.model.character.Bonus
-import io.cucumber.model.character.EnemyGroup
-import io.cucumber.model.character.Hero
-import io.cucumber.model.component.ScoreLabel
-import io.cucumber.model.component.SimpleRectangle
-import io.cucumber.model.component.TextLabel
+import io.cucumber.model.actor.character.Bonus
+import io.cucumber.model.actor.character.EnemyGroup
+import io.cucumber.model.actor.character.Hero
+import io.cucumber.model.actor.shape.SimpleRectangle
+import io.cucumber.model.component.button.ImageButton
+import io.cucumber.model.component.text.ScoreLabel
+import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
@@ -57,15 +57,15 @@ class GameScreen(
     private var bonus: Bonus? = null
 
     private val topWall: SimpleRectangle = SimpleRectangle(
-            0F,
-            0F,
+            SCREEN_WIDTH / 2,
+            WALL_HEIGHT / 2,
             SCREEN_WIDTH,
             WALL_HEIGHT,
             this.levelAssets.wall
     )
     private val bottomWall: SimpleRectangle = SimpleRectangle(
-            0F,
-            SCREEN_HEIGHT - WALL_HEIGHT,
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT - WALL_HEIGHT / 2,
             SCREEN_WIDTH,
             WALL_HEIGHT,
             this.levelAssets.wall
@@ -77,8 +77,8 @@ class GameScreen(
             FontManager.get(LABEL)
     )
     private val pauseButton: ImageButton = ImageButton(
-            SCREEN_WIDTH - 1.5F * PAUSE_BUTTON_WIDTH,
-            SCREEN_HEIGHT - 1.1F * PAUSE_BUTTON_HEIGHT,
+            SCREEN_WIDTH - PAUSE_BUTTON_WIDTH,
+            SCREEN_HEIGHT - PAUSE_BUTTON_HEIGHT * 0.6f,
             PAUSE_BUTTON_WIDTH,
             PAUSE_BUTTON_HEIGHT,
             this.levelAssets.pauseButton
@@ -91,15 +91,15 @@ class GameScreen(
             this.levelAssets.playButton
     )
     private val homeButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 + RESUME_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
+            SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
+            SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
             HOME_BUTTON_HEIGHT,
             this.levelAssets.notButton
     )
     private val pauseTitle: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 10,
-            SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4,
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 6,
             PAUSE_LABEL_TEXT,
             FontManager.get(TITLE)
     )
