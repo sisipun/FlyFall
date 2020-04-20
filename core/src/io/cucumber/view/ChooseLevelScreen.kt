@@ -24,6 +24,7 @@ class ChooseLevelScreen(
         private var bonusCount: Int,
         private var highScore: Int,
         private val isSoundOn: Boolean,
+        private val isAcceleratorOn: Boolean,
         levelAssets: LevelAssets
 ) : BaseScreen(game, levelAssets) {
 
@@ -178,6 +179,7 @@ class ChooseLevelScreen(
                     bonusCount,
                     highScore,
                     isSoundOn,
+                    isAcceleratorOn,
                     levelAssets
             )
         } else if (bonusCount >= levelAssets.cost) {

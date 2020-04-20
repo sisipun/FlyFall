@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import io.cucumber.model.base.DynamicActor;
 
+import static io.cucumber.utils.constant.GameConstants.DEFAULT_ACCELERATION;
 import static io.cucumber.utils.constant.GameConstants.DOWN_DIRECTION;
 import static io.cucumber.utils.constant.GameConstants.LEFT_DIRECTION;
 import static io.cucumber.utils.constant.GameConstants.NOT_MOVE;
@@ -14,29 +15,45 @@ public class Hero extends DynamicActor {
     private byte directionY;
     private byte directionX;
     private byte previousDirectionX;
+    private float acceleration;
 
     public Hero(float x, float y, float size, float horizontalVelocity, float verticalVelocity, Texture texture) {
         super(x, y, size, horizontalVelocity, verticalVelocity, texture);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
         this.previousDirectionX = NOT_MOVE;
+        this.acceleration = DEFAULT_ACCELERATION;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
         setY(getY() + velocity.y * delta);
-        setX(getX() + velocity.x * delta * directionX);
+        setX(getX() + velocity.x * delta * directionX * acceleration);
     }
 
     public void moveLeft() {
         this.previousDirectionX = this.directionX;
         this.directionX = LEFT_DIRECTION;
+        this.acceleration = DEFAULT_ACCELERATION;
+    }
+
+    public void moveLeft(float acceleration) {
+        this.previousDirectionX = this.directionX;
+        this.directionX = LEFT_DIRECTION;
+        this.acceleration = acceleration;
     }
 
     public void moveRight() {
         this.previousDirectionX = this.directionX;
         this.directionX = RIGHT_DIRECTION;
+        this.acceleration = DEFAULT_ACCELERATION;
+    }
+
+    public void moveRight(float acceleration) {
+        this.previousDirectionX = this.directionX;
+        this.directionX = RIGHT_DIRECTION;
+        this.acceleration = acceleration;
     }
 
     public void stopLeft() {
@@ -51,6 +68,7 @@ public class Hero extends DynamicActor {
             }
         }
         this.previousDirectionX = NOT_MOVE;
+        this.acceleration = DEFAULT_ACCELERATION;
     }
 
     public void stopRight() {
@@ -65,6 +83,7 @@ public class Hero extends DynamicActor {
             }
         }
         this.previousDirectionX = NOT_MOVE;
+        this.acceleration = DEFAULT_ACCELERATION;
     }
 
     public byte getDirectionY() {
@@ -76,5 +95,9 @@ public class Hero extends DynamicActor {
             velocity.y = velocity.y * -1;
             this.directionY = directionY;
         }
+    }
+
+    public byte getDirectionX() {
+        return directionX;
     }
 }

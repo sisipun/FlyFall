@@ -32,8 +32,9 @@ public class GameConstants {
     public static final float ENEMY_SIZE = 50f;
 
     // Hero
-    public static final float HERO_HORIZONTAL_VELOCITY = 400f;
+    public static final float HERO_HORIZONTAL_VELOCITY = 200f;
     public static final float HERO_VERTICAL_VELOCITY = 450f;
+    public static final float DEFAULT_ACCELERATION = 2f;
     public static final float HERO_SIZE = 50f;
 
     // Preferences
@@ -41,6 +42,7 @@ public class GameConstants {
     public static final String HIGH_SCORE = "high_score";
     public static final String BONUSES_COUNT = "bonuses_count";
     public static final String IS_SOUND_DISABLED = "is_sound_disabled";
+    public static final String IS_ACCELERATION_ENABLED = "is_acceleration_enabled";
     public static final String TEXTURE_LEVEL = "texture_level";
     public static final String IS_ACTIVE_PATTERN = "is_active_%d";
 
@@ -93,7 +95,7 @@ public class GameConstants {
     public static final String COST_LABEL_TEXT = "Cost - ".toUpperCase();
 
     // Assets
-    public static final String DEFAULT_FONT = "font.ttf";
+    public static final String DEFAULT_FONT = "fonts/font.ttf";
 
 
     private GameConstants() {

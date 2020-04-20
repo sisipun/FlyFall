@@ -1,5 +1,6 @@
 package io.cucumber.view
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -32,6 +33,7 @@ class GameScreen(
         private var bonusCount: Int,
         private val highScore: Int,
         private val isSoundOn: Boolean,
+        private val isAcceleratorOn: Boolean,
         levelAssets: LevelAssets
 ) : BaseScreen(game, levelAssets) {
 
@@ -126,41 +128,42 @@ class GameScreen(
                 home()
             }
         })
-        addBackgroundListener(object: InputListener() {
-            override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
-                if (gameState == GAME && ESCAPE == keycode) pauseGame()
-                else if (gameState == PAUSE && ESCAPE == keycode) home()
-                else if (gameState == PAUSE && ENTER == keycode) resumeGame()
-                else if (gameState == PAUSE) return false
+        if (!isAcceleratorOn) {
+            addBackgroundListener(object : InputListener() {
+                override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
+                    if (gameState == GAME && ESCAPE == keycode) pauseGame()
+                    else if (gameState == PAUSE && ESCAPE == keycode) home()
+                    else if (gameState == PAUSE && ENTER == keycode) resumeGame()
+                    else if (gameState == PAUSE) return false
 
-                if (LEFT == keycode && hero.x > 0) hero.moveLeft()
-                if (RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
-                return true
-            }
+                    if (LEFT == keycode && hero.x > 0) hero.moveLeft()
+                    if (RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                    return true
+                }
 
-            override fun keyUp(event: InputEvent?, keycode: Int): Boolean {
-                if (gameState == PAUSE) return false
+                override fun keyUp(event: InputEvent?, keycode: Int): Boolean {
+                    if (gameState == PAUSE) return false
 
-                if (LEFT == keycode) hero.stopLeft()
-                if (RIGHT == keycode) hero.stopRight()
-                return true
-            }
+                    if (LEFT == keycode) hero.stopLeft()
+                    if (RIGHT == keycode) hero.stopRight()
+                    return true
+                }
 
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                if (gameState == PAUSE) return false
-                else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.moveLeft()
-                else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                    if (gameState == PAUSE) return false
+                    else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.moveLeft()
+                    else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
 
-                return true
-            }
+                    return true
+                }
 
-            override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
-                if (gameState == PAUSE) return
-
-                else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.stopLeft()
-                else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.stopRight()
-            }
-        })
+                override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
+                    if (gameState == PAUSE) return
+                    else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.stopLeft()
+                    else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.stopRight()
+                }
+            })
+        }
 
         addActors(Array.with(topWall, bottomWall, hero, pauseButton, scoreActor))
     }
@@ -169,6 +172,18 @@ class GameScreen(
         if (gameState == PAUSE) {
             return
         }
+
+        if (isAcceleratorOn) {
+            val accelY = Gdx.input.accelerometerY
+            if (accelY > 0F && hero.x + hero.width < SCREEN_WIDTH) {
+                hero.stopLeft()
+                hero.moveRight(accelY)
+            } else if (accelY < 0F && hero.x > 0) {
+                hero.stopRight()
+                hero.moveLeft(-1 * accelY)
+            }
+        }
+
         super.act(delta)
         scoreActor.addScore((delta * 1000).toInt())
     }
@@ -210,7 +225,15 @@ class GameScreen(
         enemyGroup?.let {
             if (it.isCollides(hero)) {
                 deathSound?.play()
-                game.screen = GameOverScreen(game, scoreActor.score, bonusCount, highScore, isSoundOn, levelAssets)
+                game.screen = GameOverScreen(
+                        game,
+                        scoreActor.score,
+                        bonusCount,
+                        highScore,
+                        isSoundOn,
+                        isAcceleratorOn,
+                        levelAssets
+                )
             }
 
             val first = it.enemies.first()
@@ -245,6 +268,7 @@ class GameScreen(
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
+                this.isAcceleratorOn,
                 this.levelAssets
         )
     }

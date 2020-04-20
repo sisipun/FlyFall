@@ -1,14 +1,16 @@
 package io.cucumber.view
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
-import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.button.SwitchImageButton
+import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.LABEL
@@ -21,11 +23,13 @@ class StartScreen(
         bonusCount: Int? = null,
         highScore: Int? = null,
         isSoundOn: Boolean? = null,
+        isAcceleratorOn: Boolean? = null,
         levelAssets: LevelAssets? = null
 ) : BaseScreen(game, levelAssets) {
 
     // Preferences
     private var isSoundOn: Boolean = isSoundOn ?: !game.preferences.getBoolean(IS_SOUND_DISABLED)
+    private var isAcceleratorOn: Boolean = isAcceleratorOn ?: game.preferences.getBoolean(IS_ACCELERATION_ENABLED)
     private val highScore = highScore ?: game.preferences.getInteger(HIGH_SCORE)
     private val bonusCount = bonusCount ?: game.preferences.getInteger(BONUSES_COUNT)
 
@@ -52,6 +56,15 @@ class StartScreen(
             this.levelAssets.soundOffButton,
             this.levelAssets.soundOnButton,
             this.isSoundOn
+    )
+    private val controlButton: SwitchImageButton = SwitchImageButton(
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
+            SOUND_OFF_BUTTON_WIDTH,
+            SOUND_OFF_BUTTON_HEIGHT,
+            this.levelAssets.soundOffButton,
+            this.levelAssets.soundOnButton,
+            this.isAcceleratorOn
     )
     private val title: TextLabel = TextLabel(
             SCREEN_WIDTH / 2,
@@ -99,6 +112,16 @@ class StartScreen(
 
         addActors(Array.with(startButton, chooseLevelButton, soundOffButton, title, highScoreLabel,
                 bonusCountLabel))
+
+        // TODO maybe optimize
+        if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer)) {
+            addActor(controlButton)
+            controlButton.addListener(object : ClickListener() {
+                override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                    changeControl()
+                }
+            })
+        }
     }
 
     private fun play() {
@@ -107,6 +130,7 @@ class StartScreen(
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
+                this.isAcceleratorOn,
                 this.levelAssets
         )
     }
@@ -117,6 +141,7 @@ class StartScreen(
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
+                this.isAcceleratorOn,
                 this.levelAssets
         )
     }
@@ -125,6 +150,13 @@ class StartScreen(
         this.isSoundOn = !this.isSoundOn
         soundOffButton.setSwitcher(this.isSoundOn)
         game.preferences.putBoolean(IS_SOUND_DISABLED, !this.isSoundOn)
+        game.preferences.flush()
+    }
+
+    private fun changeControl() {
+        this.isAcceleratorOn = !this.isAcceleratorOn
+        controlButton.setSwitcher(this.isAcceleratorOn)
+        game.preferences.putBoolean(IS_ACCELERATION_ENABLED, this.isAcceleratorOn)
         game.preferences.flush()
     }
 }

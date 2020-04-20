@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
-import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.component.button.ImageButton
+import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.LABEL
@@ -20,6 +20,7 @@ class GameOverScreen(
         private val bonusCount: Int,
         private var highScore: Int,
         private val isSoundOn: Boolean,
+        private val isAcceleratorOn: Boolean,
         levelAssets: LevelAssets
 ) : BaseScreen(game, levelAssets) {
 
@@ -95,6 +96,7 @@ class GameOverScreen(
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
+                this.isAcceleratorOn,
                 this.levelAssets
         )
     }
@@ -105,6 +107,7 @@ class GameOverScreen(
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
+                this.isAcceleratorOn,
                 this.levelAssets
         )
     }
