@@ -1,16 +1,16 @@
 package io.cucumber.model.component.button;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import io.cucumber.model.bound.Bound2D;
 import io.cucumber.model.bound.RectangleBound;
-import io.cucumber.utils.helper.TextureHelper;
 
 public class ImageButton extends com.badlogic.gdx.scenes.scene2d.ui.ImageButton {
 
-    public ImageButton(float x, float y, float width, float height, Texture texture) {
-        super(TextureHelper.toDrawable(texture));
+    public ImageButton(float x, float y, float width, float height, TextureRegion region) {
+        super(new TextureRegionDrawable(region));
         Bound2D<Rectangle> bound = new RectangleBound(x, y, width, height);
         setBounds(
                 bound.getAlignX(),

@@ -1,7 +1,7 @@
 package io.cucumber.model.actor.character;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import io.cucumber.model.base.DynamicActor;
 
@@ -14,11 +14,11 @@ import static io.cucumber.utils.constant.GameConstants.TIMER_MARGIN_WIDTH;
 public class Bonus extends DynamicActor {
 
     private float lifespan;
-    private Texture timerTexture;
+    private TextureRegion timerRegion;
 
-    public Bonus(float x, float y, float size, Texture texture, Texture timerTexture, float lifespan) {
-        super(x, y, size, 0, 0, texture);
-        this.timerTexture = timerTexture;
+    public Bonus(float x, float y, float size, TextureRegion region, TextureRegion timerRegion, float lifespan) {
+        super(x, y, size, 0, 0, region);
+        this.timerRegion = timerRegion;
         this.lifespan = lifespan;
     }
 
@@ -27,14 +27,14 @@ public class Bonus extends DynamicActor {
         super.draw(batch, parentAlpha);
         float lifespanFactor = (BONUS_LIFESPAN - lifespan) / BONUS_LIFESPAN;
         batch.draw(
-                timerTexture,
+                timerRegion,
                 SCREEN_WIDTH / 2,
                 TIMER_HEIGHT,
                 (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
                 TIMER_HEIGHT
         );
         batch.draw(
-                timerTexture,
+                timerRegion,
                 TIMER_MARGIN_WIDTH + ((SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * lifespanFactor),
                 TIMER_HEIGHT,
                 (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),

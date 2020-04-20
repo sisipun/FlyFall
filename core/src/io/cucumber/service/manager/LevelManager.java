@@ -2,7 +2,9 @@ package io.cucumber.service.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.IntMap;
+
 import io.cucumber.model.level.LevelAssets;
 import io.cucumber.model.level.LevelInfo;
 
@@ -13,25 +15,28 @@ public class LevelManager {
 
     private static final int LEVEL_ASSETS_COUNT = 4;
     private static Preferences preferences = Gdx.app.getPreferences(PREFERENCE_NAME);
+    private static TextureAtlas atlas;
 
     private static IntMap<LevelInfo> levels = new IntMap<LevelInfo>(LEVEL_ASSETS_COUNT);
     private static IntMap<LevelAssets> levelAssets = new IntMap<LevelAssets>(LEVEL_ASSETS_COUNT);
 
     static {
-        levels.put(0, new LevelInfo(0, "images/hero.png", "images/enemy.png", "images/bonus.png", "images/white_background.png", "images/timer.png", "images/wall.png", "images/ok_button.png", "images/play_button.png", "images/choose_button.png", "images/not_button.png", "images/sound_off_button.png", "images/sound_on_button.png", "images/pause_button.png", "images/buy_button.png", "images/left_button.png", "images/right_button.png", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3"));
-        levels.put(1, new LevelInfo(1, "images/hero.png", "images/bonus.png", "images/enemy.png", "images/gray_background.png", "images/timer.png", "images/wall.png", "images/ok_button.png", "images/play_button.png", "images/choose_button.png", "images/not_button.png", "images/sound_off_button.png", "images/sound_on_button.png", "images/pause_button.png", "images/buy_button.png", "images/left_button.png", "images/right_button.png", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3", 30));
-        levels.put(2, new LevelInfo(2, "images/bonus.png", "images/enemy.png", "images/hero.png", "images/timer.png", "images/timer.png", "images/wall.png", "images/ok_button.png", "images/play_button.png", "images/choose_button.png", "images/not_button.png", "images/sound_off_button.png", "images/sound_on_button.png", "images/pause_button.png", "images/buy_button.png", "images/left_button.png", "images/right_button.png", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3", 60));
-        levels.put(3, new LevelInfo(3, "images/ghost_hero.png", "images/ghost_enemy.png", "images/ghost_bonus.png", "images/ghost_background.png",  "images/timer.png", "images/wall.png", "images/ok_button.png", "images/play_button.png", "images/choose_button.png", "images/not_button.png", "images/sound_off_button.png", "images/sound_on_button.png", "images/pause_button.png", "images/buy_button.png", "images/left_button.png", "images/right_button.png", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3", 90));
+        levels.put(0, new LevelInfo(0, "hero", "enemy", "bonus", "white_background", "timer", "wall", "ok_button", "play_button", "choose_button", "not_button", "sound_off_button", "sound_on_button", "pause_button", "buy_button", "left_button", "right_button", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3"));
+        levels.put(1, new LevelInfo(1, "hero", "bonus", "enemy", "gray_background", "timer", "wall", "ok_button", "play_button", "choose_button", "not_button", "sound_off_button", "sound_on_button", "pause_button", "buy_button", "left_button", "right_button", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3", 30));
+        levels.put(2, new LevelInfo(2, "bonus", "enemy", "hero", "timer", "timer", "wall", "ok_button", "play_button", "choose_button", "not_button", "sound_off_button", "sound_on_button", "pause_button", "buy_button", "left_button", "right_button", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3", 60));
+        levels.put(3, new LevelInfo(3, "ghost_hero", "ghost_enemy", "ghost_bonus", "ghost_background",  "timer", "wall", "ok_button", "play_button", "choose_button", "not_button", "sound_off_button", "sound_on_button", "pause_button", "buy_button", "left_button", "right_button", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3", 90));
     }
 
     public static void loadLevels() {
+        atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
         for (LevelInfo levelInfo : levels.values()) {
-            LevelAssets level = new LevelAssets(levelInfo, isActive(levelInfo.getId()));
+            LevelAssets level = new LevelAssets(atlas, levelInfo, isActive(levelInfo.getId()));
             levelAssets.put(levelInfo.getId(), level);
         }
     }
 
     public static void removeLevels() {
+        atlas.dispose();
         for (LevelAssets levelAsset : levelAssets.values()) {
             levelAsset.dispose();
         }

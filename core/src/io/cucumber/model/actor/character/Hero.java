@@ -1,6 +1,6 @@
 package io.cucumber.model.actor.character;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import io.cucumber.model.base.DynamicActor;
 
@@ -17,8 +17,8 @@ public class Hero extends DynamicActor {
     private byte previousDirectionX;
     private float acceleration;
 
-    public Hero(float x, float y, float size, float horizontalVelocity, float verticalVelocity, Texture texture) {
-        super(x, y, size, horizontalVelocity, verticalVelocity, texture);
+    public Hero(float x, float y, float size, float horizontalVelocity, float verticalVelocity, TextureRegion region) {
+        super(x, y, size, horizontalVelocity, verticalVelocity, region);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
         this.previousDirectionX = NOT_MOVE;

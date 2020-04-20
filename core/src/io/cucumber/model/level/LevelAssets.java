@@ -2,51 +2,51 @@ package io.cucumber.model.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class LevelAssets {
 
     private final int id;
-    private final Texture hero;
-    private final Texture enemy;
-    private final Texture bonus;
-    private final Texture background;
-    private final Texture timer;
-    private final Texture wall;
-    private final Texture okButton;
-    private final Texture playButton;
-    private final Texture chooseButton;
-    private final Texture notButton;
-    private final Texture soundOffButton;
-    private final Texture soundOnButton;
-    private final Texture pauseButton;
-    private final Texture buyButton;
-    private final Texture leftButton;
-    private final Texture rightButton;
+    private final TextureAtlas.AtlasRegion hero;
+    private final TextureAtlas.AtlasRegion enemy;
+    private final TextureAtlas.AtlasRegion bonus;
+    private final TextureAtlas.AtlasRegion background;
+    private final TextureAtlas.AtlasRegion timer;
+    private final TextureAtlas.AtlasRegion wall;
+    private final TextureAtlas.AtlasRegion okButton;
+    private final TextureAtlas.AtlasRegion playButton;
+    private final TextureAtlas.AtlasRegion chooseButton;
+    private final TextureAtlas.AtlasRegion notButton;
+    private final TextureAtlas.AtlasRegion soundOffButton;
+    private final TextureAtlas.AtlasRegion soundOnButton;
+    private final TextureAtlas.AtlasRegion pauseButton;
+    private final TextureAtlas.AtlasRegion buyButton;
+    private final TextureAtlas.AtlasRegion leftButton;
+    private final TextureAtlas.AtlasRegion rightButton;
     private final Sound flipSound;
     private final Sound bonusSound;
     private final Sound deathSound;
     private final int cost;
     private boolean active;
 
-    public LevelAssets(LevelInfo levelInfo, boolean active) {
+    public LevelAssets(TextureAtlas atlas, LevelInfo levelInfo, boolean active) {
         this.id = levelInfo.getId();
-        this.hero = new Texture(levelInfo.getHero());
-        this.enemy = new Texture(levelInfo.getEnemy());
-        this.bonus = new Texture(levelInfo.getBonus());
-        this.background = new Texture(levelInfo.getBackground());
-        this.timer = new Texture(levelInfo.getTimer());
-        this.wall = new Texture(levelInfo.getWall());
-        this.okButton = new Texture(levelInfo.getOkButton());
-        this.playButton = new Texture(levelInfo.getPlayButton());
-        this.chooseButton = new Texture(levelInfo.getChooseButton());
-        this.notButton = new Texture(levelInfo.getNotButton());
-        this.soundOffButton = new Texture(levelInfo.getSoundOffButton());
-        this.soundOnButton = new Texture(levelInfo.getSoundOnButton());
-        this.pauseButton = new Texture(levelInfo.getPauseButton());
-        this.buyButton = new Texture(levelInfo.getBuyButton());
-        this.leftButton = new Texture(levelInfo.getLeftButton());
-        this.rightButton = new Texture(levelInfo.getRightButton());
+        this.hero = atlas.findRegion(levelInfo.getHero());
+        this.enemy = atlas.findRegion(levelInfo.getEnemy());
+        this.bonus = atlas.findRegion(levelInfo.getBonus());
+        this.background = atlas.findRegion(levelInfo.getBackground());
+        this.timer = atlas.findRegion(levelInfo.getTimer());
+        this.wall = atlas.findRegion(levelInfo.getWall());
+        this.okButton = atlas.findRegion(levelInfo.getOkButton());
+        this.playButton = atlas.findRegion(levelInfo.getPlayButton());
+        this.chooseButton = atlas.findRegion(levelInfo.getChooseButton());
+        this.notButton = atlas.findRegion(levelInfo.getNotButton());
+        this.soundOffButton = atlas.findRegion(levelInfo.getSoundOffButton());
+        this.soundOnButton = atlas.findRegion(levelInfo.getSoundOnButton());
+        this.pauseButton = atlas.findRegion(levelInfo.getPauseButton());
+        this.buyButton = atlas.findRegion(levelInfo.getBuyButton());
+        this.leftButton = atlas.findRegion(levelInfo.getLeftButton());
+        this.rightButton = atlas.findRegion(levelInfo.getRightButton());
         this.flipSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getFlipSound()));
         this.bonusSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getBonusSound()));
         this.deathSound = Gdx.audio.newSound(Gdx.files.internal(levelInfo.getDeathSound()));
@@ -55,20 +55,6 @@ public class LevelAssets {
     }
 
     public void dispose() {
-        hero.dispose();
-        enemy.dispose();
-        bonus.dispose();
-        background.dispose();
-        timer.dispose();
-        wall.dispose();
-        okButton.dispose();
-        playButton.dispose();
-        chooseButton.dispose();
-        notButton.dispose();
-        soundOffButton.dispose();
-        soundOnButton.dispose();
-        pauseButton.dispose();
-        buyButton.dispose();
         flipSound.dispose();
         bonusSound.dispose();
         deathSound.dispose();
@@ -78,67 +64,67 @@ public class LevelAssets {
         return id;
     }
 
-    public Texture getHero() {
+    public TextureAtlas.AtlasRegion getHero() {
         return hero;
     }
 
-    public Texture getEnemy() {
+    public TextureAtlas.AtlasRegion getEnemy() {
         return enemy;
     }
 
-    public Texture getBonus() {
+    public TextureAtlas.AtlasRegion getBonus() {
         return bonus;
     }
 
-    public Texture getBackground() {
+    public TextureAtlas.AtlasRegion getBackground() {
         return background;
     }
 
-    public Texture getTimer() {
+    public TextureAtlas.AtlasRegion getTimer() {
         return timer;
     }
 
-    public Texture getWall() {
+    public TextureAtlas.AtlasRegion getWall() {
         return wall;
     }
 
-    public Texture getOkButton() {
+    public TextureAtlas.AtlasRegion getOkButton() {
         return okButton;
     }
 
-    public Texture getPlayButton() {
+    public TextureAtlas.AtlasRegion getPlayButton() {
         return playButton;
     }
 
-    public Texture getChooseButton() {
+    public TextureAtlas.AtlasRegion getChooseButton() {
         return chooseButton;
     }
 
-    public Texture getNotButton() {
+    public TextureAtlas.AtlasRegion getNotButton() {
         return notButton;
     }
 
-    public Texture getSoundOffButton() {
+    public TextureAtlas.AtlasRegion getSoundOffButton() {
         return soundOffButton;
     }
 
-    public Texture getSoundOnButton() {
+    public TextureAtlas.AtlasRegion getSoundOnButton() {
         return soundOnButton;
     }
 
-    public Texture getPauseButton() {
+    public TextureAtlas.AtlasRegion getPauseButton() {
         return pauseButton;
     }
 
-    public Texture getBuyButton() {
+    public TextureAtlas.AtlasRegion getBuyButton() {
         return buyButton;
     }
 
-    public Texture getLeftButton() {
+    public TextureAtlas.AtlasRegion getLeftButton() {
         return leftButton;
     }
 
-    public Texture getRightButton() {
+    public TextureAtlas.AtlasRegion getRightButton() {
         return rightButton;
     }
 
