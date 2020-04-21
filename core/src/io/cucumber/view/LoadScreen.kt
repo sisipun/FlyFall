@@ -22,8 +22,13 @@ class LoadScreen(
             loadingFont
     )
 
-    init {
+    override fun show() {
+        super.show()
         game.stage.addActor(title)
+    }
+
+    override fun hide() {
+        loadingFont.dispose()
     }
 
     override fun render(delta: Float) {
@@ -32,7 +37,6 @@ class LoadScreen(
 
         Thread(Runnable { Gdx.app.postRunnable {
             game.loadAssets()
-            loadingFont.dispose()
         }}).start()
         game.stage.draw()
 

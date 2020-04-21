@@ -25,6 +25,15 @@ public class Hero extends DynamicActor {
         this.acceleration = DEFAULT_ACCELERATION;
     }
 
+    public Hero init(float x, float y, float size, float horizontalVelocity, float verticalVelocity, TextureRegion region) {
+        super.init(x, y, size, horizontalVelocity, verticalVelocity, region);
+        this.directionY = DOWN_DIRECTION;
+        this.directionX = NOT_MOVE;
+        this.previousDirectionX = NOT_MOVE;
+        this.acceleration = DEFAULT_ACCELERATION;
+        return this;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -95,9 +104,5 @@ public class Hero extends DynamicActor {
             velocity.y = velocity.y * -1;
             this.directionY = directionY;
         }
-    }
-
-    public byte getDirectionX() {
-        return directionX;
     }
 }

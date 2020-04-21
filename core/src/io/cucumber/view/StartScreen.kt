@@ -85,7 +85,8 @@ class StartScreen(
             FontManager.get(LABEL)
     )
 
-    init {
+    override fun show() {
+        super.show()
         startButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 play()
@@ -125,25 +126,25 @@ class StartScreen(
     }
 
     private fun play() {
-        game.screen = GameScreen(
+        setScreen(GameScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
                 this.isAcceleratorOn,
                 this.levelAssets
-        )
+        ))
     }
 
     private fun changeLevel() {
-        game.screen = ChooseLevelScreen(
+        setScreen(ChooseLevelScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
                 this.isAcceleratorOn,
                 this.levelAssets
-        )
+        ))
     }
 
     private fun changeSound() {

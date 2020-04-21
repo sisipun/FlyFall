@@ -8,11 +8,18 @@ import io.cucumber.model.bound.CircleBound;
 
 public abstract class DynamicActor extends Actor<Circle> {
 
-    protected final Vector2 velocity;
+    protected Vector2 velocity;
 
     public DynamicActor(float x, float y, float size, float horizontalVelocity, float verticalVelocity,
                         TextureRegion region) {
         super(new CircleBound(x, y, size / 2), region);
         this.velocity = new Vector2(horizontalVelocity, verticalVelocity);
+    }
+
+    public DynamicActor init(float x, float y, float size, float horizontalVelocity, float verticalVelocity,
+                     TextureRegion region) {
+        super.init(new CircleBound(x, y, size / 2), region);
+        this.velocity = new Vector2(horizontalVelocity, verticalVelocity);
+        return this;
     }
 }

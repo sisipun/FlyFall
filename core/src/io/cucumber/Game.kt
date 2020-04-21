@@ -5,6 +5,9 @@ import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.StretchViewport
+import io.cucumber.service.factory.BonusFactory
+import io.cucumber.service.factory.EnemyGroupFactory
+import io.cucumber.service.factory.HeroFactory
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.LevelManager
 import io.cucumber.utils.constant.GameConstants.*
@@ -32,6 +35,9 @@ class Game : com.badlogic.gdx.Game() {
         Gdx.input.inputProcessor = stage
         LevelManager.loadLevels()
         FontManager.loadFonts()
+        EnemyGroupFactory.initFactory()
+        BonusFactory.initFactory()
+        HeroFactory.initFactory()
         setScreen(StartScreen(this, null, null, null, null))
     }
 

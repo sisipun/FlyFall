@@ -38,7 +38,8 @@ class ChooseLevelScreen(
     private var bonus: SimpleCircle? = null
     private var costLabel: TextLabel? = null
 
-    init {
+    override fun show() {
+        super.show()
         reloadButtons()
     }
 
@@ -145,8 +146,6 @@ class ChooseLevelScreen(
         action.action = Actions.rotateBy(ENEMY_ROTATION_ANGEL, ENEMY_ROTATION_DURATION)
         enemy?.addAction(action)
 
-        addActors(Array.with(homeButton, chooseButton, leftButton, rightButton, hero, enemy, bonus))
-
         if (!levelAssets.isActive) {
             costLabel = TextLabel(
                     SCREEN_WIDTH / 2,
@@ -156,6 +155,8 @@ class ChooseLevelScreen(
             )
             addActors(Array.with(costLabel))
         }
+
+        addActors(Array.with(homeButton, chooseButton, leftButton, rightButton, hero, enemy, bonus))
     }
 
     private fun setPreviousLevel() {
@@ -174,14 +175,14 @@ class ChooseLevelScreen(
         if (levelAssets.isActive) {
             game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
             game.preferences.flush()
-            game.screen = StartScreen(
+            setScreen(StartScreen(
                     game,
                     bonusCount,
                     highScore,
                     isSoundOn,
                     isAcceleratorOn,
                     levelAssets
-            )
+            ))
         } else if (bonusCount >= levelAssets.cost) {
             bonusCount -= levelAssets.cost
             game.preferences.putInteger(BONUSES_COUNT, bonusCount)
@@ -194,11 +195,11 @@ class ChooseLevelScreen(
     }
 
     private fun back() {
-        game.screen = StartScreen(
+        setScreen(StartScreen(
                 game,
                 bonusCount,
                 highScore,
                 isSoundOn
-        )
+        ))
     }
 }

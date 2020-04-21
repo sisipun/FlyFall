@@ -13,6 +13,12 @@ public class Enemy extends DynamicActor {
         this.orientation = orientation;
     }
 
+    public Enemy init(float x, float y, float size, float horizontalVelocity, TextureRegion region, byte orientation) {
+        super.init(x, y, size, horizontalVelocity, 0, region);
+        this.orientation = orientation;
+        return this;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);

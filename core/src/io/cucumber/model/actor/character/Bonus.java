@@ -22,6 +22,13 @@ public class Bonus extends DynamicActor {
         this.lifespan = lifespan;
     }
 
+    public Bonus init(float x, float y, float size, TextureRegion region, TextureRegion timerRegion, float lifespan) {
+        super.init(x, y, size, 0, 0, region);
+        this.timerRegion = timerRegion;
+        this.lifespan = lifespan;
+        return this;
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);

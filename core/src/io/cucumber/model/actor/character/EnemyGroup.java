@@ -6,18 +6,33 @@ import io.cucumber.model.base.DynamicActor;
 
 public class EnemyGroup extends Group {
 
-    private final Array<io.cucumber.model.actor.character.Enemy> enemies;
+    private Array<Enemy> enemies;
 
-    public EnemyGroup(Array<io.cucumber.model.actor.character.Enemy> enemies) {
+    public EnemyGroup(Array<Enemy> enemies) {
         this.enemies = enemies;
-        for(io.cucumber.model.actor.character.Enemy enemy: enemies) {
+        for(Enemy enemy: enemies) {
             addActor(enemy);
         }
     }
 
+    public EnemyGroup() {
+        this.enemies = Array.with();
+        for(Enemy enemy: enemies) {
+            addActor(enemy);
+        }
+    }
+
+    public EnemyGroup init(Array<Enemy> enemies) {
+        this.enemies = enemies;
+        for(Enemy enemy: enemies) {
+            addActor(enemy);
+        }
+        return this;
+    }
+
     public boolean isCollides(DynamicActor actor) {
         boolean isCollides;
-        for (io.cucumber.model.actor.character.Enemy enemy : enemies) {
+        for (Enemy enemy : enemies) {
             isCollides = enemy.isCollides(actor);
             if (isCollides) {
                 return true;
@@ -30,10 +45,11 @@ public class EnemyGroup extends Group {
     @Override
     public boolean remove() {
         enemies.clear();
+        clearChildren();
         return super.remove();
     }
 
-    public Array<io.cucumber.model.actor.character.Enemy> getEnemies() {
+    public Array<Enemy> getEnemies() {
         return enemies;
     }
 }

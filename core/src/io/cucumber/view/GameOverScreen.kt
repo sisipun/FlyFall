@@ -45,7 +45,7 @@ class GameOverScreen(
             SCORE_LABEL_TEXT + this.score,
             FontManager.get(LABEL)
     )
-    private val highScoreLabel: TextLabel
+    private lateinit var highScoreLabel: TextLabel
     private val bonusCountLabel: TextLabel = TextLabel(
             SCREEN_WIDTH / 2,
             2 * SCORE_HEIGHT,
@@ -53,7 +53,8 @@ class GameOverScreen(
             FontManager.get(LABEL)
     )
 
-    init {
+    override fun show()  {
+        super.show()
         if (score > highScore) {
             highScore = score
             game.preferences.putInteger(HIGH_SCORE, score)
@@ -91,24 +92,24 @@ class GameOverScreen(
     }
 
     private fun restart() {
-        game.screen = GameScreen(
+        setScreen(GameScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
                 this.isAcceleratorOn,
                 this.levelAssets
-        )
+        ))
     }
 
     private fun home() {
-        game.screen = StartScreen(
+        setScreen(StartScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
                 this.isAcceleratorOn,
                 this.levelAssets
-        )
+        ))
     }
 }

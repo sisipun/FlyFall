@@ -20,6 +20,7 @@ import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
+import io.cucumber.service.factory.HeroFactory
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.FontManager.FontType.TITLE
@@ -47,12 +48,9 @@ class GameScreen(
     private var deathSound: Sound? = null
 
     // Actors
-    private val hero: Hero = Hero(
+    private val hero: Hero = HeroFactory.create(
             SCREEN_WIDTH / 2,
             SCREEN_HEIGHT / 2,
-            HERO_SIZE,
-            HERO_HORIZONTAL_VELOCITY,
-            -1 * HERO_VERTICAL_VELOCITY,
             this.levelAssets.hero
     )
     private var enemyGroup: EnemyGroup? = null
@@ -106,7 +104,8 @@ class GameScreen(
             FontManager.get(TITLE)
     )
 
-    init {
+    override fun show() {
+        super.show()
         if (isSoundOn) {
             flipSound = this.levelAssets.flipSound
             bonusSound = this.levelAssets.bonusSound
@@ -192,6 +191,9 @@ class GameScreen(
         if (gameState == PAUSE) {
             return
         }
+        if (enemyGroup == null) {
+            generateEnemy()
+        }
         if (hero.y + hero.height + WALL_HEIGHT >= SCREEN_HEIGHT && hero.directionY == UP_DIRECTION) {
             hero.directionY = DOWN_DIRECTION
             generateBonus()
@@ -214,18 +216,15 @@ class GameScreen(
             if (it.isCollides(hero)) {
                 bonusCount++
                 bonusSound?.play()
-                it.remove()
-                bonus = null
+                removeBonus()
             }
-            if (it.lifespan <= 0) {
-                it.remove()
-                bonus = null
+            if (it.lifespan <= 0) {removeBonus()
             }
         }
         enemyGroup?.let {
             if (it.isCollides(hero)) {
                 deathSound?.play()
-                game.screen = GameOverScreen(
+                setScreen(GameOverScreen(
                         game,
                         scoreActor.score,
                         bonusCount,
@@ -233,21 +232,25 @@ class GameScreen(
                         isSoundOn,
                         isAcceleratorOn,
                         levelAssets
-                )
+                ))
             }
 
-            val first = it.enemies.first()
-            val last = it.enemies.last()
-            if ((first.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.x + first.width + ENEMY_RESPAWN_BORDER < 0) &&
-                    (last.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.x + last.width + ENEMY_RESPAWN_BORDER < 0)) {
-                it.enemies.clear()
-                it.remove()
-                enemyGroup = null
+            if (it.enemies.size != 0) {
+                val first = it.enemies.first()
+                val last = it.enemies.last()
+                if ((first.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.x + first.width + ENEMY_RESPAWN_BORDER < 0) &&
+                        (last.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.x + last.width + ENEMY_RESPAWN_BORDER < 0)) {
+                    removeEnemyGroup()
+                }
             }
         }
-        if (enemyGroup == null) {
-            generateEnemy()
-        }
+    }
+
+    override fun hide() {
+        removeHero()
+        removeBonus()
+        removeEnemyGroup()
+        super.hide()
     }
 
     private fun pauseGame() {
@@ -263,14 +266,14 @@ class GameScreen(
     }
 
     private fun home() {
-        game.screen = StartScreen(
+        setScreen(StartScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
                 this.isAcceleratorOn,
                 this.levelAssets
-        )
+        ))
     }
 
     private fun generateBonus() {
@@ -305,6 +308,28 @@ class GameScreen(
             }
             addActor(it)
         }
+    }
+
+    private fun removeBonus() {
+        bonus?.let {
+            it.remove()
+            BonusFactory.free(it)
+        }
+        bonus = null
+    }
+
+    private fun removeEnemyGroup() {
+        enemyGroup?.let {
+            it.enemies.forEach { enemy -> enemy.clearActions() }
+            EnemyGroupFactory.free(it)
+            it.remove()
+        }
+        enemyGroup = null
+    }
+
+    private fun removeHero() {
+        hero.remove()
+        HeroFactory.free(hero)
     }
 
     private fun raiseEnemyVelocity() {

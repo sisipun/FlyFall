@@ -22,11 +22,14 @@ abstract class BaseScreen(
             ?: LevelManager.get(game.preferences.getInteger(TEXTURE_LEVEL))
     private var background: Image = Image(this.levelAssets.background)
 
-    init {
-        game.stage.clear()
+    override fun show() {
         this.background.setBounds(0F, 0F, SCREEN_WIDTH, SCREEN_HEIGHT)
         addActor(this.background)
         game.stage.keyboardFocus = this.background
+    }
+
+    override fun hide() {
+        this.game.stage.clear()
     }
 
     override fun resize(width: Int, height: Int) {
@@ -70,5 +73,10 @@ abstract class BaseScreen(
 
     protected fun addBackgroundListener(listener: EventListener) {
         background.addListener(listener)
+    }
+
+    protected fun setScreen(screen: BaseScreen) {
+        hide()
+        game.screen = screen
     }
 }
