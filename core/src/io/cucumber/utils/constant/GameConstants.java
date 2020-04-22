@@ -4,7 +4,7 @@ public class GameConstants {
 
     // Bonus
     public static final float BONUS_SIZE = 50f;
-    public static final float BONUS_CHANCE = 0.5f;
+    public static final float BONUS_CHANCE = 0.05f;
     public static final float BONUS_LIFESPAN = 5000f;
 
     // Button

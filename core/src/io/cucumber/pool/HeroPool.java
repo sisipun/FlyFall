@@ -1,11 +1,10 @@
 package io.cucumber.pool;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Pool;
 
 import io.cucumber.model.actor.character.Hero;
 
-public class HeroPool extends Pool<Hero> {
+public class HeroPool extends ActorPool<Hero> {
 
     public HeroPool() {
         super(1, 1);

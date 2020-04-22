@@ -16,10 +16,6 @@ public class ScoreLabel extends TextLabel {
         setText(String.valueOf(this.score));
     }
 
-    public void resetScore() {
-        this.score = 0;
-    }
-
     public int getScore() {
         return score;
     }

@@ -24,4 +24,10 @@ public class Enemy extends DynamicActor {
         super.act(delta);
         setX(getX() + velocity.x * -1 * orientation * delta);
     }
+
+    @Override
+    public void reset() {
+        super.reset();
+        orientation = 0;
+    }
 }

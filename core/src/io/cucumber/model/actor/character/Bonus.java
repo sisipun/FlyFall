@@ -58,4 +58,11 @@ public class Bonus extends DynamicActor {
     public float getLifespan() {
         return lifespan;
     }
+
+    @Override
+    public void reset() {
+        super.reset();
+        lifespan = 0f;
+        timerRegion = null;
+    }
 }

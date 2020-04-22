@@ -51,8 +51,8 @@ public class EnemyGroupFactory {
         for (Enemy enemy : group.getEnemies()) {
             Pools.free(enemy);
         }
-        Pools.free(group);
         group.getEnemies().clear();
+        Pools.free(group);
     }
 
     private static EnemyGroup createSmallSnake(byte orientation, float velocity, TextureRegion region) {

@@ -22,4 +22,11 @@ public abstract class DynamicActor extends Actor<Circle> {
         this.velocity = new Vector2(horizontalVelocity, verticalVelocity);
         return this;
     }
+
+    @Override
+    public void reset() {
+        super.reset();
+        velocity.x = 0;
+        velocity.y = 0;
+    }
 }

@@ -3,10 +3,11 @@ package io.cucumber.model.base;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.utils.Pool;
 
 import io.cucumber.model.bound.Bound2D;
 
-public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.scene2d.Actor {
+public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.scene2d.Actor implements Pool.Poolable {
 
     protected TextureRegion region;
 
@@ -67,5 +68,15 @@ public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.s
                 1F,
                 getRotation()
         );
+    }
+
+    @Override
+    public void reset() {
+        setX(0);
+        setY(0);
+        setWidth(0);
+        setHeight(0);
+        setOrigin(0, 0);
+        region = null;
     }
 }

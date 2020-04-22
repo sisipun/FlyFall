@@ -105,4 +105,13 @@ public class Hero extends DynamicActor {
             this.directionY = directionY;
         }
     }
+
+    @Override
+    public void reset() {
+        super.reset();
+        directionY = 0;
+        directionX = 0;
+        previousDirectionX = 0;
+        acceleration = 0f;
+    }
 }

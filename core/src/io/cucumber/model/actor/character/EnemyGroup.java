@@ -2,9 +2,11 @@ package io.cucumber.model.actor.character;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+
 import io.cucumber.model.base.DynamicActor;
 
-public class EnemyGroup extends Group {
+public class EnemyGroup extends Group implements Pool.Poolable {
 
     private Array<Enemy> enemies;
 
@@ -42,6 +44,10 @@ public class EnemyGroup extends Group {
         return false;
     }
 
+    public Array<Enemy> getEnemies() {
+        return enemies;
+    }
+
     @Override
     public boolean remove() {
         enemies.clear();
@@ -49,7 +55,9 @@ public class EnemyGroup extends Group {
         return super.remove();
     }
 
-    public Array<Enemy> getEnemies() {
-        return enemies;
+    @Override
+    public void reset() {
+        enemies.clear();
+        clearChildren();
     }
 }

@@ -1,11 +1,10 @@
 package io.cucumber.pool;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Pool;
 
 import io.cucumber.model.actor.character.Enemy;
 
-public class EnemyPool extends Pool<Enemy> {
+public class EnemyPool extends ActorPool<Enemy> {
 
     public EnemyPool() {
         super(2, 10);
