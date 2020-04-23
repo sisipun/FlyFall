@@ -11,4 +11,8 @@ public class SimpleCircle extends StaticActor<Circle> {
     public SimpleCircle(float x, float y, float radius, TextureRegion region) {
         super(new CircleBound(x, y, radius), region);
     }
+
+    public void setRegion(TextureRegion region) {
+        this.region = region;
+    }
 }

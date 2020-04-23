@@ -5,9 +5,9 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.EventListener
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
+import io.cucumber.model.actor.shape.SimpleRectangle
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.LevelManager
 import io.cucumber.utils.constant.GameConstants.*
@@ -19,17 +19,23 @@ abstract class BaseScreen(
 ) : ScreenAdapter() {
 
     protected var levelAssets: LevelAssets = levelAssets
-            ?: LevelManager.get(game.preferences.getInteger(TEXTURE_LEVEL))
-    private var background: Image = Image(this.levelAssets.background)
+            ?: LevelManager.get(this.game.preferences.getInteger(TEXTURE_LEVEL))
+    private var background: SimpleRectangle = SimpleRectangle(
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT / 2,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+            this.levelAssets.background
+    )
 
     override fun show() {
-        this.background.setBounds(0F, 0F, SCREEN_WIDTH, SCREEN_HEIGHT)
-        addActor(this.background)
-        game.stage.keyboardFocus = this.background
+        background.setRegion(levelAssets.background)
+        addActor(background)
+        game.stage.keyboardFocus = background
     }
 
     override fun hide() {
-        this.game.stage.clear()
+        game.stage.clear()
     }
 
     override fun resize(width: Int, height: Int) {
@@ -66,17 +72,18 @@ abstract class BaseScreen(
 
     protected fun reloadLevelAssets(levelAssets: LevelAssets) {
         this.levelAssets = levelAssets
-        this.background = Image(levelAssets.background)
-        this.background.setBounds(0F, 0F, SCREEN_WIDTH, SCREEN_HEIGHT)
-        game.stage.actors[0] = this.background
+        this.background.setRegion(levelAssets.background)
     }
 
     protected fun addBackgroundListener(listener: EventListener) {
         background.addListener(listener)
     }
 
+    protected fun clearBackgroundListeners() {
+        background.clearListeners()
+    }
+
     protected fun setScreen(screen: BaseScreen) {
-        hide()
         game.screen = screen
     }
 }

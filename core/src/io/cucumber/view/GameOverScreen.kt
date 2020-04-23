@@ -1,7 +1,6 @@
 package io.cucumber.view
 
-import com.badlogic.gdx.Input.Keys.ENTER
-import com.badlogic.gdx.Input.Keys.ESCAPE
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
@@ -12,15 +11,16 @@ import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.LABEL
+import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
 
 class GameOverScreen(
         game: Game,
-        private val score: Int,
-        private val bonusCount: Int,
+        private var score: Int,
+        private var bonusCount: Int,
         private var highScore: Int,
-        private val isSoundOn: Boolean,
-        private val isAcceleratorOn: Boolean,
+        private var isSoundOn: Boolean,
+        private var isAcceleratorOn: Boolean,
         levelAssets: LevelAssets
 ) : BaseScreen(game, levelAssets) {
 
@@ -45,7 +45,12 @@ class GameOverScreen(
             SCORE_LABEL_TEXT + this.score,
             FontManager.get(LABEL)
     )
-    private lateinit var highScoreLabel: TextLabel
+    private val highScoreLabel: TextLabel = TextLabel(
+            SCREEN_WIDTH / 2,
+            4 * SCORE_HEIGHT,
+            HIGH_SCORE_LABEL_TEXT + this.highScore,
+            FontManager.get(LABEL)
+    )
     private val bonusCountLabel: TextLabel = TextLabel(
             SCREEN_WIDTH / 2,
             2 * SCORE_HEIGHT,
@@ -53,22 +58,7 @@ class GameOverScreen(
             FontManager.get(LABEL)
     )
 
-    override fun show()  {
-        super.show()
-        if (score > highScore) {
-            highScore = score
-            game.preferences.putInteger(HIGH_SCORE, score)
-        }
-        game.preferences.putInteger(BONUSES_COUNT, bonusCount)
-        game.preferences.flush()
-
-        highScoreLabel = TextLabel(
-                SCREEN_WIDTH / 2,
-                4 * SCORE_HEIGHT,
-                HIGH_SCORE_LABEL_TEXT + highScore,
-                FontManager.get(LABEL)
-        )
-
+    init {
         homeButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 home()
@@ -81,35 +71,60 @@ class GameOverScreen(
         })
         addBackgroundListener(object: InputListener() {
             override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
-                if (ENTER == keycode) restart()
-                if (ESCAPE == keycode) home()
+                if (Input.Keys.ENTER == keycode) restart()
+                if (Input.Keys.ESCAPE == keycode) home()
                 return true
             }
         })
+    }
+
+    fun init(score: Int, bonusCount: Int, highScore: Int, isSoundOn: Boolean,
+             isAcceleratorOn: Boolean, levelAssets: LevelAssets): GameOverScreen {
+        this.score = score
+        this.isSoundOn = isSoundOn
+        this.isAcceleratorOn = isAcceleratorOn
+        this.highScore = highScore
+        this.bonusCount = bonusCount
+        this.levelAssets = levelAssets
+        return this
+    }
+
+    override fun show()  {
+        super.show()
+        if (score > highScore) {
+            highScore = score
+            game.preferences.putInteger(HIGH_SCORE, score)
+        }
+        game.preferences.putInteger(BONUSES_COUNT, bonusCount)
+        game.preferences.flush()
+
+        scoreLabel.setText(SCORE_LABEL_TEXT + score)
+        highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + highScore)
+        bonusCountLabel.setText(BONUS_LABEL_TEXT + bonusCount)
 
         addActors(Array.with(homeButton, restartButton, scoreLabel, highScoreLabel,
                 bonusCountLabel))
     }
 
     private fun restart() {
-        setScreen(GameScreen(
-                this.game,
-                this.bonusCount,
-                this.highScore,
-                this.isSoundOn,
-                this.isAcceleratorOn,
-                this.levelAssets
+        setScreen(ScreenManager.getGameScreen(
+                game,
+                bonusCount,
+                highScore,
+                isSoundOn,
+                isAcceleratorOn,
+                levelAssets
         ))
     }
 
     private fun home() {
-        setScreen(StartScreen(
-                this.game,
-                this.bonusCount,
-                this.highScore,
-                this.isSoundOn,
-                this.isAcceleratorOn,
-                this.levelAssets
+        setScreen(ScreenManager.getStartScreen(
+                game,
+                bonusCount,
+                highScore,
+                isSoundOn,
+                isAcceleratorOn,
+                levelAssets
         ))
     }
 }

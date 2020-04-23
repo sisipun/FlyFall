@@ -10,9 +10,9 @@ import io.cucumber.service.factory.EnemyGroupFactory
 import io.cucumber.service.factory.HeroFactory
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.LevelManager
+import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
 import io.cucumber.view.LoadScreen
-import io.cucumber.view.StartScreen
 
 class Game : com.badlogic.gdx.Game() {
 
@@ -29,7 +29,7 @@ class Game : com.badlogic.gdx.Game() {
         setScreen(LoadScreen(this))
     }
 
-    fun loadAssets() {
+    fun init() {
         preferences = Gdx.app.getPreferences(PREFERENCE_NAME)
         fpsLogger = FPSLogger()
         Gdx.input.inputProcessor = stage
@@ -38,7 +38,7 @@ class Game : com.badlogic.gdx.Game() {
         EnemyGroupFactory.initFactory()
         BonusFactory.initFactory()
         HeroFactory.initFactory()
-        setScreen(StartScreen(this, null, null, null, null))
+        setScreen(ScreenManager.getStartScreen(this, null, null, null, null, null))
     }
 
     override fun dispose() {

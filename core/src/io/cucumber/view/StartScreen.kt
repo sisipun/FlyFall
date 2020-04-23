@@ -2,7 +2,6 @@ package io.cucumber.view
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
@@ -15,6 +14,8 @@ import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.FontManager.FontType.TITLE
+import io.cucumber.service.manager.LevelManager
+import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
 
 
@@ -28,10 +29,12 @@ class StartScreen(
 ) : BaseScreen(game, levelAssets) {
 
     // Preferences
+    private val acceleratorAvailable: Boolean
     private var isSoundOn: Boolean = isSoundOn ?: !game.preferences.getBoolean(IS_SOUND_DISABLED)
-    private var isAcceleratorOn: Boolean = isAcceleratorOn ?: game.preferences.getBoolean(IS_ACCELERATION_ENABLED)
-    private val highScore = highScore ?: game.preferences.getInteger(HIGH_SCORE)
-    private val bonusCount = bonusCount ?: game.preferences.getInteger(BONUSES_COUNT)
+    private var isAcceleratorOn: Boolean = isAcceleratorOn
+            ?: game.preferences.getBoolean(IS_ACCELERATION_ENABLED)
+    private var highScore = highScore ?: game.preferences.getInteger(HIGH_SCORE)
+    private var bonusCount = bonusCount ?: game.preferences.getInteger(BONUSES_COUNT)
 
     // Actors
     private val startButton: ImageButton = ImageButton(
@@ -85,39 +88,34 @@ class StartScreen(
             FontManager.get(LABEL)
     )
 
-    override fun show() {
-        super.show()
-        startButton.addListener(object : ClickListener() {
+    init {
+        this.startButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 play()
             }
         })
-        chooseLevelButton.addListener(object : ClickListener() {
+        this.chooseLevelButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 changeLevel()
             }
         })
-        soundOffButton.addListener(object : ClickListener() {
+        this.soundOffButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 changeSound()
             }
         })
-        addBackgroundListener(object: InputListener() {
+        addBackgroundListener(object : InputListener() {
             override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
-                if (ENTER == keycode) play()
-                if (R == keycode) changeLevel()
-                if (M == keycode) changeSound()
+                if (Input.Keys.ENTER == keycode) play()
+                if (Input.Keys.R == keycode) changeLevel()
+                if (Input.Keys.M == keycode) changeSound()
                 return true
             }
         })
 
-        addActors(Array.with(startButton, chooseLevelButton, soundOffButton, title, highScoreLabel,
-                bonusCountLabel))
-
-        // TODO maybe optimize
-        if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer)) {
-            addActor(controlButton)
-            controlButton.addListener(object : ClickListener() {
+        this.acceleratorAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer)
+        if (this.acceleratorAvailable) {
+            this.controlButton.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {
                     changeControl()
                 }
@@ -125,8 +123,36 @@ class StartScreen(
         }
     }
 
+    fun init(bonusCount: Int?, highScore: Int?, isSoundOn: Boolean?,
+             isAcceleratorOn: Boolean?, levelAssets: LevelAssets?): StartScreen {
+        this.isSoundOn = isSoundOn ?: !game.preferences.getBoolean(IS_SOUND_DISABLED)
+        this.isAcceleratorOn = isAcceleratorOn
+                ?: game.preferences.getBoolean(IS_ACCELERATION_ENABLED)
+        this.highScore = highScore ?: game.preferences.getInteger(HIGH_SCORE)
+        this.bonusCount = bonusCount ?: game.preferences.getInteger(BONUSES_COUNT)
+        this.levelAssets = levelAssets
+                ?: LevelManager.get(game.preferences.getInteger(TEXTURE_LEVEL))
+        return this
+    }
+
+    override fun show() {
+        super.show()
+
+        soundOffButton.setSwitcher(this.isSoundOn)
+        controlButton.setSwitcher(this.isAcceleratorOn)
+        highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
+        bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
+
+        addActors(Array.with(startButton, chooseLevelButton, soundOffButton, title, highScoreLabel,
+                bonusCountLabel))
+
+        if (acceleratorAvailable) {
+            addActor(controlButton)
+        }
+    }
+
     private fun play() {
-        setScreen(GameScreen(
+        setScreen(ScreenManager.getGameScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,
@@ -137,7 +163,7 @@ class StartScreen(
     }
 
     private fun changeLevel() {
-        setScreen(ChooseLevelScreen(
+        setScreen(ScreenManager.getChooseLevelScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,

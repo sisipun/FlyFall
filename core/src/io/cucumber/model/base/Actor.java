@@ -29,6 +29,10 @@ public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.s
         return bound.overlaps(actor.bound);
     }
 
+    public void setRegion(TextureRegion region) {
+        this.region = region;
+    }
+
     @Override
     public void setX(float x) {
         bound.setX(x);

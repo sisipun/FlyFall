@@ -19,7 +19,7 @@ class LoadScreen(
             SCREEN_WIDTH / 2,
             SCREEN_HEIGHT / 2,
             LOADING_LABEL_TEXT,
-            loadingFont
+            this.loadingFont
     )
 
     override fun show() {
@@ -28,6 +28,8 @@ class LoadScreen(
     }
 
     override fun hide() {
+        super.hide()
+        game.stage.clear()
         loadingFont.dispose()
     }
 
@@ -36,7 +38,7 @@ class LoadScreen(
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         Thread(Runnable { Gdx.app.postRunnable {
-            game.loadAssets()
+            game.init()
         }}).start()
         game.stage.draw()
 
