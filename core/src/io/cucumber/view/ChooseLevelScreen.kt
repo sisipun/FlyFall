@@ -3,8 +3,6 @@ package io.cucumber.view
 import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
@@ -125,11 +123,6 @@ class ChooseLevelScreen(
                 return true
             }
         })
-
-        val action = RepeatAction()
-        action.count = RepeatAction.FOREVER
-        action.action = Actions.rotateBy(ENEMY_ROTATION_ANGEL, ENEMY_ROTATION_DURATION)
-        this.enemy.addAction(action)
     }
 
     fun init(bonusCount: Int, highScore: Int, isSoundOn: Boolean,

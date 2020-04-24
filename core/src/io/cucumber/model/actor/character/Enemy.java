@@ -1,5 +1,6 @@
 package io.cucumber.model.actor.character;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import io.cucumber.model.base.DynamicActor;
@@ -29,5 +30,27 @@ public class Enemy extends DynamicActor {
     public void reset() {
         super.reset();
         orientation = 0;
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        batch.draw(
+                region.getTexture(),
+                getX(),
+                getY(),
+                getOriginX(),
+                getOriginY(),
+                getWidth(),
+                getHeight(),
+                1F,
+                1F,
+                getRotation(),
+                region.getRegionX(),
+                region.getRegionY(),
+                region.getRegionWidth(),
+                region.getRegionHeight(),
+                orientation == 1,
+                false
+        );
     }
 }

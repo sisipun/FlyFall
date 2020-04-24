@@ -22,7 +22,7 @@ import static io.cucumber.utils.constant.GameConstants.WALL_GROUP;
 
 
 public class EnemyGroupFactory {
-    
+
     public static void initFactory() {
         Pools.set(Enemy.class, new EnemyPool());
         Pools.set(EnemyGroup.class, new EnemyGroupPool());
