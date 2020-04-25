@@ -1,5 +1,6 @@
 package io.cucumber.service.factory;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Pools;
 
@@ -15,8 +16,9 @@ public class BonusFactory {
         Pools.set(Bonus.class, new BonusPool());
     }
 
-    public static Bonus create(float x, float y, TextureRegion region, TextureRegion timerRegion) {
-        return Pools.obtain(Bonus.class).init(x, y, BONUS_SIZE, region, timerRegion, BONUS_LIFESPAN);
+    public static Bonus create(float x, float y, Animation<TextureRegion> animation,
+                               TextureRegion timerRegion) {
+        return Pools.obtain(Bonus.class).init(x, y, BONUS_SIZE, animation, timerRegion, BONUS_LIFESPAN);
     }
 
     public static void free(Bonus bonus) {

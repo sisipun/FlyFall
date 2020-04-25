@@ -8,8 +8,8 @@ import io.cucumber.model.bound.CircleBound;
 
 public class SimpleCircle extends StaticActor<Circle> {
 
-    public SimpleCircle(float x, float y, float radius, TextureRegion region) {
-        super(new CircleBound(x, y, radius), region);
+    public SimpleCircle(float x, float y, float size, TextureRegion region) {
+        super(new CircleBound(x, y, size / 2), region);
     }
 
     public void setRegion(TextureRegion region) {

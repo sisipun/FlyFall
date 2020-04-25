@@ -1,25 +1,38 @@
 package io.cucumber.model.level;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
 
 public class LevelAssets {
 
     private final int id;
     private final TextureAtlas.AtlasRegion hero;
-    private final TextureAtlas.AtlasRegion enemy;
-    private final TextureAtlas.AtlasRegion bonus;
+    private final Animation<TextureRegion> enemy;
+    private final Animation<TextureRegion> bonus;
     private final TextureAtlas.AtlasRegion background;
     private final CommonAssets commonAssets;
     private final int cost;
     private boolean active;
 
     public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
-                       String enemy, String bonus, String background, int cost, boolean active) {
+                       String enemy, float enemyFrameDuration, String bonus, float bonusFrameDuration,
+                       String background, int cost, boolean active) {
         this.id = id;
         this.hero = atlas.findRegion(hero);
-        this.enemy = atlas.findRegion(enemy);
-        this.bonus = atlas.findRegion(bonus);
+        this.enemy = new Animation<TextureRegion>(
+                enemyFrameDuration,
+                atlas.findRegions(enemy),
+                LOOP
+        );
+        this.bonus = new Animation<TextureRegion>(
+                bonusFrameDuration,
+                atlas.findRegions(bonus),
+                LOOP
+        );
         this.background = atlas.findRegion(background);
         this.commonAssets = commonAssets;
 
@@ -28,8 +41,8 @@ public class LevelAssets {
     }
 
     public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
-                       String enemy, String bonus, String background) {
-        this(atlas, commonAssets, id, hero, enemy, bonus, background, 0, true);
+                       String enemy, float enemyFrameDuration, String bonus, float bonusFrameDuration, String background) {
+        this(atlas, commonAssets, id, hero, enemy, enemyFrameDuration, bonus, bonusFrameDuration, background, 0, true);
     }
 
     public int getId() {
@@ -40,11 +53,11 @@ public class LevelAssets {
         return hero;
     }
 
-    public TextureAtlas.AtlasRegion getEnemy() {
+    public Animation<TextureRegion> getEnemy() {
         return enemy;
     }
 
-    public TextureAtlas.AtlasRegion getBonus() {
+    public Animation<TextureRegion> getBonus() {
         return bonus;
     }
 

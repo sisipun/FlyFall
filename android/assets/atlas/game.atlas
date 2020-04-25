@@ -6,100 +6,128 @@ filter: Nearest,Nearest
 repeat: none
 bonus
   rotate: false
-  xy: 604, 2
+  xy: 2, 136
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 buy_button
   rotate: false
-  xy: 1664, 658
+  xy: 1608, 638
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 choose_button
   rotate: false
-  xy: 1677, 356
+  xy: 304, 136
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 enemy
   rotate: false
-  xy: 1690, 54
+  xy: 606, 140
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 ghost_background
   rotate: false
-  xy: 2, 960
+  xy: 2, 940
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
   index: -1
 ghost_bonus
   rotate: false
-  xy: 1924, 1923
+  xy: 1814, 285
   size: 58, 49
   orig: 58, 49
   offset: 0, 0
   index: -1
 ghost_enemy
   rotate: false
-  xy: 1924, 1974
+  xy: 1924, 1954
   size: 63, 66
   orig: 63, 66
   offset: 0, 0
   index: -1
 ghost_hero
   rotate: false
-  xy: 906, 32
+  xy: 908, 376
   size: 59, 64
   orig: 59, 64
   offset: 0, 0
   index: -1
-gray_background
+hero
+  rotate: false
+  xy: 1006, 336
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+left_button
+  rotate: false
+  xy: 1308, 336
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+not_button
+  rotate: false
+  xy: 1610, 336
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+ok_button
+  rotate: false
+  xy: 908, 34
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+pause_button
+  rotate: false
+  xy: 1210, 34
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+play_button
+  rotate: false
+  xy: 1512, 34
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+sea_hero
   rotate: false
   xy: 2, 2
-  size: 600, 300
-  orig: 600, 300
-  offset: 0, 0
-  index: -1
-lightblue_background
-  rotate: false
-  xy: 1075, 287
-  size: 600, 300
-  orig: 600, 300
-  offset: 0, 0
-  index: -1
-sea_bonus
-  rotate: false
-  xy: 1406, 73
-  size: 282, 212
-  orig: 282, 212
-  offset: 0, 0
-  index: -1
-sky_bonus
-  rotate: false
-  xy: 2, 304
-  size: 1071, 654
-  orig: 1071, 654
+  size: 128, 132
+  orig: 128, 132
   offset: 0, 0
   index: -1
 sky_enemy
   rotate: false
-  xy: 906, 98
-  size: 498, 187
-  orig: 498, 187
+  xy: 504, 442
+  size: 500, 496
+  orig: 500, 496
   offset: 0, 0
   index: -1
 space_hero
   rotate: false
-  xy: 1075, 589
-  size: 587, 369
-  orig: 587, 369
+  xy: 2, 438
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+white_background
+  rotate: false
+  xy: 1006, 638
+  size: 600, 300
+  orig: 600, 300
   offset: 0, 0
   index: -1
 
@@ -108,102 +136,165 @@ size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-hero
-  rotate: false
-  xy: 1018, 606
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-left_button
-  rotate: false
-  xy: 604, 47
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-not_button
-  rotate: false
-  xy: 1320, 606
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-ok_button
-  rotate: false
-  xy: 1622, 606
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-pause_button
-  rotate: false
-  xy: 1018, 304
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-play_button
-  rotate: false
-  xy: 1320, 304
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
 right_button
   rotate: false
-  xy: 1622, 304
+  xy: 2, 655
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 sea_background
   rotate: false
-  xy: 2, 908
+  xy: 2, 957
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
   index: -1
-sea_hero
+sea_bonus
   rotate: false
-  xy: 1812, 170
-  size: 128, 132
-  orig: 128, 132
+  xy: 1210, 231
+  size: 282, 212
+  orig: 282, 212
   offset: 0, 0
   index: -1
-sky_hero
+sea_enemy
   rotate: false
-  xy: 2, 349
-  size: 1014, 557
-  orig: 1014, 557
+  xy: 1186, 2
+  size: 239, 227
+  orig: 239, 227
   offset: 0, 0
   index: -1
+sky_bonus
+  rotate: false
+  xy: 1210, 701
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 1
+sky_bonus
+  rotate: false
+  xy: 908, 97
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 2
+sky_bonus
+  rotate: false
+  xy: 1210, 445
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 3
+sky_bonus
+  rotate: false
+  xy: 1488, 701
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 4
+sky_bonus
+  rotate: false
+  xy: 1488, 445
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 5
+sky_bonus
+  rotate: false
+  xy: 1766, 701
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 6
+sky_bonus
+  rotate: false
+  xy: 1766, 445
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 7
+sky_bonus
+  rotate: false
+  xy: 1494, 189
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 8
 sound_off_button
   rotate: false
-  xy: 906, 2
+  xy: 2, 353
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 sound_on_button
   rotate: false
-  xy: 1208, 2
+  xy: 304, 655
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
+space_bonus
+  rotate: false
+  xy: 1772, 191
+  size: 251, 252
+  orig: 251, 252
+  offset: 0, 0
+  index: -1
+space_enemy
+  rotate: false
+  xy: 2, 51
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 1
+space_enemy
+  rotate: false
+  xy: 304, 353
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 2
+space_enemy
+  rotate: false
+  xy: 606, 655
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 3
+space_enemy
+  rotate: false
+  xy: 304, 51
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 4
+space_enemy
+  rotate: false
+  xy: 606, 353
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 5
+space_enemy
+  rotate: false
+  xy: 908, 655
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 6
 timer
   rotate: false
-  xy: 1510, 2
+  xy: 606, 51
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
-white_background
+wall
   rotate: false
-  xy: 2, 47
-  size: 600, 300
-  orig: 600, 300
+  xy: 908, 353
+  size: 300, 300
+  orig: 300, 300
   offset: 0, 0
   index: -1
 
@@ -212,41 +303,62 @@ size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-sea_enemy
-  rotate: false
-  xy: 304, 329
-  size: 239, 227
-  orig: 239, 227
-  offset: 0, 0
-  index: -1
 sky_background
   rotate: false
-  xy: 2, 558
+  xy: 2, 770
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
   index: -1
-space_bonus
+sky_bonus
+  rotate: false
+  xy: 2, 514
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 9
+sky_bonus
+  rotate: false
+  xy: 2, 258
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 10
+sky_bonus
+  rotate: false
+  xy: 280, 514
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 11
+sky_bonus
   rotate: false
   xy: 2, 2
-  size: 251, 252
-  orig: 251, 252
+  size: 276, 254
+  orig: 276, 254
   offset: 0, 0
-  index: -1
-space_enemy
+  index: 12
+sky_bonus
   rotate: false
-  xy: 545, 399
-  size: 259, 157
-  orig: 259, 157
+  xy: 280, 258
+  size: 276, 254
+  orig: 276, 254
   offset: 0, 0
-  index: -1
-wall
+  index: 13
+sky_bonus
   rotate: false
-  xy: 2, 256
-  size: 300, 300
-  orig: 300, 300
+  xy: 558, 514
+  size: 276, 254
+  orig: 276, 254
   offset: 0, 0
-  index: -1
+  index: 14
+sky_bonus
+  rotate: false
+  xy: 280, 2
+  size: 276, 254
+  orig: 276, 254
+  offset: 0, 0
+  index: 15
 
 game4.png
 size: 2048,2048
@@ -258,5 +370,18 @@ space_background
   xy: 2, 2
   size: 1920, 1080
   orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+game5.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+sky_hero
+  rotate: false
+  xy: 2, 2
+  size: 1000, 1000
+  orig: 1000, 1000
   offset: 0, 0
   index: -1

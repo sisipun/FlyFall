@@ -1,56 +1,32 @@
 package io.cucumber.model.actor.character;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import io.cucumber.model.base.DynamicActor;
+import io.cucumber.model.base.AnimationActor;
 
-public class Enemy extends DynamicActor {
+public class Enemy extends AnimationActor {
 
-    private byte orientation;
-
-    public Enemy(float x, float y, float size, float horizontalVelocity, TextureRegion region, byte orientation) {
-        super(x, y, size, horizontalVelocity, 0, region);
-        this.orientation = orientation;
+    public Enemy(float x, float y, float size, float horizontalVelocity,
+                 Animation<TextureRegion> animation, byte orientation) {
+        super(x, y, size, horizontalVelocity, 0, animation, orientation);
     }
 
-    public Enemy init(float x, float y, float size, float horizontalVelocity, TextureRegion region, byte orientation) {
-        super.init(x, y, size, horizontalVelocity, 0, region);
-        this.orientation = orientation;
+    public Enemy init(float x, float y, float size, float horizontalVelocity,
+                      Animation<TextureRegion> animation, byte orientation) {
+        super.init(x, y, size, horizontalVelocity, 0, animation, orientation);
         return this;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        setX(getX() + velocity.x * -1 * orientation * delta);
+        setX(getX() + velocity.x * orientation * delta);
     }
 
     @Override
     public void reset() {
         super.reset();
         orientation = 0;
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.draw(
-                region.getTexture(),
-                getX(),
-                getY(),
-                getOriginX(),
-                getOriginY(),
-                getWidth(),
-                getHeight(),
-                1F,
-                1F,
-                getRotation(),
-                region.getRegionX(),
-                region.getRegionY(),
-                region.getRegionWidth(),
-                region.getRegionHeight(),
-                orientation == 1,
-                false
-        );
     }
 }

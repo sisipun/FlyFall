@@ -284,6 +284,12 @@ class GameScreen(
             flipSound?.play()
         }
 
+        if (hero.x < 0) {
+            hero.stopLeft()
+        } else if (hero.x + hero.width > SCREEN_WIDTH) {
+            hero.stopRight()
+        }
+
         bonus?.let {
             if (it.isCollides(hero)) {
                 bonusCount++

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
+import io.cucumber.model.actor.shape.AnimatedCircle
 import io.cucumber.model.actor.shape.SimpleCircle
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.button.SwitchImageButton
@@ -61,19 +62,19 @@ class ChooseLevelScreen(
     private var hero: SimpleCircle = SimpleCircle(
             SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8,
             SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
-            HERO_SIZE / 2,
+            HERO_SIZE,
             this.levelAssets.hero
     )
-    private var enemy: SimpleCircle = SimpleCircle(
+    private var enemy: AnimatedCircle = AnimatedCircle(
             SCREEN_WIDTH / 2,
             SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
-            ENEMY_SIZE / 2,
+            ENEMY_SIZE,
             this.levelAssets.enemy
     )
-    private var bonus: SimpleCircle = SimpleCircle(
+    private var bonus: AnimatedCircle = AnimatedCircle(
             SCREEN_WIDTH / 2 + SCREEN_WIDTH / 8,
             SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
-            BONUS_SIZE / 2,
+            BONUS_SIZE,
             this.levelAssets.bonus
     )
     private var costLabel: TextLabel = TextLabel(
@@ -145,8 +146,8 @@ class ChooseLevelScreen(
     private fun reloadLevel() {
         chooseButton.setSwitcher(levelAssets.isActive)
         hero.setRegion(levelAssets.hero)
-        enemy.setRegion(levelAssets.enemy)
-        bonus.setRegion(levelAssets.bonus)
+        enemy.setAnimation(levelAssets.enemy)
+        bonus.setAnimation(levelAssets.bonus)
 
         if (!levelAssets.isActive) {
             costLabel.setText(COST_LABEL_TEXT + levelAssets.cost.toString())

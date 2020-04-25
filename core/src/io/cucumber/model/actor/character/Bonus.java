@@ -1,9 +1,10 @@
 package io.cucumber.model.actor.character;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import io.cucumber.model.base.DynamicActor;
+import io.cucumber.model.base.AnimationActor;
 
 import static io.cucumber.utils.constant.GameConstants.BONUS_LIFESPAN;
 import static io.cucumber.utils.constant.GameConstants.MILLIS_IN_SECOND;
@@ -11,19 +12,21 @@ import static io.cucumber.utils.constant.GameConstants.SCREEN_WIDTH;
 import static io.cucumber.utils.constant.GameConstants.TIMER_HEIGHT;
 import static io.cucumber.utils.constant.GameConstants.TIMER_MARGIN_WIDTH;
 
-public class Bonus extends DynamicActor {
+public class Bonus extends AnimationActor {
 
     private float lifespan;
     private TextureRegion timerRegion;
 
-    public Bonus(float x, float y, float size, TextureRegion region, TextureRegion timerRegion, float lifespan) {
-        super(x, y, size, 0, 0, region);
+    public Bonus(float x, float y, float size, Animation<TextureRegion> animation,
+                 TextureRegion timerRegion, float lifespan) {
+        super(x, y, size, 0, 0, animation, (byte) 0);
         this.timerRegion = timerRegion;
         this.lifespan = lifespan;
     }
 
-    public Bonus init(float x, float y, float size, TextureRegion region, TextureRegion timerRegion, float lifespan) {
-        super.init(x, y, size, 0, 0, region);
+    public Bonus init(float x, float y, float size, Animation<TextureRegion> animation,
+                      TextureRegion timerRegion, float lifespan) {
+        super.init(x, y, size, 0, 0, animation, (byte) 0);
         this.timerRegion = timerRegion;
         this.lifespan = lifespan;
         return this;

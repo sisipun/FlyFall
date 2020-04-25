@@ -1,5 +1,6 @@
 package io.cucumber.pool;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import io.cucumber.model.actor.character.Enemy;
@@ -12,6 +13,6 @@ public class EnemyPool extends ActorPool<Enemy> {
 
     @Override
     protected Enemy newObject() {
-        return new Enemy(0f, 0f, 0f, 0f, new TextureRegion(), (byte) 0);
+        return new Enemy(0f, 0f, 0f, 0f, new Animation<>(1, new TextureRegion()), (byte) 0);
     }
 }

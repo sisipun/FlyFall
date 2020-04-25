@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.IntMap;
 import io.cucumber.model.level.CommonAssets;
 import io.cucumber.model.level.LevelAssets;
 
+import static io.cucumber.utils.constant.GameConstants.BONUS_ANIMATION_FRAME_DURATION;
+import static io.cucumber.utils.constant.GameConstants.ENEMY_ANIMATION_FRAME_DURATION;
 import static io.cucumber.utils.constant.GameConstants.IS_ACTIVE_PATTERN;
 import static io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME;
 
@@ -22,12 +24,87 @@ public class LevelManager {
 
     public static void loadLevels() {
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
-        commonAssets = new CommonAssets(atlas, "timer", "wall", "ok_button", "play_button", "choose_button", "not_button", "sound_off_button", "sound_on_button", "pause_button", "buy_button", "left_button", "right_button", "sounds/flip.wav", "sounds/bonus.wav", "sounds/death.mp3");
-        levelAssets.put(0, new LevelAssets(atlas, commonAssets, 0, "hero", "enemy", "bonus", "white_background"));
-        levelAssets.put(1, new LevelAssets(atlas, commonAssets, 1, "ghost_hero", "ghost_enemy", "ghost_bonus", "ghost_background", 30, isActive(1)));
-        levelAssets.put(2, new LevelAssets(atlas, commonAssets, 2, "sea_hero", "sea_enemy", "sea_bonus", "sea_background", 60, isActive(2)));
-        levelAssets.put(3, new LevelAssets(atlas, commonAssets, 3, "sky_hero", "sky_enemy", "sky_bonus", "sky_background", 90, isActive(3)));
-        levelAssets.put(4, new LevelAssets(atlas, commonAssets, 4, "space_hero", "space_enemy", "space_bonus", "space_background", 120, isActive(4)));
+        commonAssets = new CommonAssets(
+                atlas,
+                "timer",
+                "wall",
+                "ok_button",
+                "play_button",
+                "choose_button",
+                "not_button",
+                "sound_off_button",
+                "sound_on_button",
+                "pause_button",
+                "buy_button",
+                "left_button",
+                "right_button",
+                "sounds/flip.wav",
+                "sounds/bonus.wav",
+                "sounds/death.mp3"
+        );
+        levelAssets.put(0, new LevelAssets(
+                atlas,
+                commonAssets,
+                0,
+                "hero",
+                "enemy",
+                ENEMY_ANIMATION_FRAME_DURATION,
+                "bonus",
+                BONUS_ANIMATION_FRAME_DURATION,
+                "white_background"
+        ));
+        levelAssets.put(1, new LevelAssets(
+                atlas,
+                commonAssets,
+                1,
+                "ghost_hero",
+                "ghost_enemy",
+                ENEMY_ANIMATION_FRAME_DURATION,
+                "ghost_bonus",
+                BONUS_ANIMATION_FRAME_DURATION,
+                "ghost_background",
+                30,
+                isActive(1)
+        ));
+        levelAssets.put(2, new LevelAssets(
+                atlas,
+                commonAssets,
+                2,
+                "sea_hero",
+                "sea_enemy",
+                ENEMY_ANIMATION_FRAME_DURATION,
+                "sea_bonus",
+                BONUS_ANIMATION_FRAME_DURATION,
+                "sea_background",
+                60,
+                isActive(2)
+        ));
+        levelAssets.put(3, new LevelAssets(
+                atlas,
+                commonAssets,
+                3,
+                "sky_hero",
+                "sky_enemy",
+                ENEMY_ANIMATION_FRAME_DURATION,
+                "sky_bonus",
+                BONUS_ANIMATION_FRAME_DURATION,
+                "sky_background",
+                90,
+                isActive(3)
+        ));
+        levelAssets.put(4, new LevelAssets(
+                atlas,
+                commonAssets,
+                4,
+                "space_hero",
+                "space_enemy",
+                ENEMY_ANIMATION_FRAME_DURATION,
+                "space_bonus",
+                BONUS_ANIMATION_FRAME_DURATION,
+                "space_background",
+                120,
+                isActive(4)
+        ));
     }
 
     public static void removeLevels() {

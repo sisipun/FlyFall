@@ -17,16 +17,18 @@ public class Hero extends DynamicActor {
     private byte previousDirectionX;
     private float acceleration;
 
-    public Hero(float x, float y, float size, float horizontalVelocity, float verticalVelocity, TextureRegion region) {
-        super(x, y, size, horizontalVelocity, verticalVelocity, region);
+    public Hero(float x, float y, float size, float horizontalVelocity, float verticalVelocity,
+                TextureRegion region) {
+        super(x, y, size, horizontalVelocity, verticalVelocity, region, RIGHT_DIRECTION);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
         this.previousDirectionX = NOT_MOVE;
         this.acceleration = DEFAULT_ACCELERATION;
     }
 
-    public Hero init(float x, float y, float size, float horizontalVelocity, float verticalVelocity, TextureRegion region) {
-        super.init(x, y, size, horizontalVelocity, verticalVelocity, region);
+    public Hero init(float x, float y, float size, float horizontalVelocity, float verticalVelocity,
+                     TextureRegion region) {
+        super.init(x, y, size, horizontalVelocity, verticalVelocity, region, RIGHT_DIRECTION);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
         this.previousDirectionX = NOT_MOVE;
@@ -45,11 +47,11 @@ public class Hero extends DynamicActor {
         this.previousDirectionX = this.directionX;
         this.directionX = LEFT_DIRECTION;
         this.acceleration = DEFAULT_ACCELERATION;
+        this.orientation = LEFT_DIRECTION;
     }
 
     public void moveLeft(float acceleration) {
-        this.previousDirectionX = this.directionX;
-        this.directionX = LEFT_DIRECTION;
+        moveLeft();
         this.acceleration = acceleration;
     }
 
@@ -57,11 +59,11 @@ public class Hero extends DynamicActor {
         this.previousDirectionX = this.directionX;
         this.directionX = RIGHT_DIRECTION;
         this.acceleration = DEFAULT_ACCELERATION;
+        this.orientation = RIGHT_DIRECTION;
     }
 
     public void moveRight(float acceleration) {
-        this.previousDirectionX = this.directionX;
-        this.directionX = RIGHT_DIRECTION;
+        moveRight();
         this.acceleration = acceleration;
     }
 

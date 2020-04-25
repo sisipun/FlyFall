@@ -1,5 +1,6 @@
 package io.cucumber.service.factory;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
@@ -28,20 +29,20 @@ public class EnemyGroupFactory {
         Pools.set(EnemyGroup.class, new EnemyGroupPool());
     }
 
-    public static EnemyGroup create(byte type, byte orientation, float velocity, TextureRegion region) {
+    public static EnemyGroup create(byte type, byte orientation, float velocity, Animation<TextureRegion> animation) {
         switch (type) {
             case SMALL_SNAKE_GROUP:
-                return createSmallSnake(orientation, velocity, region);
+                return createSmallSnake(orientation, velocity, animation);
             case LADDER_GROUP:
-                return createLadder(orientation, velocity, region);
+                return createLadder(orientation, velocity, animation);
             case SNAKE_GROUP:
-                return createSnake(orientation, velocity, region);
+                return createSnake(orientation, velocity, animation);
             case LADDER_SNAKE_GROUP:
-                return createLadderSnake(orientation, velocity, region);
+                return createLadderSnake(orientation, velocity, animation);
             case SMALL_WALL_GROUP:
-                return createSmallWall(orientation, velocity, region);
+                return createSmallWall(orientation, velocity, animation);
             case WALL_GROUP:
-                return createWall(orientation, velocity, region);
+                return createWall(orientation, velocity, animation);
         }
 
         return null;
@@ -55,71 +56,71 @@ public class EnemyGroupFactory {
         Pools.free(group);
     }
 
-    private static EnemyGroup createSmallSnake(byte orientation, float velocity, TextureRegion region) {
+    private static EnemyGroup createSmallSnake(byte orientation, float velocity, Animation<TextureRegion> animation) {
         Array<Enemy> enemies = new Array<>(2);
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH + orientation * ENEMY_DISTANCE,
-                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, region, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH - orientation * ENEMY_DISTANCE,
+                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, animation, orientation));
         return Pools.obtain(EnemyGroup.class).init(enemies);
     }
 
-    private static EnemyGroup createLadder(byte orientation, float velocity, TextureRegion region) {
+    private static EnemyGroup createLadder(byte orientation, float velocity, Animation<TextureRegion> animation) {
         Array<Enemy> enemies = new Array<>(4);
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - ENEMY_DISTANCE, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH + orientation * ENEMY_DISTANCE,
-                HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 3), ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH + 2 * orientation * ENEMY_DISTANCE,
-                HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 3), ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH + 3 * orientation * ENEMY_DISTANCE,
-                HALF_SCREEN_HEIGHT + ENEMY_DISTANCE, ENEMY_SIZE, velocity, region, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT - ENEMY_DISTANCE, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH - orientation * ENEMY_DISTANCE,
+                HALF_SCREEN_HEIGHT - ((ENEMY_DISTANCE) / 3), ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH - 2 * orientation * ENEMY_DISTANCE,
+                HALF_SCREEN_HEIGHT + ((ENEMY_DISTANCE) / 3), ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH - 3 * orientation * ENEMY_DISTANCE,
+                HALF_SCREEN_HEIGHT + ENEMY_DISTANCE, ENEMY_SIZE, velocity, animation, orientation));
         return Pools.obtain(EnemyGroup.class).init(enemies);
     }
 
-    private static EnemyGroup createSnake(byte orientation, float velocity, TextureRegion region) {
+    private static EnemyGroup createSnake(byte orientation, float velocity, Animation<TextureRegion> animation) {
         Array<Enemy> enemies = new Array<>(4);
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
-                orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
-                2 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
-                3 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, region, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH -
+                orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH -
+                2 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH -
+                3 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, animation, orientation));
         return Pools.obtain(EnemyGroup.class).init(enemies);
     }
 
-    private static EnemyGroup createLadderSnake(byte orientation, float velocity, TextureRegion region) {
+    private static EnemyGroup createLadderSnake(byte orientation, float velocity, Animation<TextureRegion> animation) {
         Array<Enemy> enemies = new Array<>(4);
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT + ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
-                orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
-                2 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT + ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH +
-                3 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, region, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT + ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH -
+                orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH -
+                2 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT + ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH -
+                3 * orientation * ENEMY_DISTANCE, HALF_SCREEN_HEIGHT - ENEMY_DISTANCE / 2, ENEMY_SIZE, velocity, animation, orientation));
         return Pools.obtain(EnemyGroup.class).init(enemies);
     }
 
-    private static EnemyGroup createSmallWall(byte orientation, float velocity, TextureRegion region) {
+    private static EnemyGroup createSmallWall(byte orientation, float velocity, Animation<TextureRegion> animation) {
         Array<Enemy> enemies = new Array<>(2);
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT + HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, region, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT + HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT - HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, animation, orientation));
         return Pools.obtain(EnemyGroup.class).init(enemies);
     }
 
-    private static EnemyGroup createWall(byte orientation, float velocity, TextureRegion region) {
+    private static EnemyGroup createWall(byte orientation, float velocity, Animation<TextureRegion> animation) {
         Array<Enemy> enemies = new Array<>(2);
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT + 2 * HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, region, orientation));
-        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH + orientation * HALF_SCREEN_WIDTH,
-                HALF_SCREEN_HEIGHT - 2 * HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, region, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT + 2 * HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT, ENEMY_SIZE, velocity, animation, orientation));
+        enemies.add(Pools.obtain(Enemy.class).init(HALF_SCREEN_WIDTH - orientation * HALF_SCREEN_WIDTH,
+                HALF_SCREEN_HEIGHT - 2 * HALF_SCREEN_HEIGHT / 3, ENEMY_SIZE, velocity, animation, orientation));
         return Pools.obtain(EnemyGroup.class).init(enemies);
     }
 

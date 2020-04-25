@@ -81,10 +81,6 @@ public class GameConstants {
     // Control
     public static final short MIN_FLING_DISTANCE = 100;
 
-    // Actions
-    public static final float ENEMY_ROTATION_ANGEL = 360f;
-    public static final float ENEMY_ROTATION_DURATION = 1f;
-
     // Texts
     public static final String TITLE_LABEL_TEXT = "Fly Fall".toUpperCase();
     public static final String LOADING_LABEL_TEXT = "Loading...".toUpperCase();
@@ -96,6 +92,10 @@ public class GameConstants {
 
     // Assets
     public static final String DEFAULT_FONT = "fonts/font.ttf";
+
+    // Animation
+    public static final float ENEMY_ANIMATION_FRAME_DURATION = 0.033f;
+    public static final float BONUS_ANIMATION_FRAME_DURATION = 0.033f;
 
 
     private GameConstants() {
