@@ -10,14 +10,14 @@ public class AnimationActor extends DynamicActor {
 
     public AnimationActor(float x, float y, float size, float horizontalVelocity,
                           float verticalVelocity, Animation<TextureRegion> animation, byte orientation) {
-        super(x, y, size, horizontalVelocity, verticalVelocity, animation.getKeyFrame(0, true), orientation);
+        super(x, y, size, horizontalVelocity, verticalVelocity, animation.getKeyFrame(0), orientation);
         this.animation = animation;
         this.stateTime = 0f;
     }
 
     public void init(float x, float y, float size, float horizontalVelocity,
                 float verticalVelocity, Animation<TextureRegion> animation, byte orientation) {
-        super.init(x, y, size, horizontalVelocity, verticalVelocity, animation.getKeyFrame(0, true),
+        super.init(x, y, size, horizontalVelocity, verticalVelocity, animation.getKeyFrame(0),
                 orientation);
         this.animation = animation;
         this.stateTime = 0f;
@@ -27,7 +27,7 @@ public class AnimationActor extends DynamicActor {
     public void act(float delta) {
         super.act(delta);
         stateTime += delta;
-        region = animation.getKeyFrame(stateTime, true);
+        region = animation.getKeyFrame(stateTime);
         if (stateTime > animation.getAnimationDuration()) {
             stateTime -= animation.getAnimationDuration();
         }

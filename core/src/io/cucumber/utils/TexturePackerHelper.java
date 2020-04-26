@@ -10,5 +10,4 @@ public class TexturePackerHelper {
         settings.maxHeight = 2048;
         TexturePacker.process(settings, "android/assets/images", "android/assets/atlas", "game");
     }
-
 }

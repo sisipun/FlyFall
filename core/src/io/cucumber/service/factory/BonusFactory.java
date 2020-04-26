@@ -18,7 +18,8 @@ public class BonusFactory {
 
     public static Bonus create(float x, float y, Animation<TextureRegion> animation,
                                TextureRegion timerRegion) {
-        return Pools.obtain(Bonus.class).init(x, y, BONUS_SIZE, animation, timerRegion, BONUS_LIFESPAN);
+        return Pools.obtain(Bonus.class).init(x, y, BONUS_SIZE, animation, timerRegion,
+                BONUS_LIFESPAN);
     }
 
     public static void free(Bonus bonus) {
