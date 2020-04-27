@@ -2,6 +2,7 @@ package io.cucumber
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
+import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import io.cucumber.service.factory.BonusFactory
@@ -17,8 +18,8 @@ class Game : com.badlogic.gdx.Game() {
 
     lateinit var preferences: Preferences
         private set
-//    lateinit var fpsLogger: FPSLogger
-//        private set
+    lateinit var fpsLogger: FPSLogger
+        private set
     lateinit var stage: Stage
         private set
 
@@ -30,7 +31,7 @@ class Game : com.badlogic.gdx.Game() {
 
     fun init() {
         preferences = Gdx.app.getPreferences(PREFERENCE_NAME)
-//        fpsLogger = FPSLogger()
+        fpsLogger = FPSLogger()
         Gdx.input.inputProcessor = stage
         LevelManager.loadLevels()
         FontManager.loadFonts()
