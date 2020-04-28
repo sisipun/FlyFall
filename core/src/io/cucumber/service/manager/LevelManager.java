@@ -10,6 +10,7 @@ import io.cucumber.model.level.LevelAssets;
 
 import static io.cucumber.utils.constant.GameConstants.BONUS_ANIMATION_FRAME_DURATION;
 import static io.cucumber.utils.constant.GameConstants.ENEMY_ANIMATION_FRAME_DURATION;
+import static io.cucumber.utils.constant.GameConstants.HERO_ANIMATION_FRAME_DURATION;
 import static io.cucumber.utils.constant.GameConstants.IS_ACTIVE_PATTERN;
 import static io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME;
 
@@ -47,6 +48,7 @@ public class LevelManager {
                 commonAssets,
                 0,
                 "hero",
+                HERO_ANIMATION_FRAME_DURATION,
                 "enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
                 "bonus",
@@ -58,6 +60,7 @@ public class LevelManager {
                 commonAssets,
                 1,
                 "ghost_hero",
+                HERO_ANIMATION_FRAME_DURATION,
                 "ghost_enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
                 "ghost_bonus",
@@ -71,6 +74,7 @@ public class LevelManager {
                 commonAssets,
                 2,
                 "sea_hero",
+                HERO_ANIMATION_FRAME_DURATION,
                 "sea_enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
                 "sea_bonus",
@@ -84,6 +88,7 @@ public class LevelManager {
                 commonAssets,
                 3,
                 "sky_hero",
+                HERO_ANIMATION_FRAME_DURATION,
                 "sky_enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
                 "sky_bonus",
@@ -97,6 +102,7 @@ public class LevelManager {
                 commonAssets,
                 4,
                 "space_hero",
+                HERO_ANIMATION_FRAME_DURATION,
                 "space_enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
                 "space_bonus",

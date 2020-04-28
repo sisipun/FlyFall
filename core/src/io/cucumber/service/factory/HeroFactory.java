@@ -1,5 +1,6 @@
 package io.cucumber.service.factory;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Pools;
 
@@ -16,14 +17,14 @@ public class HeroFactory {
         Pools.set(Hero.class, new HeroPool());
     }
 
-    public static Hero create(float x, float y, TextureRegion region) {
+    public static Hero create(float x, float y, Animation<TextureRegion> animation) {
         return Pools.obtain(Hero.class).init(
                 x,
                 y,
                 HERO_SIZE,
                 HERO_HORIZONTAL_VELOCITY,
                 -1 * HERO_VERTICAL_VELOCITY,
-                region
+                animation
         );
     }
 

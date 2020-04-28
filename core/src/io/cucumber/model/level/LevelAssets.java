@@ -10,7 +10,7 @@ import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
 public class LevelAssets {
 
     private final int id;
-    private final TextureAtlas.AtlasRegion hero;
+    private final Animation<TextureRegion> hero;
     private final Animation<TextureRegion> enemy;
     private final Animation<TextureRegion> bonus;
     private final TextureAtlas.AtlasRegion background;
@@ -19,10 +19,14 @@ public class LevelAssets {
     private boolean active;
 
     public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
-                       String enemy, float enemyFrameDuration, String bonus, float bonusFrameDuration,
-                       String background, int cost, boolean active) {
+                       float heroFrameDuration, String enemy, float enemyFrameDuration, String bonus,
+                       float bonusFrameDuration, String background, int cost, boolean active) {
         this.id = id;
-        this.hero = atlas.findRegion(hero);
+        this.hero = new Animation<TextureRegion>(
+                heroFrameDuration,
+                atlas.findRegions(hero),
+                LOOP
+        );
         this.enemy = new Animation<TextureRegion>(
                 enemyFrameDuration,
                 atlas.findRegions(enemy),
@@ -41,15 +45,17 @@ public class LevelAssets {
     }
 
     public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
-                       String enemy, float enemyFrameDuration, String bonus, float bonusFrameDuration, String background) {
-        this(atlas, commonAssets, id, hero, enemy, enemyFrameDuration, bonus, bonusFrameDuration, background, 0, true);
+                       float heroFrameDuration, String enemy, float enemyFrameDuration,
+                       String bonus, float bonusFrameDuration, String background) {
+        this(atlas, commonAssets, id, hero, heroFrameDuration, enemy, enemyFrameDuration, bonus,
+                bonusFrameDuration, background, 0, true);
     }
 
     public int getId() {
         return id;
     }
 
-    public TextureAtlas.AtlasRegion getHero() {
+    public Animation<TextureRegion> getHero() {
         return hero;
     }
 

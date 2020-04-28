@@ -94,6 +94,7 @@ public class GameConstants {
     public static final String DEFAULT_FONT = "fonts/font.ttf";
 
     // Animation
+    public static final float HERO_ANIMATION_FRAME_DURATION = 0.033f;
     public static final float ENEMY_ANIMATION_FRAME_DURATION = 0.033f;
     public static final float BONUS_ANIMATION_FRAME_DURATION = 0.033f;
 

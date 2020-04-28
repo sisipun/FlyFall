@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
 import io.cucumber.model.actor.shape.AnimatedCircle
-import io.cucumber.model.actor.shape.SimpleCircle
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.button.SwitchImageButton
 import io.cucumber.model.component.text.TextLabel
@@ -59,7 +58,7 @@ class ChooseLevelScreen(
             CHOOSE_BUTTON_HEIGHT,
             this.levelAssets.rightButton
     )
-    private var hero: SimpleCircle = SimpleCircle(
+    private var hero: AnimatedCircle = AnimatedCircle(
             SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8,
             SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
             HERO_SIZE,
@@ -145,7 +144,7 @@ class ChooseLevelScreen(
 
     private fun reloadLevel() {
         chooseButton.setSwitcher(levelAssets.isActive)
-        hero.setRegion(levelAssets.hero)
+        hero.setAnimation(levelAssets.hero)
         enemy.setAnimation(levelAssets.enemy)
         bonus.setAnimation(levelAssets.bonus)
 

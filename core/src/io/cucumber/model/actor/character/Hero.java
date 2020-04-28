@@ -1,8 +1,9 @@
 package io.cucumber.model.actor.character;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import io.cucumber.model.base.DynamicActor;
+import io.cucumber.model.base.AnimationActor;
 
 import static io.cucumber.utils.constant.GameConstants.DEFAULT_ACCELERATION;
 import static io.cucumber.utils.constant.GameConstants.DOWN_DIRECTION;
@@ -10,7 +11,7 @@ import static io.cucumber.utils.constant.GameConstants.LEFT_DIRECTION;
 import static io.cucumber.utils.constant.GameConstants.NOT_MOVE;
 import static io.cucumber.utils.constant.GameConstants.RIGHT_DIRECTION;
 
-public class Hero extends DynamicActor {
+public class Hero extends AnimationActor {
 
     private byte directionY;
     private byte directionX;
@@ -18,8 +19,8 @@ public class Hero extends DynamicActor {
     private float acceleration;
 
     public Hero(float x, float y, float size, float horizontalVelocity, float verticalVelocity,
-                TextureRegion region) {
-        super(x, y, size, horizontalVelocity, verticalVelocity, region, RIGHT_DIRECTION);
+                Animation<TextureRegion> animation) {
+        super(x, y, size, horizontalVelocity, verticalVelocity, animation, RIGHT_DIRECTION);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
         this.previousDirectionX = NOT_MOVE;
@@ -27,8 +28,8 @@ public class Hero extends DynamicActor {
     }
 
     public Hero init(float x, float y, float size, float horizontalVelocity, float verticalVelocity,
-                     TextureRegion region) {
-        super.init(x, y, size, horizontalVelocity, verticalVelocity, region, RIGHT_DIRECTION);
+                     Animation<TextureRegion> animation) {
+        super.init(x, y, size, horizontalVelocity, verticalVelocity, animation, RIGHT_DIRECTION);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
         this.previousDirectionX = NOT_MOVE;
