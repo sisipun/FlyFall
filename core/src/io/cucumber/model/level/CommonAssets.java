@@ -21,12 +21,13 @@ public class CommonAssets {
     private final Sound flipSound;
     private final Sound bonusSound;
     private final Sound deathSound;
+    private final Sound backgroundSound;
 
     public CommonAssets(TextureAtlas atlas, String timer, String wall, String okButton,
                         String playButton, String chooseButton, String notButton,
                         String soundOffButton, String soundOnButton, String pauseButton,
                         String buyButton, String leftButton, String rightButton, String flipSound,
-                        String bonusSound, String deathSound) {
+                        String bonusSound, String deathSound, String backgroundSound) {
         this.timer = atlas.findRegion(timer);
         this.wall = atlas.findRegion(wall);
         this.okButton = atlas.findRegion(okButton);
@@ -42,6 +43,7 @@ public class CommonAssets {
         this.flipSound = Gdx.audio.newSound(Gdx.files.internal(flipSound));
         this.bonusSound = Gdx.audio.newSound(Gdx.files.internal(bonusSound));
         this.deathSound = Gdx.audio.newSound(Gdx.files.internal(deathSound));
+        this.backgroundSound = Gdx.audio.newSound(Gdx.files.internal(backgroundSound));
     }
 
     public void dispose() {
@@ -108,5 +110,9 @@ public class CommonAssets {
 
     public Sound getDeathSound() {
         return deathSound;
+    }
+
+    public Sound getBackgroundSound() {
+        return backgroundSound;
     }
 }

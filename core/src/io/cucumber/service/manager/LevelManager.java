@@ -41,7 +41,8 @@ public class LevelManager {
                 "right_button",
                 "sounds/flip.wav",
                 "sounds/bonus.wav",
-                "sounds/death.mp3"
+                "sounds/death.mp3",
+                "sounds/background.mp3"
         );
         levelAssets.put(0, new LevelAssets(
                 atlas,

@@ -121,6 +121,9 @@ class StartScreen(
                 }
             })
         }
+        if (this.isSoundOn) {
+            this.levelAssets.backgroundSound.loop()
+        }
     }
 
     fun init(bonusCount: Int?, highScore: Int?, isSoundOn: Boolean?,
@@ -132,6 +135,7 @@ class StartScreen(
         this.bonusCount = bonusCount ?: game.preferences.getInteger(BONUSES_COUNT)
         this.levelAssets = levelAssets
                 ?: LevelManager.get(game.preferences.getInteger(TEXTURE_LEVEL))
+        this.levelAssets.backgroundSound.resume()
         return this
     }
 
@@ -152,6 +156,7 @@ class StartScreen(
     }
 
     private fun play() {
+        this.levelAssets.backgroundSound.pause()
         setScreen(ScreenManager.getGameScreen(
                 this.game,
                 this.bonusCount,
@@ -178,6 +183,11 @@ class StartScreen(
         soundOffButton.setSwitcher(this.isSoundOn)
         game.preferences.putBoolean(IS_SOUND_DISABLED, !this.isSoundOn)
         game.preferences.flush()
+        if (this.isSoundOn) {
+            this.levelAssets.backgroundSound.loop()
+        } else {
+            this.levelAssets.backgroundSound.stop()
+        }
     }
 
     private fun changeControl() {

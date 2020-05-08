@@ -131,6 +131,10 @@ public class LevelAssets {
         return commonAssets.getDeathSound();
     }
 
+    public Sound getBackgroundSound() {
+        return commonAssets.getBackgroundSound();
+    }
+
     public int getCost() {
         return cost;
     }
