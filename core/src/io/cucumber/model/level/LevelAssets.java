@@ -119,6 +119,13 @@ public class LevelAssets {
         return commonAssets.getRightButton();
     }
 
+    public TextureAtlas.AtlasRegion getRestartButton() {
+        return commonAssets.getRestartButton();
+    }
+    public TextureAtlas.AtlasRegion getHomeButton() {
+        return commonAssets.getHomeButton();
+    }
+
     public Sound getFlipSound() {
         return commonAssets.getFlipSound();
     }

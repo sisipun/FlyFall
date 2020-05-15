@@ -95,7 +95,7 @@ class GameScreen(
             SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
             HOME_BUTTON_HEIGHT,
-            this.levelAssets.notButton
+            this.levelAssets.homeButton
     )
     private val pauseTitle: TextLabel = TextLabel(
             SCREEN_WIDTH / 2,

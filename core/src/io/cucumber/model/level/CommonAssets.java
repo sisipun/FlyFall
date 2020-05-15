@@ -18,6 +18,8 @@ public class CommonAssets {
     private final TextureAtlas.AtlasRegion buyButton;
     private final TextureAtlas.AtlasRegion leftButton;
     private final TextureAtlas.AtlasRegion rightButton;
+    private final TextureAtlas.AtlasRegion restartButton;
+    private final TextureAtlas.AtlasRegion homeButton;
     private final Sound flipSound;
     private final Sound bonusSound;
     private final Sound deathSound;
@@ -26,8 +28,9 @@ public class CommonAssets {
     public CommonAssets(TextureAtlas atlas, String timer, String wall, String okButton,
                         String playButton, String chooseButton, String notButton,
                         String soundOffButton, String soundOnButton, String pauseButton,
-                        String buyButton, String leftButton, String rightButton, String flipSound,
-                        String bonusSound, String deathSound, String backgroundSound) {
+                        String buyButton, String leftButton, String rightButton, String restartButton,
+                        String homeButton, String flipSound, String bonusSound, String deathSound,
+                        String backgroundSound) {
         this.timer = atlas.findRegion(timer);
         this.wall = atlas.findRegion(wall);
         this.okButton = atlas.findRegion(okButton);
@@ -40,6 +43,8 @@ public class CommonAssets {
         this.buyButton = atlas.findRegion(buyButton);
         this.leftButton = atlas.findRegion(leftButton);
         this.rightButton = atlas.findRegion(rightButton);
+        this.restartButton = atlas.findRegion(restartButton);
+        this.homeButton = atlas.findRegion(homeButton);
         this.flipSound = Gdx.audio.newSound(Gdx.files.internal(flipSound));
         this.bonusSound = Gdx.audio.newSound(Gdx.files.internal(bonusSound));
         this.deathSound = Gdx.audio.newSound(Gdx.files.internal(deathSound));
@@ -98,6 +103,14 @@ public class CommonAssets {
 
     public TextureAtlas.AtlasRegion getRightButton() {
         return rightButton;
+    }
+
+    public TextureAtlas.AtlasRegion getRestartButton() {
+        return restartButton;
+    }
+
+    public TextureAtlas.AtlasRegion getHomeButton() {
+        return homeButton;
     }
 
     public Sound getFlipSound() {

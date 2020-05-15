@@ -38,16 +38,9 @@ public class Bonus extends AnimationActor {
         float lifespanFactor = (BONUS_LIFESPAN - lifespan) / BONUS_LIFESPAN;
         batch.draw(
                 timerRegion,
-                SCREEN_WIDTH / 2,
-                TIMER_HEIGHT,
-                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
-                TIMER_HEIGHT
-        );
-        batch.draw(
-                timerRegion,
                 TIMER_MARGIN_WIDTH + ((SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * lifespanFactor),
                 TIMER_HEIGHT,
-                (SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
+                (SCREEN_WIDTH - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
                 TIMER_HEIGHT
         );
     }

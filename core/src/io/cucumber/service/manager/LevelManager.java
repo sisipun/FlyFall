@@ -39,6 +39,8 @@ public class LevelManager {
                 "buy_button",
                 "left_button",
                 "right_button",
+                "restart_button",
+                "home_button",
                 "sounds/flip.wav",
                 "sounds/bonus.wav",
                 "sounds/death.mp3",

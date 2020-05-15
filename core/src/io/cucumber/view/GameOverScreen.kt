@@ -30,14 +30,14 @@ class GameOverScreen(
             SCREEN_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
             HOME_BUTTON_HEIGHT,
-            this.levelAssets.notButton
+            this.levelAssets.homeButton
     )
     private val restartButton: ImageButton = ImageButton(
             SCREEN_WIDTH / 2 - RESTART_BUTTON_WIDTH,
             SCREEN_HEIGHT / 2,
             RESTART_BUTTON_WIDTH,
             RESTART_BUTTON_HEIGHT,
-            this.levelAssets.playButton
+            this.levelAssets.restartButton
     )
     private val scoreLabel: TextLabel = TextLabel(
             SCREEN_WIDTH / 2,
