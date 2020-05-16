@@ -86,6 +86,10 @@ class GameOverScreen(
         this.highScore = highScore
         this.bonusCount = bonusCount
         this.levelAssets = levelAssets
+
+        this.homeButton.setTexture(this.levelAssets.homeButton)
+        this.restartButton.setTexture(this.levelAssets.restartButton)
+
         return this
     }
 

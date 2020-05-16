@@ -11,20 +11,6 @@ bonus
   orig: 300, 300
   offset: 0, 0
   index: -1
-buy_button
-  rotate: false
-  xy: 1810, 756
-  size: 200, 202
-  orig: 200, 202
-  offset: 0, 0
-  index: -1
-choose_button
-  rotate: false
-  xy: 1810, 552
-  size: 200, 202
-  orig: 200, 202
-  offset: 0, 0
-  index: -1
 enemy
   rotate: false
   xy: 604, 97
@@ -60,25 +46,39 @@ ghost_hero
   orig: 59, 64
   offset: 0, 0
   index: -1
-hero
+gray_acc_button
   rotate: false
-  xy: 1508, 356
-  size: 300, 300
-  orig: 300, 300
+  xy: 1810, 756
+  size: 200, 202
+  orig: 200, 202
   offset: 0, 0
   index: -1
-home_button
+gray_buy_button
+  rotate: false
+  xy: 1810, 552
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+gray_choose_button
   rotate: false
   xy: 1810, 348
   size: 200, 202
   orig: 200, 202
   offset: 0, 0
   index: -1
-left_button
+gray_home_button
   rotate: false
   xy: 1208, 2
   size: 200, 202
   orig: 200, 202
+  offset: 0, 0
+  index: -1
+hero
+  rotate: false
+  xy: 1508, 356
+  size: 300, 300
+  orig: 300, 300
   offset: 0, 0
   index: -1
 sea_hero
@@ -157,160 +157,432 @@ size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-not_button
+gray_left_button
   rotate: false
-  xy: 2, 1828
+  xy: 582, 17
   size: 200, 202
   orig: 200, 202
   offset: 0, 0
   index: -1
-ok_button
+gray_not_button
   rotate: false
-  xy: 204, 1828
+  xy: 1724, 2
   size: 200, 202
   orig: 200, 202
   offset: 0, 0
   index: -1
-pause_button
+sea_background
   rotate: false
-  xy: 406, 1828
-  size: 200, 202
-  orig: 200, 202
-  offset: 0, 0
-  index: -1
-play_button
-  rotate: false
-  xy: 608, 1828
-  size: 200, 202
-  orig: 200, 202
-  offset: 0, 0
-  index: -1
-restart_button
-  rotate: false
-  xy: 810, 1828
-  size: 200, 202
-  orig: 200, 202
-  offset: 0, 0
-  index: -1
-right_button
-  rotate: false
-  xy: 1012, 1828
-  size: 200, 202
-  orig: 200, 202
+  xy: 2, 947
+  size: 1920, 1080
+  orig: 1920, 1080
   offset: 0, 0
   index: -1
 sea_bonus
   rotate: false
-  xy: 1618, 1818
+  xy: 606, 221
   size: 282, 212
   orig: 282, 212
   offset: 0, 0
   index: -1
 sea_enemy
   rotate: false
-  xy: 2, 1599
+  xy: 1724, 206
   size: 239, 227
   orig: 239, 227
   offset: 0, 0
   index: -1
 sky_bonus
   rotate: false
-  xy: 243, 1572
+  xy: 606, 691
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 2
 sky_bonus
   rotate: false
-  xy: 521, 1572
+  xy: 304, 87
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 3
 sky_bonus
   rotate: false
-  xy: 799, 1572
+  xy: 606, 435
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 4
 sky_bonus
   rotate: false
-  xy: 1077, 1572
+  xy: 884, 691
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 5
 sky_bonus
   rotate: false
-  xy: 1355, 1562
+  xy: 884, 435
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 6
 sky_bonus
   rotate: false
-  xy: 1633, 1562
+  xy: 1162, 691
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 7
 sky_bonus
   rotate: false
-  xy: 2, 1316
+  xy: 1162, 435
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 8
 sky_bonus
   rotate: false
-  xy: 280, 1316
+  xy: 1440, 691
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 9
 sky_bonus
   rotate: false
-  xy: 558, 1316
+  xy: 1440, 435
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 10
 sky_bonus
   rotate: false
-  xy: 836, 1316
+  xy: 1718, 691
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 11
 sky_bonus
   rotate: false
-  xy: 1114, 1306
+  xy: 1718, 435
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 12
 sky_bonus
   rotate: false
-  xy: 1392, 1306
+  xy: 890, 179
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 13
 sky_bonus
   rotate: false
-  xy: 1670, 1306
+  xy: 1168, 179
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 14
 sky_bonus
   rotate: false
-  xy: 2, 1060
+  xy: 1446, 179
   size: 276, 254
   orig: 276, 254
   offset: 0, 0
   index: 15
+space_enemy
+  rotate: false
+  xy: 2, 645
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 3
+space_enemy
+  rotate: false
+  xy: 2, 343
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 4
+space_enemy
+  rotate: false
+  xy: 304, 645
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 5
+space_enemy
+  rotate: false
+  xy: 2, 41
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 6
+wall
+  rotate: false
+  xy: 304, 343
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+
+game3.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gray_ok_button
+  rotate: false
+  xy: 2, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+gray_pause_button
+  rotate: false
+  xy: 204, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+gray_play_button
+  rotate: false
+  xy: 406, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+gray_restart_button
+  rotate: false
+  xy: 608, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+gray_right_button
+  rotate: false
+  xy: 810, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+gray_sound_off_button
+  rotate: false
+  xy: 1012, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+gray_sound_on_button
+  rotate: false
+  xy: 1214, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+gray_tap_button
+  rotate: false
+  xy: 1416, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_acc_button
+  rotate: false
+  xy: 1618, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_buy_button
+  rotate: false
+  xy: 1820, 1820
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_choose_button
+  rotate: false
+  xy: 2, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_home_button
+  rotate: false
+  xy: 204, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_left_button
+  rotate: false
+  xy: 406, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_not_button
+  rotate: false
+  xy: 608, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_ok_button
+  rotate: false
+  xy: 810, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_pause_button
+  rotate: false
+  xy: 1012, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_play_button
+  rotate: false
+  xy: 1214, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_restart_button
+  rotate: false
+  xy: 1416, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_right_button
+  rotate: false
+  xy: 1618, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_sound_off_button
+  rotate: false
+  xy: 1820, 1616
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_sound_on_button
+  rotate: false
+  xy: 2, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+green_tap_button
+  rotate: false
+  xy: 204, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_acc_button
+  rotate: false
+  xy: 406, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_buy_button
+  rotate: false
+  xy: 608, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_choose_button
+  rotate: false
+  xy: 810, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_home_button
+  rotate: false
+  xy: 1012, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_left_button
+  rotate: false
+  xy: 1214, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_not_button
+  rotate: false
+  xy: 1416, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_ok_button
+  rotate: false
+  xy: 1618, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_pause_button
+  rotate: false
+  xy: 1820, 1412
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_play_button
+  rotate: false
+  xy: 2, 1208
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_restart_button
+  rotate: false
+  xy: 204, 1208
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_right_button
+  rotate: false
+  xy: 406, 1208
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_sound_off_button
+  rotate: false
+  xy: 608, 1208
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_sound_on_button
+  rotate: false
+  xy: 810, 1208
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+red_tap_button
+  rotate: false
+  xy: 1012, 1208
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
 sky_hero
   rotate: false
   xy: 2, 2
@@ -325,57 +597,106 @@ sky_hero
   orig: 1000, 1000
   offset: 0, 0
   index: 2
-sound_off_button
+yellow_acc_button
   rotate: false
-  xy: 1214, 1828
+  xy: 1214, 1208
   size: 200, 202
   orig: 200, 202
   offset: 0, 0
   index: -1
-sound_on_button
+yellow_buy_button
   rotate: false
-  xy: 1416, 1828
+  xy: 1416, 1208
   size: 200, 202
   orig: 200, 202
   offset: 0, 0
   index: -1
-space_enemy
+yellow_choose_button
   rotate: false
-  xy: 280, 1014
-  size: 300, 300
-  orig: 300, 300
+  xy: 1618, 1208
+  size: 200, 202
+  orig: 200, 202
   offset: 0, 0
-  index: 3
-space_enemy
+  index: -1
+yellow_home_button
   rotate: false
-  xy: 582, 1014
-  size: 300, 300
-  orig: 300, 300
+  xy: 1820, 1208
+  size: 200, 202
+  orig: 200, 202
   offset: 0, 0
-  index: 4
-space_enemy
+  index: -1
+yellow_left_button
   rotate: false
-  xy: 884, 1004
-  size: 300, 300
-  orig: 300, 300
+  xy: 2, 1004
+  size: 200, 202
+  orig: 200, 202
   offset: 0, 0
-  index: 5
-space_enemy
+  index: -1
+yellow_not_button
   rotate: false
-  xy: 1186, 1004
-  size: 300, 300
-  orig: 300, 300
+  xy: 204, 1004
+  size: 200, 202
+  orig: 200, 202
   offset: 0, 0
-  index: 6
-wall
+  index: -1
+yellow_ok_button
   rotate: false
-  xy: 1488, 1004
-  size: 300, 300
-  orig: 300, 300
+  xy: 406, 1004
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+yellow_pause_button
+  rotate: false
+  xy: 608, 1004
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+yellow_play_button
+  rotate: false
+  xy: 810, 1004
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+yellow_restart_button
+  rotate: false
+  xy: 1012, 1004
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+yellow_right_button
+  rotate: false
+  xy: 1214, 1004
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+yellow_sound_off_button
+  rotate: false
+  xy: 1416, 1004
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+yellow_sound_on_button
+  rotate: false
+  xy: 1618, 1004
+  size: 200, 202
+  orig: 200, 202
+  offset: 0, 0
+  index: -1
+yellow_tap_button
+  rotate: false
+  xy: 1820, 1004
+  size: 200, 202
+  orig: 200, 202
   offset: 0, 0
   index: -1
 
-game3.png
+game4.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -408,19 +729,6 @@ sky_hero
   orig: 1000, 1000
   offset: 0, 0
   index: 6
-
-game4.png
-size: 2048,2048
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-sea_background
-  rotate: false
-  xy: 2, 2
-  size: 1920, 1080
-  orig: 1920, 1080
-  offset: 0, 0
-  index: -1
 
 game5.png
 size: 2048,2048

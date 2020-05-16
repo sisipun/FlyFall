@@ -56,8 +56,8 @@ class StartScreen(
             SCREEN_HEIGHT / 2,
             SOUND_OFF_BUTTON_WIDTH,
             SOUND_OFF_BUTTON_HEIGHT,
-            this.levelAssets.soundOffButton,
             this.levelAssets.soundOnButton,
+            this.levelAssets.soundOffButton,
             this.isSoundOn
     )
     private val controlButton: SwitchImageButton = SwitchImageButton(
@@ -65,8 +65,8 @@ class StartScreen(
             SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
             SOUND_OFF_BUTTON_WIDTH,
             SOUND_OFF_BUTTON_HEIGHT,
-            this.levelAssets.soundOffButton,
-            this.levelAssets.soundOnButton,
+            this.levelAssets.accButton,
+            this.levelAssets.tapButton,
             this.isAcceleratorOn
     )
     private val title: TextLabel = TextLabel(
@@ -136,6 +136,12 @@ class StartScreen(
         this.levelAssets = levelAssets
                 ?: LevelManager.get(game.preferences.getInteger(TEXTURE_LEVEL))
         this.levelAssets.backgroundSound.resume()
+
+        this.startButton.setTexture(this.levelAssets.playButton)
+        this.chooseLevelButton.setTexture(this.levelAssets.chooseButton)
+        this.soundOffButton.setTexture(this.levelAssets.soundOnButton, this.levelAssets.soundOffButton)
+        this.controlButton.setTexture(this.levelAssets.accButton, this.levelAssets.tapButton)
+
         return this
     }
 

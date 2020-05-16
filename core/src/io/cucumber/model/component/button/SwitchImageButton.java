@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class SwitchImageButton extends ImageButton {
 
-    private final ImageButtonStyle firstStyle;
-    private final ImageButtonStyle secondStyle;
+    private ImageButtonStyle firstStyle;
+    private ImageButtonStyle secondStyle;
     private boolean switcher;
 
     public SwitchImageButton(float x, float y, float width, float height, TextureRegion firstRegion,
@@ -22,5 +22,11 @@ public class SwitchImageButton extends ImageButton {
             this.switcher = switcher;
             setStyle(switcher ? firstStyle : secondStyle);
         }
+    }
+
+    public void setTexture(TextureRegion firstRegion, TextureRegion secondRegion) {
+        this.firstStyle = new ImageButtonStyle(null, null, null, new TextureRegionDrawable(firstRegion), null, null);
+        this.secondStyle = new ImageButtonStyle(null, null, null, new TextureRegionDrawable(secondRegion), null, null);
+        setStyle(switcher ? firstStyle : secondStyle);
     }
 }

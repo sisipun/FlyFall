@@ -180,6 +180,10 @@ class GameScreen(
                 this.levelAssets.hero
         )
 
+        this.pauseButton.setTexture(this.levelAssets.pauseButton)
+        this.resumeButton.setTexture(this.levelAssets.playButton)
+        this.homeButton.setTexture(this.levelAssets.homeButton)
+
         if (this.isAcceleratorOn != isAcceleratorOn)  {
             this.isAcceleratorOn = isAcceleratorOn
             if (this.isAcceleratorOn) {

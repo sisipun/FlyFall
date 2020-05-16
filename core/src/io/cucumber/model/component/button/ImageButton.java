@@ -19,4 +19,8 @@ public class ImageButton extends com.badlogic.gdx.scenes.scene2d.ui.ImageButton 
                 bound.getHeight()
         );
     }
+
+    public void setTexture(TextureRegion region) {
+        setStyle(new ImageButtonStyle(null, null, null, new TextureRegionDrawable(region), null, null));
+    }
 }

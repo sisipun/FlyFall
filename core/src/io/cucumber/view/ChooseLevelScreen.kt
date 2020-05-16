@@ -147,6 +147,10 @@ class ChooseLevelScreen(
         hero.setAnimation(levelAssets.hero)
         enemy.setAnimation(levelAssets.enemy)
         bonus.setAnimation(levelAssets.bonus)
+        homeButton.setTexture(levelAssets.homeButton)
+        chooseButton.setTexture(levelAssets.okButton, levelAssets.buyButton)
+        leftButton.setTexture(levelAssets.leftButton)
+        rightButton.setTexture(levelAssets.chooseButton)
 
         if (!levelAssets.isActive) {
             costLabel.setText(COST_LABEL_TEXT + levelAssets.cost.toString())
