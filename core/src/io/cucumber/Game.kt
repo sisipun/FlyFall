@@ -42,7 +42,7 @@ class Game : com.badlogic.gdx.Game() {
         BonusFactory.initFactory()
         HeroFactory.initFactory()
         Pools.set(HighScore::class.java, HighScorePool());
-        setScreen(ScreenManager.getHighScoreScreen(this, null))
+        setScreen(ScreenManager.getStartScreen(this, null, null, null, null, null))
     }
 
     override fun dispose() {
