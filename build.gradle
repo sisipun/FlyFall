@@ -100,7 +100,7 @@ project(":core") {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        implementation "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        compileOnly "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
     }
 }
 

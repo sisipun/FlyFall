@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import io.cucumber.model.actor.character.Enemy;
 
-public class EnemyPool extends ActorPool<Enemy> {
+public class EnemyPool extends BasePool<Enemy> {
 
     public EnemyPool() {
         super(2, 10);

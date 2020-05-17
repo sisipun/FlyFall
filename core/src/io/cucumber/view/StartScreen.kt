@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
@@ -124,6 +127,14 @@ class StartScreen(
         if (this.isSoundOn) {
             this.levelAssets.backgroundSound.loop()
         }
+
+        val titleActions = Actions.forever(Actions.parallel(
+                Actions.sequence(
+                        Actions.moveTo(title.x + SCREEN_WIDTH / 32, title.y + SCREEN_HEIGHT / 32, 1F),
+                        Actions.moveTo(title.x - SCREEN_WIDTH / 32, title.y - SCREEN_HEIGHT / 32, 1F)
+                )
+        ))
+        title.addAction(titleActions)
     }
 
     fun init(bonusCount: Int?, highScore: Int?, isSoundOn: Boolean?,

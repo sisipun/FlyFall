@@ -4,7 +4,10 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.utils.Pools
 import com.badlogic.gdx.utils.viewport.StretchViewport
+import io.cucumber.model.dto.HighScore
+import io.cucumber.pool.HighScorePool
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
 import io.cucumber.service.factory.HeroFactory
@@ -38,7 +41,8 @@ class Game : com.badlogic.gdx.Game() {
         EnemyGroupFactory.initFactory()
         BonusFactory.initFactory()
         HeroFactory.initFactory()
-        setScreen(ScreenManager.getStartScreen(this, null, null, null, null, null))
+        Pools.set(HighScore::class.java, HighScorePool());
+        setScreen(ScreenManager.getHighScoreScreen(this, null))
     }
 
     override fun dispose() {

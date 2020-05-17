@@ -98,6 +98,11 @@ public class GameConstants {
     public static final float ENEMY_ANIMATION_FRAME_DURATION = 0.033f;
     public static final float BONUS_ANIMATION_FRAME_DURATION = 0.033f;
 
+    // Http
+    public static final int DEFAULT_HIGH_SCORE_PAGE = 0;
+    public static final int DEFAULT_HIGH_SCORE_SIZE = 10;
+    public static final String HOST = "http://192.168.0.104:8080";
+    public static final String SCORE_PATH = "/scores";
 
     private GameConstants() {
     }

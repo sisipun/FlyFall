@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import io.cucumber.model.actor.character.Bonus;
 
-public class BonusPool extends ActorPool<Bonus> {
+public class BonusPool extends BasePool<Bonus> {
 
     public BonusPool() {
         super(1, 3);

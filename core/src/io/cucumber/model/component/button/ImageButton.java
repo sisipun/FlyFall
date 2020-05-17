@@ -12,6 +12,8 @@ public class ImageButton extends com.badlogic.gdx.scenes.scene2d.ui.ImageButton 
     public ImageButton(float x, float y, float width, float height, TextureRegion region) {
         super(new TextureRegionDrawable(region));
         Bound2D<Rectangle> bound = new RectangleBound(x, y, width, height);
+        setTransform(true);
+        setOrigin(bound.getWidth() / 2, bound.getHeight() / 2);
         setBounds(
                 bound.getAlignX(),
                 bound.getAlignY(),

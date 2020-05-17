@@ -5,6 +5,7 @@ import io.cucumber.model.level.LevelAssets;
 import io.cucumber.view.ChooseLevelScreen;
 import io.cucumber.view.GameOverScreen;
 import io.cucumber.view.GameScreen;
+import io.cucumber.view.HighScoreScreen;
 import io.cucumber.view.StartScreen;
 
 public class ScreenManager {
@@ -13,6 +14,7 @@ public class ScreenManager {
     private static ChooseLevelScreen chooseLevelScreen = null;
     private static GameScreen gameScreen = null;
     private static GameOverScreen gameOverScreen = null;
+    private static HighScoreScreen highScoreScreen = null;
 
     public static StartScreen getStartScreen(Game game, Integer bonusCount, Integer highScore,
                                              Boolean isSoundOn, Boolean isAcceleratorOn,
@@ -60,5 +62,12 @@ public class ScreenManager {
         }
         return gameOverScreen.init(score, bonusCount, highScore, isSoundOn, isAcceleratorOn,
                 levelAssets);
+    }
+
+    public static HighScoreScreen getHighScoreScreen(Game game, LevelAssets levelAssets) {
+        if (highScoreScreen == null) {
+            highScoreScreen = new HighScoreScreen(game, levelAssets);
+        }
+        return highScoreScreen.init(levelAssets);
     }
 }

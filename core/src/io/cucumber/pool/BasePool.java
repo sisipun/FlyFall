@@ -1,11 +1,10 @@
 package io.cucumber.pool;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
 
-public abstract class ActorPool<T extends Actor> extends Pool<T> {
+public abstract class BasePool<T> extends Pool<T> {
 
-    public ActorPool(int initialCapacity, int max) {
+    public BasePool(int initialCapacity, int max) {
         super(initialCapacity, max);
     }
 
