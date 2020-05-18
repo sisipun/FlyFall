@@ -64,10 +64,13 @@ public class ScreenManager {
                 levelAssets);
     }
 
-    public static HighScoreScreen getHighScoreScreen(Game game, LevelAssets levelAssets) {
+    public static HighScoreScreen getHighScoreScreen(Game game, int bonusCount, int highScore,
+                                                     boolean isSoundOn, boolean isAcceleratorOn,
+                                                     LevelAssets levelAssets) {
         if (highScoreScreen == null) {
-            highScoreScreen = new HighScoreScreen(game, levelAssets);
+            highScoreScreen = new HighScoreScreen(game, bonusCount, highScore, isSoundOn,
+                    isAcceleratorOn, levelAssets);
         }
-        return highScoreScreen.init(levelAssets);
+        return highScoreScreen.init(bonusCount, highScore, isSoundOn, isAcceleratorOn, levelAssets);
     }
 }

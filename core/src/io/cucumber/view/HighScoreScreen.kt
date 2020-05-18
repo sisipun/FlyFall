@@ -5,10 +5,15 @@ import com.badlogic.gdx.Net
 import com.badlogic.gdx.net.HttpRequestBuilder
 import io.cucumber.Game
 import io.cucumber.model.level.LevelAssets
+import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
 
 class HighScoreScreen(
         game: Game,
+        private var bonusCount: Int,
+        private var highScore: Int,
+        private var isSoundOn: Boolean,
+        private var isAcceleratorOn: Boolean,
         levelAssets: LevelAssets? = null
 ) : BaseScreen(game, levelAssets) {
 
@@ -23,10 +28,12 @@ class HighScoreScreen(
         Gdx.net.sendHttpRequest(findHighScoreRequest, object : Net.HttpResponseListener {
             override fun cancelled() {
                 Gdx.app.log("High score", "Request cancelled")
+                home()
             }
 
             override fun failed(t: Throwable?) {
                 Gdx.app.log("High score", "Request failed", t)
+                home()
             }
 
             override fun handleHttpResponse(httpResponse: Net.HttpResponse?) {
@@ -35,14 +42,23 @@ class HighScoreScreen(
         })
     }
 
-    fun init(levelAssets: LevelAssets?): HighScoreScreen {
+    fun init(bonusCount: Int, highScore: Int, isSoundOn: Boolean,
+             isAcceleratorOn: Boolean, levelAssets: LevelAssets): HighScoreScreen {
+        this.isSoundOn = isSoundOn
+        this.isAcceleratorOn = isAcceleratorOn
+        this.highScore = highScore
+        this.bonusCount = bonusCount
+        this.levelAssets = levelAssets
+
         Gdx.net.sendHttpRequest(findHighScoreRequest, object : Net.HttpResponseListener {
             override fun cancelled() {
                 Gdx.app.log("High score", "Request cancelled")
+                home()
             }
 
             override fun failed(t: Throwable?) {
                 Gdx.app.log("High score", "Request failed", t)
+                home()
             }
 
             override fun handleHttpResponse(httpResponse: Net.HttpResponse?) {
@@ -53,4 +69,14 @@ class HighScoreScreen(
         return this
     }
 
+    private fun home() {
+        setScreen(ScreenManager.getStartScreen(
+                game,
+                bonusCount,
+                highScore,
+                isSoundOn,
+                isAcceleratorOn,
+                levelAssets
+        ))
+    }
 }
