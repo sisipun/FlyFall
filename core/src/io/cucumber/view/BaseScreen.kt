@@ -21,10 +21,10 @@ abstract class BaseScreen(
     protected var levelAssets: LevelAssets = levelAssets
             ?: LevelManager.get(this.game.preferences.getInteger(TEXTURE_LEVEL))
     private var background: SimpleRectangle = SimpleRectangle(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2,
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight / 2,
+            game.stage.camera.viewportWidth,
+            game.stage.camera.viewportHeight,
             this.levelAssets.background
     )
 

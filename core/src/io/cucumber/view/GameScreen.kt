@@ -49,57 +49,57 @@ class GameScreen(
 
     // Actors
     private var hero: Hero = HeroFactory.create(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight / 2,
             this.levelAssets.hero
     )
     private var enemyGroup: EnemyGroup? = null
     private var bonus: Bonus? = null
 
     private val topWall: SimpleRectangle = SimpleRectangle(
-            SCREEN_WIDTH / 2,
+            game.stage.camera.viewportWidth / 2,
             WALL_HEIGHT / 2,
-            SCREEN_WIDTH,
+            game.stage.camera.viewportWidth,
             WALL_HEIGHT,
             this.levelAssets.wall
     )
     private val bottomWall: SimpleRectangle = SimpleRectangle(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT - WALL_HEIGHT / 2,
-            SCREEN_WIDTH,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight - WALL_HEIGHT / 2,
+            game.stage.camera.viewportWidth,
             WALL_HEIGHT,
             this.levelAssets.wall
     )
     private val scoreActor: ScoreLabel = ScoreLabel(
             SCORE_WIDTH,
-            SCREEN_HEIGHT - SCORE_HEIGHT,
+            game.stage.camera.viewportHeight - SCORE_HEIGHT,
             0,
             FontManager.get(LABEL)
     )
     private val pauseButton: ImageButton = ImageButton(
-            SCREEN_WIDTH - PAUSE_BUTTON_WIDTH,
-            SCREEN_HEIGHT - PAUSE_BUTTON_HEIGHT * 0.6f,
+            game.stage.camera.viewportWidth - PAUSE_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight - PAUSE_BUTTON_HEIGHT * 0.6f,
             PAUSE_BUTTON_WIDTH,
             PAUSE_BUTTON_HEIGHT,
             this.levelAssets.pauseButton
     )
     private val resumeButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - RESUME_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - RESUME_BUTTON_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2 - RESUME_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2 - RESUME_BUTTON_HEIGHT / 2,
             RESUME_BUTTON_WIDTH,
             RESUME_BUTTON_HEIGHT,
             this.levelAssets.playButton
     )
     private val homeButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2 + HOME_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2 - HOME_BUTTON_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
             HOME_BUTTON_HEIGHT,
             this.levelAssets.homeButton
     )
     private val pauseTitle: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 6,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight / 2 + game.stage.camera.viewportHeight / 6,
             PAUSE_LABEL_TEXT,
             FontManager.get(TITLE)
     )
@@ -130,7 +130,7 @@ class GameScreen(
                     else if (gameState == PAUSE) return false
 
                     if (Input.Keys.LEFT == keycode && hero.x > 0) hero.moveLeft()
-                    if (Input.Keys.RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                    if (Input.Keys.RIGHT == keycode && hero.x + hero.width < game.stage.camera.viewportWidth) hero.moveRight()
                     return true
                 }
 
@@ -144,16 +144,16 @@ class GameScreen(
 
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     if (gameState == PAUSE) return false
-                    else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.moveLeft()
-                    else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                    else if (x < game.stage.camera.viewportWidth / 2 && hero.x > 0) hero.moveLeft()
+                    else if (x > game.stage.camera.viewportWidth / 2 && hero.x + hero.width < game.stage.camera.viewportWidth) hero.moveRight()
 
                     return true
                 }
 
                 override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
                     if (gameState == PAUSE) return
-                    else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.stopLeft()
-                    else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.stopRight()
+                    else if (x < game.stage.camera.viewportWidth / 2 && hero.x > 0) hero.stopLeft()
+                    else if (x > game.stage.camera.viewportWidth / 2 && hero.x + hero.width < game.stage.camera.viewportWidth) hero.stopRight()
                 }
             })
         }
@@ -175,8 +175,8 @@ class GameScreen(
         this.scoreActor.resetScore()
 
         this.hero = HeroFactory.create(
-                SCREEN_WIDTH / 2,
-                SCREEN_HEIGHT / 2,
+                game.stage.camera.viewportWidth / 2,
+                game.stage.camera.viewportHeight / 2,
                 this.levelAssets.hero
         )
 
@@ -197,7 +197,7 @@ class GameScreen(
                         else if (gameState == PAUSE) return false
 
                         if (Input.Keys.LEFT == keycode && hero.x > 0) hero.moveLeft()
-                        if (Input.Keys.RIGHT == keycode && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                        if (Input.Keys.RIGHT == keycode && hero.x + hero.width < game.stage.camera.viewportWidth) hero.moveRight()
                         return true
                     }
 
@@ -211,16 +211,16 @@ class GameScreen(
 
                     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                         if (gameState == PAUSE) return false
-                        else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.moveLeft()
-                        else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.moveRight()
+                        else if (x < game.stage.camera.viewportWidth / 2 && hero.x > 0) hero.moveLeft()
+                        else if (x > game.stage.camera.viewportWidth / 2 && hero.x + hero.width < game.stage.camera.viewportWidth) hero.moveRight()
 
                         return true
                     }
 
                     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
                         if (gameState == PAUSE) return
-                        else if (x < SCREEN_WIDTH / 2 && hero.x > 0) hero.stopLeft()
-                        else if (x > SCREEN_WIDTH / 2 && hero.x + hero.width < SCREEN_WIDTH) hero.stopRight()
+                        else if (x < game.stage.camera.viewportWidth / 2 && hero.x > 0) hero.stopLeft()
+                        else if (x > game.stage.camera.viewportWidth / 2 && hero.x + hero.width < game.stage.camera.viewportWidth) hero.stopRight()
                     }
                 })
             }
@@ -254,7 +254,7 @@ class GameScreen(
 
         if (isAcceleratorOn) {
             val accelY = Gdx.input.accelerometerY
-            if (accelY > 0F && hero.x + hero.width < SCREEN_WIDTH) {
+            if (accelY > 0F && hero.x + hero.width < game.stage.camera.viewportWidth) {
                 hero.stopLeft()
                 hero.moveRight(accelY)
             } else if (accelY < 0F && hero.x > 0) {
@@ -276,7 +276,7 @@ class GameScreen(
             generateEnemy()
         }
 
-        if (hero.y + hero.height + WALL_HEIGHT >= SCREEN_HEIGHT && hero.directionY == UP_DIRECTION) {
+        if (hero.y + hero.height + WALL_HEIGHT >= game.stage.camera.viewportHeight && hero.directionY == UP_DIRECTION) {
             hero.directionY = DOWN_DIRECTION
             generateBonus()
             raiseEnemyVelocity()
@@ -290,7 +290,7 @@ class GameScreen(
 
         if (hero.x < 0) {
             hero.stopLeft()
-        } else if (hero.x + hero.width > SCREEN_WIDTH) {
+        } else if (hero.x + hero.width > game.stage.camera.viewportWidth) {
             hero.stopRight()
         }
 
@@ -322,8 +322,8 @@ class GameScreen(
             if (it.enemies.size != 0) {
                 val first = it.enemies.first()
                 val last = it.enemies.last()
-                if ((first.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || first.x + first.width + ENEMY_RESPAWN_BORDER < 0) &&
-                        (last.x > ENEMY_RESPAWN_BORDER + SCREEN_WIDTH || last.x + last.width + ENEMY_RESPAWN_BORDER < 0)) {
+                if ((first.x > ENEMY_RESPAWN_BORDER + game.stage.camera.viewportWidth || first.x + first.width + ENEMY_RESPAWN_BORDER < 0) &&
+                        (last.x > ENEMY_RESPAWN_BORDER + game.stage.camera.viewportWidth || last.x + last.width + ENEMY_RESPAWN_BORDER < 0)) {
                     removeEnemyGroup()
                 }
             }
@@ -357,9 +357,9 @@ class GameScreen(
         if (bonus != null || random.nextFloat() > BONUS_CHANCE) {
             return
         }
-        var x = random.nextInt((SCREEN_WIDTH - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE
-        val y = random.nextInt((SCREEN_HEIGHT - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE
-        if (hero.x > SCREEN_WIDTH / 2) {
+        var x = random.nextInt((game.stage.camera.viewportWidth - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE
+        val y = random.nextInt((game.stage.camera.viewportHeight - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE
+        if (hero.x > game.stage.camera.viewportWidth / 2) {
             x /= 2
         }
         bonus = BonusFactory.create(x, y, levelAssets.bonus, levelAssets.timer)
@@ -371,7 +371,8 @@ class GameScreen(
                 random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
                 Math.pow(-1.0, (random.nextInt(2) + 1.0)).toByte(),
                 enemyVelocity,
-                levelAssets.enemy
+                levelAssets.enemy,
+                game.stage.camera
         )
 
         enemyGroup?.let {

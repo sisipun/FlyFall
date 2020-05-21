@@ -26,33 +26,33 @@ class GameOverScreen(
 
     // Actors
     private val homeButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2 + HOME_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2,
             HOME_BUTTON_WIDTH,
             HOME_BUTTON_HEIGHT,
             this.levelAssets.homeButton
     )
     private val restartButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - RESTART_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2 - RESTART_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2,
             RESTART_BUTTON_WIDTH,
             RESTART_BUTTON_HEIGHT,
             this.levelAssets.restartButton
     )
     private val scoreLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
+            game.stage.camera.viewportWidth / 2,
             6 * SCORE_HEIGHT,
             SCORE_LABEL_TEXT + this.score,
             FontManager.get(LABEL)
     )
     private val highScoreLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
+            game.stage.camera.viewportWidth / 2,
             4 * SCORE_HEIGHT,
             HIGH_SCORE_LABEL_TEXT + this.highScore,
             FontManager.get(LABEL)
     )
     private val bonusCountLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
+            game.stage.camera.viewportWidth / 2,
             2 * SCORE_HEIGHT,
             BONUS_LABEL_TEXT + this.bonusCount,
             FontManager.get(LABEL)

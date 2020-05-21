@@ -29,15 +29,15 @@ class ChooseLevelScreen(
 
     // Actors
     private var homeButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 + HOME_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - HOME_BUTTON_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2 + HOME_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2 - HOME_BUTTON_HEIGHT / 2,
             HOME_BUTTON_WIDTH,
             HOME_BUTTON_HEIGHT,
             this.levelAssets.notButton
     )
     private var chooseButton: SwitchImageButton = SwitchImageButton(
-            SCREEN_WIDTH / 2 - CHOOSE_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - CHOOSE_BUTTON_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2 - CHOOSE_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2 - CHOOSE_BUTTON_HEIGHT / 2,
             CHOOSE_BUTTON_WIDTH,
             CHOOSE_BUTTON_HEIGHT,
             this.levelAssets.okButton,
@@ -46,39 +46,39 @@ class ChooseLevelScreen(
     )
     private var leftButton: ImageButton = ImageButton(
             CHOOSE_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - CHOOSE_BUTTON_HEIGHT / 2,
+            game.stage.camera.viewportHeight / 2 - CHOOSE_BUTTON_HEIGHT / 2,
             CHOOSE_BUTTON_WIDTH,
             CHOOSE_BUTTON_HEIGHT,
             this.levelAssets.leftButton
     )
     private var rightButton: ImageButton = ImageButton(
-            SCREEN_WIDTH - CHOOSE_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2 - CHOOSE_BUTTON_HEIGHT / 2,
+            game.stage.camera.viewportWidth - CHOOSE_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2 - CHOOSE_BUTTON_HEIGHT / 2,
             CHOOSE_BUTTON_WIDTH,
             CHOOSE_BUTTON_HEIGHT,
             this.levelAssets.rightButton
     )
     private var hero: AnimatedCircle = AnimatedCircle(
-            SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8,
-            SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
+            game.stage.camera.viewportWidth / 2 - game.stage.camera.viewportWidth / 8,
+            game.stage.camera.viewportHeight / 2 - game.stage.camera.viewportHeight / 4,
             HERO_SIZE,
             this.levelAssets.hero
     )
     private var enemy: AnimatedCircle = AnimatedCircle(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight / 2 - game.stage.camera.viewportHeight / 4,
             ENEMY_SIZE,
             this.levelAssets.enemy
     )
     private var bonus: AnimatedCircle = AnimatedCircle(
-            SCREEN_WIDTH / 2 + SCREEN_WIDTH / 8,
-            SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
+            game.stage.camera.viewportWidth / 2 + game.stage.camera.viewportWidth / 8,
+            game.stage.camera.viewportHeight / 2 - game.stage.camera.viewportHeight / 4,
             BONUS_SIZE,
             this.levelAssets.bonus
     )
     private var costLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT - 6 * SCORE_HEIGHT,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight - 6 * SCORE_HEIGHT,
             COST_LABEL_TEXT + this.levelAssets.cost.toString(),
             FontManager.get(COST)
     )

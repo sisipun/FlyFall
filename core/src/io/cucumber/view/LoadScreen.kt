@@ -16,8 +16,8 @@ class LoadScreen(
 
     private val loadingFont = FontHelper.toFont(DEFAULT_FONT, FontParams(50, Color.GOLD))
     private val title: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight / 2,
             LOADING_LABEL_TEXT,
             this.loadingFont
     )

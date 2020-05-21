@@ -49,8 +49,6 @@ public class GameConstants {
     // Screen
     public static final float SCREEN_WIDTH = 1200f;
     public static final float SCREEN_HEIGHT = 600f;
-    public static final float HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2;
-    public static final float HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
     public static final float WALL_HEIGHT = 50f;
     public static final float ENEMY_RESPAWN_BORDER = 50f;
     public static final float ENEMY_DISTANCE = 200f;

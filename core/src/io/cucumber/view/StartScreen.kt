@@ -41,22 +41,22 @@ class StartScreen(
 
     // Actors
     private val startButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2 - 2 * START_GAME_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2 - 2 * START_GAME_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2,
             START_GAME_BUTTON_WIDTH,
             START_GAME_BUTTON_HEIGHT,
             this.levelAssets.playButton
     )
     private val chooseLevelButton: ImageButton = ImageButton(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight / 2,
             CHOOSE_LEVEL_BUTTON_WIDTH,
             CHOOSE_LEVEL_BUTTON_HEIGHT,
             this.levelAssets.chooseButton
     )
     private val soundOffButton: SwitchImageButton = SwitchImageButton(
-            SCREEN_WIDTH / 2 + 2 * CHOOSE_LEVEL_BUTTON_WIDTH,
-            SCREEN_HEIGHT / 2,
+            game.stage.camera.viewportWidth / 2 + 2 * CHOOSE_LEVEL_BUTTON_WIDTH,
+            game.stage.camera.viewportHeight / 2,
             SOUND_OFF_BUTTON_WIDTH,
             SOUND_OFF_BUTTON_HEIGHT,
             this.levelAssets.soundOnButton,
@@ -64,8 +64,8 @@ class StartScreen(
             this.isSoundOn
     )
     private val controlButton: SwitchImageButton = SwitchImageButton(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 4,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight / 2 - game.stage.camera.viewportHeight / 4,
             SOUND_OFF_BUTTON_WIDTH,
             SOUND_OFF_BUTTON_HEIGHT,
             this.levelAssets.accButton,
@@ -73,19 +73,19 @@ class StartScreen(
             this.isAcceleratorOn
     )
     private val title: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4,
+            game.stage.camera.viewportWidth / 2,
+            game.stage.camera.viewportHeight / 2 + game.stage.camera.viewportHeight / 4,
             TITLE_LABEL_TEXT,
             FontManager.get(TITLE)
     )
     private val highScoreLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
+            game.stage.camera.viewportWidth / 2,
             4 * SCORE_HEIGHT,
             HIGH_SCORE_LABEL_TEXT + this.highScore.toString(),
             FontManager.get(LABEL)
     )
     private val bonusCountLabel: TextLabel = TextLabel(
-            SCREEN_WIDTH / 2,
+            game.stage.camera.viewportWidth / 2,
             2 * SCORE_HEIGHT,
             BONUS_LABEL_TEXT + this.bonusCount.toString(),
             FontManager.get(LABEL)
@@ -130,8 +130,8 @@ class StartScreen(
 
         val titleActions = Actions.forever(Actions.parallel(
                 Actions.sequence(
-                        Actions.moveTo(title.x + SCREEN_WIDTH / 32, title.y + SCREEN_HEIGHT / 32, 1F),
-                        Actions.moveTo(title.x - SCREEN_WIDTH / 32, title.y - SCREEN_HEIGHT / 32, 1F)
+                        Actions.moveTo(title.x + game.stage.camera.viewportWidth / 32, title.y + game.stage.camera.viewportHeight / 32, 1F),
+                        Actions.moveTo(title.x - game.stage.camera.viewportWidth / 32, title.y - game.stage.camera.viewportHeight / 32, 1F)
                 )
         ))
         title.addAction(titleActions)

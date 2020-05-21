@@ -8,7 +8,6 @@ import io.cucumber.model.base.AnimationActor;
 
 import static io.cucumber.utils.constant.GameConstants.BONUS_LIFESPAN;
 import static io.cucumber.utils.constant.GameConstants.MILLIS_IN_SECOND;
-import static io.cucumber.utils.constant.GameConstants.SCREEN_WIDTH;
 import static io.cucumber.utils.constant.GameConstants.TIMER_HEIGHT;
 import static io.cucumber.utils.constant.GameConstants.TIMER_MARGIN_WIDTH;
 
@@ -38,9 +37,9 @@ public class Bonus extends AnimationActor {
         float lifespanFactor = (BONUS_LIFESPAN - lifespan) / BONUS_LIFESPAN;
         batch.draw(
                 timerRegion,
-                TIMER_MARGIN_WIDTH + ((SCREEN_WIDTH / 2 - TIMER_MARGIN_WIDTH) * lifespanFactor),
+                TIMER_MARGIN_WIDTH + ((this.getStage().getCamera().viewportWidth / 2 - TIMER_MARGIN_WIDTH) * lifespanFactor),
                 TIMER_HEIGHT,
-                (SCREEN_WIDTH - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
+                (this.getStage().getCamera().viewportWidth - TIMER_MARGIN_WIDTH) * (1F - lifespanFactor),
                 TIMER_HEIGHT
         );
     }
