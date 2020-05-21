@@ -150,7 +150,7 @@ class ChooseLevelScreen(
         homeButton.setTexture(levelAssets.homeButton)
         chooseButton.setTexture(levelAssets.okButton, levelAssets.buyButton)
         leftButton.setTexture(levelAssets.leftButton)
-        rightButton.setTexture(levelAssets.chooseButton)
+        rightButton.setTexture(levelAssets.rightButton)
 
         if (!levelAssets.isActive) {
             costLabel.setText(COST_LABEL_TEXT + levelAssets.cost.toString())
