@@ -103,6 +103,18 @@ class GameScreen(
             PAUSE_LABEL_TEXT,
             FontManager.get(TITLE)
     )
+    private val highScoreLabel: TextLabel = TextLabel(
+            game.stage.camera.viewportWidth / 2,
+            4 * SCORE_HEIGHT,
+            HIGH_SCORE_LABEL_TEXT + this.highScore.toString(),
+            FontManager.get(LABEL)
+    )
+    private val bonusCountLabel: TextLabel = TextLabel(
+            game.stage.camera.viewportWidth / 2,
+            2 * SCORE_HEIGHT,
+            BONUS_LABEL_TEXT + this.bonusCount.toString(),
+            FontManager.get(LABEL)
+    )
 
     init {
         this.pauseButton.addListener(object : ClickListener() {
@@ -184,7 +196,10 @@ class GameScreen(
         this.resumeButton.setTexture(this.levelAssets.playButton)
         this.homeButton.setTexture(this.levelAssets.homeButton)
 
-        if (this.isAcceleratorOn != isAcceleratorOn)  {
+        highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
+        bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
+
+        if (this.isAcceleratorOn != isAcceleratorOn) {
             this.isAcceleratorOn = isAcceleratorOn
             if (this.isAcceleratorOn) {
                 clearBackgroundListeners()
@@ -298,6 +313,9 @@ class GameScreen(
             if (it.isCollides(hero)) {
                 bonusCount++
                 bonusSound?.play()
+                bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
+                game.preferences.putInteger(BONUSES_COUNT, bonusCount)
+                game.preferences.flush()
                 removeBonus()
             }
             if (it.lifespan <= 0) {
@@ -332,7 +350,7 @@ class GameScreen(
 
     private fun pauseGame() {
         gameState = PAUSE
-        addActors(Array.with(resumeButton, homeButton, pauseTitle))
+        addActors(Array.with(resumeButton, homeButton, pauseTitle, highScoreLabel, bonusCountLabel))
     }
 
     private fun resumeGame() {
@@ -340,6 +358,8 @@ class GameScreen(
         resumeButton.remove()
         homeButton.remove()
         pauseTitle.remove()
+        highScoreLabel.remove()
+        bonusCountLabel.remove()
     }
 
     private fun home() {

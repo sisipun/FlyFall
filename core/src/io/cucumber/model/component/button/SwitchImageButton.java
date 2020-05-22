@@ -3,30 +3,35 @@ package io.cucumber.model.component.button;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class SwitchImageButton extends ImageButton {
+import java.util.HashMap;
+import java.util.Map;
 
-    private ImageButtonStyle firstStyle;
-    private ImageButtonStyle secondStyle;
-    private boolean switcher;
+public class SwitchImageButton<T> extends ImageButton {
 
-    public SwitchImageButton(float x, float y, float width, float height, TextureRegion firstRegion,
-                             TextureRegion secondRegion, boolean switcher) {
-        super(x, y, width, height, switcher ? firstRegion : secondRegion);
+    private T switcher;
+    private Map<T, ImageButtonStyle> switcherValue;
+
+    public SwitchImageButton(float x, float y, float width, float height, T switcher, Map<T, TextureRegion> switcherValue) {
+        super(x, y, width, height, switcherValue.get(switcher));
         this.switcher = switcher;
-        this.firstStyle = new ImageButtonStyle(null, null, null, new TextureRegionDrawable(firstRegion), null, null);
-        this.secondStyle = new ImageButtonStyle(null, null, null, new TextureRegionDrawable(secondRegion), null, null);
-    }
-
-    public void setSwitcher(boolean switcher) {
-        if (this.switcher != switcher) {
-            this.switcher = switcher;
-            setStyle(switcher ? firstStyle : secondStyle);
+        this.switcherValue = new HashMap<>(switcherValue.size());
+        for (Map.Entry<T, TextureRegion> entry : switcherValue.entrySet()) {
+            this.switcherValue.put(entry.getKey(), new ImageButtonStyle(null, null, null, new TextureRegionDrawable(entry.getValue()), null, null));
         }
     }
 
-    public void setTexture(TextureRegion firstRegion, TextureRegion secondRegion) {
-        this.firstStyle = new ImageButtonStyle(null, null, null, new TextureRegionDrawable(firstRegion), null, null);
-        this.secondStyle = new ImageButtonStyle(null, null, null, new TextureRegionDrawable(secondRegion), null, null);
-        setStyle(switcher ? firstStyle : secondStyle);
+    public void setSwitcher(T switcher) {
+        if (this.switcher != switcher) {
+            this.switcher = switcher;
+            setStyle(switcherValue.get(switcher));
+        }
+    }
+
+    public void setTexture(Map<T, TextureRegion> switcherValue) {
+        this.switcherValue.clear();
+        for (Map.Entry<T, TextureRegion> entry : switcherValue.entrySet()) {
+            this.switcherValue.put(entry.getKey(), new ImageButtonStyle(null, null, null, new TextureRegionDrawable(entry.getValue()), null, null));
+        }
+        setStyle(this.switcherValue.get(switcher));
     }
 }

@@ -14,9 +14,11 @@ import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.COST
+import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.LevelManager
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
+import io.cucumber.view.ChooseLevelScreen.Switcher.*
 
 class ChooseLevelScreen(
         game: Game,
@@ -35,14 +37,17 @@ class ChooseLevelScreen(
             HOME_BUTTON_HEIGHT,
             this.levelAssets.notButton
     )
-    private var chooseButton: SwitchImageButton = SwitchImageButton(
+    private var chooseButton: SwitchImageButton<Switcher> = SwitchImageButton<Switcher>(
             game.stage.camera.viewportWidth / 2 - CHOOSE_BUTTON_WIDTH,
             game.stage.camera.viewportHeight / 2 - CHOOSE_BUTTON_HEIGHT / 2,
             CHOOSE_BUTTON_WIDTH,
             CHOOSE_BUTTON_HEIGHT,
-            this.levelAssets.okButton,
-            this.levelAssets.buyButton,
-            this.levelAssets.isActive
+            getSwitcher(),
+            mapOf(
+                    CANT_BUY to this.levelAssets.cantBuyButton,
+                    CAN_BUY to this.levelAssets.buyButton,
+                    ACTIVE to this.levelAssets.okButton
+            )
     )
     private var leftButton: ImageButton = ImageButton(
             CHOOSE_BUTTON_WIDTH,
@@ -81,6 +86,18 @@ class ChooseLevelScreen(
             game.stage.camera.viewportHeight - 6 * SCORE_HEIGHT,
             COST_LABEL_TEXT + this.levelAssets.cost.toString(),
             FontManager.get(COST)
+    )
+    private val highScoreLabel: TextLabel = TextLabel(
+            game.stage.camera.viewportWidth / 2,
+            4 * SCORE_HEIGHT,
+            HIGH_SCORE_LABEL_TEXT + this.highScore.toString(),
+            FontManager.get(LABEL)
+    )
+    private val bonusCountLabel: TextLabel = TextLabel(
+            game.stage.camera.viewportWidth / 2,
+            2 * SCORE_HEIGHT,
+            BONUS_LABEL_TEXT + this.bonusCount.toString(),
+            FontManager.get(LABEL)
     )
 
     init {
@@ -143,15 +160,23 @@ class ChooseLevelScreen(
     }
 
     private fun reloadLevel() {
-        chooseButton.setSwitcher(levelAssets.isActive)
+        chooseButton.setSwitcher(getSwitcher())
+        chooseButton.setTexture(mapOf(
+                CANT_BUY to this.levelAssets.cantBuyButton,
+                CAN_BUY to this.levelAssets.buyButton,
+                ACTIVE to this.levelAssets.okButton
+        ))
         hero.setAnimation(levelAssets.hero)
         enemy.setAnimation(levelAssets.enemy)
         bonus.setAnimation(levelAssets.bonus)
         homeButton.setTexture(levelAssets.homeButton)
-        chooseButton.setTexture(levelAssets.okButton, levelAssets.buyButton)
         leftButton.setTexture(levelAssets.leftButton)
         rightButton.setTexture(levelAssets.rightButton)
 
+        highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
+        bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
+        addActors(Array.with(highScoreLabel))
+        addActors(Array.with(bonusCountLabel))
         if (!levelAssets.isActive) {
             costLabel.setText(COST_LABEL_TEXT + levelAssets.cost.toString())
             addActors(Array.with(costLabel))
@@ -184,11 +209,12 @@ class ChooseLevelScreen(
             ))
         } else if (bonusCount >= levelAssets.cost) {
             bonusCount -= levelAssets.cost
+            bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
             game.preferences.putInteger(BONUSES_COUNT, bonusCount)
             game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
             LevelManager.activate(levelAssets.id)
             game.preferences.flush()
-            chooseButton.setSwitcher(levelAssets.isActive)
+            chooseButton.setSwitcher(ACTIVE)
             costLabel.remove()
         }
     }
@@ -202,5 +228,23 @@ class ChooseLevelScreen(
                 isAcceleratorOn,
                 null
         ))
+    }
+
+    private fun getSwitcher(): Switcher = when {
+        this.levelAssets.isActive -> {
+            ACTIVE
+        }
+        this.bonusCount >= this.levelAssets.cost -> {
+            CAN_BUY
+        }
+        else -> {
+            CANT_BUY
+        }
+    }
+
+    enum class Switcher {
+        ACTIVE,
+        CAN_BUY,
+        CANT_BUY
     }
 }
