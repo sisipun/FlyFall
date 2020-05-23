@@ -5,6 +5,8 @@ import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.Pools
+import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.badlogic.gdx.utils.viewport.FillViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import io.cucumber.model.dto.HighScore
@@ -28,7 +30,7 @@ class Game : com.badlogic.gdx.Game() {
         private set
 
     override fun create() {
-        val screenViewport = ScreenViewport()
+        val screenViewport = StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
         stage = Stage(screenViewport)
         setScreen(LoadScreen(this))
     }
