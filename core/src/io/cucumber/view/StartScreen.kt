@@ -54,23 +54,21 @@ class StartScreen(
             CHOOSE_LEVEL_BUTTON_HEIGHT,
             this.levelAssets.chooseButton
     )
-    private val soundOffButton: SwitchImageButton = SwitchImageButton(
+    private val soundOffButton: SwitchImageButton<Boolean> = SwitchImageButton<Boolean>(
             game.stage.camera.viewportWidth / 2 + 2 * CHOOSE_LEVEL_BUTTON_WIDTH,
             game.stage.camera.viewportHeight / 2,
             SOUND_OFF_BUTTON_WIDTH,
             SOUND_OFF_BUTTON_HEIGHT,
-            this.levelAssets.soundOnButton,
-            this.levelAssets.soundOffButton,
-            this.isSoundOn
+            this.isSoundOn,
+            mapOf(false to this.levelAssets.soundOffButton, true to this.levelAssets.soundOnButton)
     )
-    private val controlButton: SwitchImageButton = SwitchImageButton(
+    private val controlButton: SwitchImageButton<Boolean> = SwitchImageButton<Boolean>(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2 - game.stage.camera.viewportHeight / 4,
             SOUND_OFF_BUTTON_WIDTH,
             SOUND_OFF_BUTTON_HEIGHT,
-            this.levelAssets.accButton,
-            this.levelAssets.tapButton,
-            this.isAcceleratorOn
+            this.isAcceleratorOn,
+            mapOf(false to this.levelAssets.tapButton, true to this.levelAssets.accButton)
     )
     private val title: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
@@ -150,8 +148,8 @@ class StartScreen(
 
         this.startButton.setTexture(this.levelAssets.playButton)
         this.chooseLevelButton.setTexture(this.levelAssets.chooseButton)
-        this.soundOffButton.setTexture(this.levelAssets.soundOnButton, this.levelAssets.soundOffButton)
-        this.controlButton.setTexture(this.levelAssets.accButton, this.levelAssets.tapButton)
+        this.soundOffButton.setTexture(mapOf(false to this.levelAssets.soundOffButton, true to this.levelAssets.soundOnButton))
+        this.controlButton.setTexture(mapOf(false to this.levelAssets.tapButton, true to this.levelAssets.accButton))
 
         return this
     }

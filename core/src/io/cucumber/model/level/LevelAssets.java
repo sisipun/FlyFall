@@ -22,6 +22,7 @@ public class LevelAssets {
     private final TextureAtlas.AtlasRegion soundOnButton;
     private final TextureAtlas.AtlasRegion pauseButton;
     private final TextureAtlas.AtlasRegion buyButton;
+    private final TextureAtlas.AtlasRegion cantBuyButton;
     private final TextureAtlas.AtlasRegion leftButton;
     private final TextureAtlas.AtlasRegion rightButton;
     private final TextureAtlas.AtlasRegion restartButton;
@@ -37,7 +38,7 @@ public class LevelAssets {
                        float bonusFrameDuration, String background, String okButton,
                        String playButton, String chooseButton, String notButton,
                        String soundOffButton, String soundOnButton, String pauseButton,
-                       String buyButton, String leftButton, String rightButton, String restartButton,
+                       String buyButton, String cantBuyButton, String leftButton, String rightButton, String restartButton,
                        String homeButton, String accButton, String tapButton, int cost, boolean active) {
         this.id = id;
         this.hero = new Animation<TextureRegion>(
@@ -64,6 +65,7 @@ public class LevelAssets {
         this.soundOnButton = atlas.findRegion(soundOnButton);
         this.pauseButton = atlas.findRegion(pauseButton);
         this.buyButton = atlas.findRegion(buyButton);
+        this.cantBuyButton = atlas.findRegion(cantBuyButton);
         this.leftButton = atlas.findRegion(leftButton);
         this.rightButton = atlas.findRegion(rightButton);
         this.restartButton = atlas.findRegion(restartButton);
@@ -81,12 +83,12 @@ public class LevelAssets {
                        String bonus, float bonusFrameDuration, String background, String okButton,
                        String playButton, String chooseButton, String notButton,
                        String soundOffButton, String soundOnButton, String pauseButton,
-                       String buyButton, String leftButton, String rightButton, String restartButton,
-                       String homeButton, String accButton, String tapButton) {
+                       String buyButton, String cantBuyButton, String leftButton, String rightButton,
+                       String restartButton, String homeButton, String accButton, String tapButton) {
         this(atlas, commonAssets, id, hero, heroFrameDuration, enemy, enemyFrameDuration, bonus,
                 bonusFrameDuration, background, okButton, playButton, chooseButton, notButton,
-                soundOffButton, soundOnButton, pauseButton, buyButton, leftButton, rightButton,
-                restartButton, homeButton, accButton, tapButton, 0, true);
+                soundOffButton, soundOnButton, pauseButton, buyButton, cantBuyButton, leftButton,
+                rightButton, restartButton, homeButton, accButton, tapButton, 0, true);
     }
 
     public int getId() {
@@ -147,6 +149,10 @@ public class LevelAssets {
 
     public TextureAtlas.AtlasRegion getBuyButton() {
         return buyButton;
+    }
+
+    public TextureAtlas.AtlasRegion getCantBuyButton() {
+        return cantBuyButton;
     }
 
     public TextureAtlas.AtlasRegion getLeftButton() {
