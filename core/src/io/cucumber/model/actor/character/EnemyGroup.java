@@ -57,6 +57,10 @@ public class EnemyGroup extends Group implements Pool.Poolable {
 
     @Override
     public void reset() {
+        clearActions();
+        for (Enemy enemy : enemies) {
+            enemy.clearActions();
+        }
         enemies.clear();
         clearChildren();
     }

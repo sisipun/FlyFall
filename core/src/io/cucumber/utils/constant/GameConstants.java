@@ -38,7 +38,7 @@ public class GameConstants {
     public static final float HERO_SIZE = 50f;
 
     // Preferences
-    public static final String PREFERENCE_NAME = "preferences_11";
+    public static final String PREFERENCE_NAME = "preferences";
     public static final String HIGH_SCORE = "high_score";
     public static final String BONUSES_COUNT = "bonuses_count";
     public static final String IS_SOUND_DISABLED = "is_sound_disabled";

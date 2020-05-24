@@ -76,6 +76,8 @@ public abstract class Actor<T extends Shape2D> extends com.badlogic.gdx.scenes.s
 
     @Override
     public void reset() {
+        clearActions();
+        setRotation(0);
         setX(0);
         setY(0);
         setWidth(0);

@@ -11,4 +11,11 @@ public class SimpleRectangle extends StaticActor<Rectangle> {
     public SimpleRectangle(float x, float y, float width, float height, TextureRegion region) {
         super(new RectangleBound(x, y, width, height), region);
     }
+
+    public SimpleRectangle(float x, float y, float width, float height, TextureRegion region, boolean flipY) {
+        super(new RectangleBound(x, y, width, height), region);
+        if (flipY) {
+            setRotation(180);
+        }
+    }
 }

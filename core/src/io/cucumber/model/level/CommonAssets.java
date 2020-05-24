@@ -7,16 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class CommonAssets {
 
     private final TextureAtlas.AtlasRegion timer;
-    private final TextureAtlas.AtlasRegion wall;
     private final Sound flipSound;
     private final Sound bonusSound;
     private final Sound deathSound;
     private final Sound backgroundSound;
 
-    public CommonAssets(TextureAtlas atlas, String timer, String wall, String flipSound,
+    public CommonAssets(TextureAtlas atlas, String timer, String flipSound,
                         String bonusSound, String deathSound, String backgroundSound) {
         this.timer = atlas.findRegion(timer);
-        this.wall = atlas.findRegion(wall);
         this.flipSound = Gdx.audio.newSound(Gdx.files.internal(flipSound));
         this.bonusSound = Gdx.audio.newSound(Gdx.files.internal(bonusSound));
         this.deathSound = Gdx.audio.newSound(Gdx.files.internal(deathSound));
@@ -31,10 +29,6 @@ public class CommonAssets {
 
     public TextureAtlas.AtlasRegion getTimer() {
         return timer;
-    }
-
-    public TextureAtlas.AtlasRegion getWall() {
-        return wall;
     }
 
     public Sound getFlipSound() {

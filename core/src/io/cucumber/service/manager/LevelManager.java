@@ -16,7 +16,7 @@ import static io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME;
 
 public class LevelManager {
 
-    private static final int LEVEL_ASSETS_COUNT = 5;
+    private static final int LEVEL_ASSETS_COUNT = 6;
     private static Preferences preferences = Gdx.app.getPreferences(PREFERENCE_NAME);
     private static TextureAtlas atlas;
     private static CommonAssets commonAssets;
@@ -28,7 +28,6 @@ public class LevelManager {
         commonAssets = new CommonAssets(
                 atlas,
                 "timer",
-                "wall",
                 "sounds/flip.wav",
                 "sounds/bonus.wav",
                 "sounds/death.mp3",
@@ -42,9 +41,11 @@ public class LevelManager {
                 HERO_ANIMATION_FRAME_DURATION,
                 "enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
+                false,
                 "bonus",
                 BONUS_ANIMATION_FRAME_DURATION,
-                "white_background",
+                "background",
+                "wall",
                 "yellow_ok_button",
                 "yellow_play_button",
                 "yellow_choose_button",
@@ -69,9 +70,11 @@ public class LevelManager {
                 HERO_ANIMATION_FRAME_DURATION,
                 "ghost_enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
+                true,
                 "ghost_bonus",
                 BONUS_ANIMATION_FRAME_DURATION,
                 "ghost_background",
+                "ghost_wall",
                 "red_ok_button",
                 "red_play_button",
                 "red_choose_button",
@@ -96,9 +99,11 @@ public class LevelManager {
                 HERO_ANIMATION_FRAME_DURATION,
                 "sea_enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
+                true,
                 "sea_bonus",
                 BONUS_ANIMATION_FRAME_DURATION,
                 "sea_background",
+                "sea_wall",
                 "yellow_ok_button",
                 "yellow_play_button",
                 "yellow_choose_button",
@@ -125,9 +130,11 @@ public class LevelManager {
                 HERO_ANIMATION_FRAME_DURATION,
                 "sky_enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
+                false,
                 "sky_bonus",
                 BONUS_ANIMATION_FRAME_DURATION,
                 "sky_background",
+                "sky_wall",
                 "green_ok_button",
                 "green_play_button",
                 "green_choose_button",
@@ -154,9 +161,11 @@ public class LevelManager {
                 HERO_ANIMATION_FRAME_DURATION,
                 "space_enemy",
                 ENEMY_ANIMATION_FRAME_DURATION,
+                false,
                 "space_bonus",
                 BONUS_ANIMATION_FRAME_DURATION,
                 "space_background",
+                "space_wall",
                 "gray_ok_button",
                 "gray_play_button",
                 "gray_choose_button",
@@ -174,6 +183,35 @@ public class LevelManager {
                 "gray_tap_button",
                 120,
                 isActive(4)
+        ));
+        levelAssets.put(5, new LevelAssets(
+                atlas,
+                commonAssets,
+                5,
+                "vika_hero",
+                HERO_ANIMATION_FRAME_DURATION,
+                "vika_enemy",
+                ENEMY_ANIMATION_FRAME_DURATION,
+                true,
+                "vika_bonus",
+                BONUS_ANIMATION_FRAME_DURATION,
+                "vika_background",
+                "vika_wall",
+                "yellow_ok_button",
+                "yellow_play_button",
+                "yellow_choose_button",
+                "yellow_not_button",
+                "yellow_sound_off_button",
+                "yellow_sound_on_button",
+                "yellow_pause_button",
+                "yellow_buy_button",
+                "gray_buy_button",
+                "yellow_left_button",
+                "yellow_right_button",
+                "yellow_restart_button",
+                "yellow_home_button",
+                "yellow_acc_button",
+                "yellow_tap_button"
         ));
     }
 

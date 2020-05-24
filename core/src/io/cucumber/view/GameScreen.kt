@@ -5,8 +5,10 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Timer
 import io.cucumber.Game
 import io.cucumber.model.actor.character.Bonus
 import io.cucumber.model.actor.character.EnemyGroup
@@ -56,19 +58,20 @@ class GameScreen(
     private var enemyGroup: EnemyGroup? = null
     private var bonus: Bonus? = null
 
-    private val topWall: SimpleRectangle = SimpleRectangle(
+    private val bottomWall: SimpleRectangle = SimpleRectangle(
             game.stage.camera.viewportWidth / 2,
             WALL_HEIGHT / 2,
             game.stage.camera.viewportWidth,
             WALL_HEIGHT,
             this.levelAssets.wall
     )
-    private val bottomWall: SimpleRectangle = SimpleRectangle(
+    private val topWall: SimpleRectangle = SimpleRectangle(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight - WALL_HEIGHT / 2,
             game.stage.camera.viewportWidth,
             WALL_HEIGHT,
-            this.levelAssets.wall
+            this.levelAssets.wall,
+            true
     )
     private val scoreActor: ScoreLabel = ScoreLabel(
             SCORE_WIDTH,
@@ -195,6 +198,9 @@ class GameScreen(
         this.pauseButton.setTexture(this.levelAssets.pauseButton)
         this.resumeButton.setTexture(this.levelAssets.playButton)
         this.homeButton.setTexture(this.levelAssets.homeButton)
+
+        this.topWall.setRegion(this.levelAssets.wall)
+        this.bottomWall.setRegion(this.levelAssets.wall)
 
         highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
         bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
@@ -354,10 +360,21 @@ class GameScreen(
     }
 
     private fun resumeGame() {
-        gameState = GAME
+        var countdown = 3;
+        Timer.schedule(object : Timer.Task() {
+            override fun run() {
+                if (countdown > 0) {
+                    pauseTitle.setText(countdown.toString())
+                    countdown--
+                } else {
+                    pauseTitle.setText(PAUSE_LABEL_TEXT)
+                    pauseTitle.remove()
+                    gameState = GAME
+                }
+            }
+        }, 0f, 1f, 3)
         resumeButton.remove()
         homeButton.remove()
-        pauseTitle.remove()
         highScoreLabel.remove()
         bonusCountLabel.remove()
     }
@@ -397,6 +414,9 @@ class GameScreen(
 
         enemyGroup?.let {
             addActor(it)
+            if (levelAssets.isEnemyRotate) {
+                it.enemies.forEach { enemy -> enemy.addAction(Actions.forever(Actions.rotateBy(360f, 1f))) }
+            }
         }
     }
 
@@ -410,7 +430,6 @@ class GameScreen(
 
     private fun removeEnemyGroup() {
         enemyGroup?.let {
-            it.enemies.forEach { enemy -> enemy.clearActions() }
             EnemyGroupFactory.free(it)
             it.remove()
         }

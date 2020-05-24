@@ -12,8 +12,10 @@ public class LevelAssets {
     private final int id;
     private final Animation<TextureRegion> hero;
     private final Animation<TextureRegion> enemy;
+    private final boolean enemyRotate;
     private final Animation<TextureRegion> bonus;
     private final TextureAtlas.AtlasRegion background;
+    private final TextureAtlas.AtlasRegion wall;
     private final TextureAtlas.AtlasRegion okButton;
     private final TextureAtlas.AtlasRegion playButton;
     private final TextureAtlas.AtlasRegion chooseButton;
@@ -34,12 +36,13 @@ public class LevelAssets {
     private boolean active;
 
     public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
-                       float heroFrameDuration, String enemy, float enemyFrameDuration, String bonus,
-                       float bonusFrameDuration, String background, String okButton,
-                       String playButton, String chooseButton, String notButton,
+                       float heroFrameDuration, String enemy, float enemyFrameDuration, boolean enemyRotate,
+                       String bonus, float bonusFrameDuration, String background, String wall,
+                       String okButton, String playButton, String chooseButton, String notButton,
                        String soundOffButton, String soundOnButton, String pauseButton,
-                       String buyButton, String cantBuyButton, String leftButton, String rightButton, String restartButton,
-                       String homeButton, String accButton, String tapButton, int cost, boolean active) {
+                       String buyButton, String cantBuyButton, String leftButton, String rightButton,
+                       String restartButton, String homeButton, String accButton, String tapButton,
+                       int cost, boolean active) {
         this.id = id;
         this.hero = new Animation<TextureRegion>(
                 heroFrameDuration,
@@ -51,12 +54,14 @@ public class LevelAssets {
                 atlas.findRegions(enemy),
                 LOOP
         );
+        this.enemyRotate = enemyRotate;
         this.bonus = new Animation<TextureRegion>(
                 bonusFrameDuration,
                 atlas.findRegions(bonus),
                 LOOP
         );
         this.background = atlas.findRegion(background);
+        this.wall = atlas.findRegion(wall);
         this.okButton = atlas.findRegion(okButton);
         this.playButton = atlas.findRegion(playButton);
         this.chooseButton = atlas.findRegion(chooseButton);
@@ -79,16 +84,16 @@ public class LevelAssets {
     }
 
     public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
-                       float heroFrameDuration, String enemy, float enemyFrameDuration,
-                       String bonus, float bonusFrameDuration, String background, String okButton,
-                       String playButton, String chooseButton, String notButton,
+                       float heroFrameDuration, String enemy, float enemyFrameDuration, boolean enemyRotate,
+                       String bonus, float bonusFrameDuration, String background, String wall,
+                       String okButton, String playButton, String chooseButton, String notButton,
                        String soundOffButton, String soundOnButton, String pauseButton,
                        String buyButton, String cantBuyButton, String leftButton, String rightButton,
                        String restartButton, String homeButton, String accButton, String tapButton) {
-        this(atlas, commonAssets, id, hero, heroFrameDuration, enemy, enemyFrameDuration, bonus,
-                bonusFrameDuration, background, okButton, playButton, chooseButton, notButton,
-                soundOffButton, soundOnButton, pauseButton, buyButton, cantBuyButton, leftButton,
-                rightButton, restartButton, homeButton, accButton, tapButton, 0, true);
+        this(atlas, commonAssets, id, hero, heroFrameDuration, enemy, enemyFrameDuration, enemyRotate,
+                bonus, bonusFrameDuration, background, wall, okButton, playButton, chooseButton,
+                notButton, soundOffButton, soundOnButton, pauseButton, buyButton, cantBuyButton,
+                leftButton, rightButton, restartButton, homeButton, accButton, tapButton, 0, true);
     }
 
     public int getId() {
@@ -101,6 +106,10 @@ public class LevelAssets {
 
     public Animation<TextureRegion> getEnemy() {
         return enemy;
+    }
+
+    public boolean isEnemyRotate() {
+        return enemyRotate;
     }
 
     public Animation<TextureRegion> getBonus() {
@@ -116,7 +125,7 @@ public class LevelAssets {
     }
 
     public TextureAtlas.AtlasRegion getWall() {
-        return commonAssets.getWall();
+        return wall;
     }
 
     public TextureAtlas.AtlasRegion getOkButton() {
