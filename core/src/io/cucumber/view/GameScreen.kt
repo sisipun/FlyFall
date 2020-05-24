@@ -74,7 +74,7 @@ class GameScreen(
             true
     )
     private val scoreActor: ScoreLabel = ScoreLabel(
-            SCORE_WIDTH,
+            2 * SCORE_WIDTH,
             game.stage.camera.viewportHeight - SCORE_HEIGHT,
             0,
             FontManager.get(LABEL)
