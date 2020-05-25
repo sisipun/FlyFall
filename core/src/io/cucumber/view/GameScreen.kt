@@ -75,13 +75,13 @@ class GameScreen(
     )
     private val scoreActor: ScoreLabel = ScoreLabel(
             2 * SCORE_WIDTH,
-            game.stage.camera.viewportHeight - SCORE_HEIGHT,
+            game.stage.camera.viewportHeight - (WALL_HEIGHT / 2),
             0,
             FontManager.get(LABEL)
     )
     private val pauseButton: ImageButton = ImageButton(
             game.stage.camera.viewportWidth - PAUSE_BUTTON_WIDTH,
-            game.stage.camera.viewportHeight - PAUSE_BUTTON_HEIGHT * 0.6f,
+            game.stage.camera.viewportHeight - (WALL_HEIGHT / 2),
             PAUSE_BUTTON_WIDTH,
             PAUSE_BUTTON_HEIGHT,
             this.levelAssets.pauseButton

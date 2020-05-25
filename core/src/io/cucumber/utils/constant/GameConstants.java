@@ -18,8 +18,8 @@ public class GameConstants {
     public static final float HOME_BUTTON_HEIGHT = 80f;
     public static final float CHOOSE_BUTTON_WIDTH = 80f;
     public static final float CHOOSE_BUTTON_HEIGHT = 80f;
-    public static final float PAUSE_BUTTON_WIDTH = 40f;
-    public static final float PAUSE_BUTTON_HEIGHT = 40f;
+    public static final float PAUSE_BUTTON_WIDTH = 50f;
+    public static final float PAUSE_BUTTON_HEIGHT = 50f;
     public static final float RESUME_BUTTON_WIDTH = 80f;
     public static final float RESUME_BUTTON_HEIGHT = 80f;
     public static final float RESTART_BUTTON_WIDTH = 80f;
@@ -49,12 +49,12 @@ public class GameConstants {
     // Screen
     public static final float SCREEN_WIDTH = 1200f;
     public static final float SCREEN_HEIGHT = 600f;
-    public static final float WALL_HEIGHT = 50f;
+    public static final float WALL_HEIGHT = 70f;
     public static final float ENEMY_RESPAWN_BORDER = 50f;
     public static final float ENEMY_DISTANCE = 200f;
     public static final float SCORE_WIDTH = 20f;
     public static final float SCORE_HEIGHT = 20f;
-    public static final float TIMER_HEIGHT = 15f;
+    public static final float TIMER_HEIGHT = 20f;
     public static final float TIMER_MARGIN_WIDTH = 40f;
 
     // Group types
