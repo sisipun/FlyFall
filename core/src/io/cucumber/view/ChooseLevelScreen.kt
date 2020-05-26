@@ -50,14 +50,14 @@ class ChooseLevelScreen(
             )
     )
     private var leftButton: ImageButton = ImageButton(
-            CHOOSE_BUTTON_WIDTH,
+            2 * CHOOSE_BUTTON_WIDTH,
             game.stage.camera.viewportHeight / 2 - CHOOSE_BUTTON_HEIGHT / 2,
             CHOOSE_BUTTON_WIDTH,
             CHOOSE_BUTTON_HEIGHT,
             this.levelAssets.leftButton
     )
     private var rightButton: ImageButton = ImageButton(
-            game.stage.camera.viewportWidth - CHOOSE_BUTTON_WIDTH,
+            game.stage.camera.viewportWidth - 2 * CHOOSE_BUTTON_WIDTH,
             game.stage.camera.viewportHeight / 2 - CHOOSE_BUTTON_HEIGHT / 2,
             CHOOSE_BUTTON_WIDTH,
             CHOOSE_BUTTON_HEIGHT,

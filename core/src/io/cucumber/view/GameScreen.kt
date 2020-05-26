@@ -394,7 +394,7 @@ class GameScreen(
         if (bonus != null || random.nextFloat() > BONUS_CHANCE) {
             return
         }
-        var x = random.nextInt((game.stage.camera.viewportWidth - 2 * BONUS_SIZE).toInt()) + BONUS_SIZE
+        var x = random.nextInt((game.stage.camera.viewportWidth - 4 * BONUS_SIZE).toInt()) + 2 * BONUS_SIZE
         val y = random.nextInt((game.stage.camera.viewportHeight - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE
         if (hero.x > game.stage.camera.viewportWidth / 2) {
             x /= 2
