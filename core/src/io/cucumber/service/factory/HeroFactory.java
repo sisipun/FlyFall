@@ -17,14 +17,15 @@ public class HeroFactory {
         Pools.set(Hero.class, new HeroPool());
     }
 
-    public static Hero create(float x, float y, Animation<TextureRegion> animation) {
+    public static Hero create(float x, float y, Animation<TextureRegion> animation, Animation<TextureRegion> explodeAnimation) {
         return Pools.obtain(Hero.class).init(
                 x,
                 y,
                 HERO_SIZE,
                 HERO_HORIZONTAL_VELOCITY,
                 -1 * HERO_VERTICAL_VELOCITY,
-                animation
+                animation,
+                explodeAnimation
         );
     }
 

@@ -13,6 +13,6 @@ public class HeroPool extends BasePool<Hero> {
 
     @Override
     protected Hero newObject() {
-        return new Hero(0f, 0f, 0f, 0f, 0f, new Animation<>(0f, new TextureRegion()));
+        return new Hero(0f, 0f, 0f, 0f, 0f, new Animation<>(0f, new TextureRegion()),new Animation<>(0f, new TextureRegion()));
     }
 }

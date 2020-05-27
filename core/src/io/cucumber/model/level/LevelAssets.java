@@ -107,6 +107,10 @@ public class LevelAssets {
         return hero;
     }
 
+    public Animation<TextureRegion> getExplosion() {
+        return commonAssets.getExplosion();
+    }
+
     public Animation<TextureRegion> getEnemy() {
         return enemy;
     }

@@ -93,6 +93,7 @@ public class GameConstants {
 
     // Animation
     public static final float HERO_ANIMATION_FRAME_DURATION = 0.033f;
+    public static final float EXPLOSION_ANIMATION_FRAME_DURATION = 0.033f;
     public static final float ENEMY_ANIMATION_FRAME_DURATION = 0.033f;
     public static final float BONUS_ANIMATION_FRAME_DURATION = 0.033f;
 

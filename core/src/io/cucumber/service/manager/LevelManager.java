@@ -10,6 +10,7 @@ import io.cucumber.model.level.LevelAssets;
 
 import static io.cucumber.utils.constant.GameConstants.BONUS_ANIMATION_FRAME_DURATION;
 import static io.cucumber.utils.constant.GameConstants.ENEMY_ANIMATION_FRAME_DURATION;
+import static io.cucumber.utils.constant.GameConstants.EXPLOSION_ANIMATION_FRAME_DURATION;
 import static io.cucumber.utils.constant.GameConstants.HERO_ANIMATION_FRAME_DURATION;
 import static io.cucumber.utils.constant.GameConstants.IS_ACTIVE_PATTERN;
 import static io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME;
@@ -28,6 +29,8 @@ public class LevelManager {
         commonAssets = new CommonAssets(
                 atlas,
                 "timer",
+                "explosion",
+                EXPLOSION_ANIMATION_FRAME_DURATION,
                 "sounds/flip.wav",
                 "sounds/bonus.wav",
                 "sounds/death.mp3",

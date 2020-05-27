@@ -17,23 +17,31 @@ public class Hero extends AnimationActor {
     private byte directionX;
     private byte previousDirectionX;
     private float acceleration;
+    private Animation<TextureRegion> explodeAnimation;
+    private boolean explode;
 
     public Hero(float x, float y, float size, float horizontalVelocity, float verticalVelocity,
-                Animation<TextureRegion> animation) {
+                Animation<TextureRegion> animation, Animation<TextureRegion> explodeAnimation) {
         super(x, y, size, horizontalVelocity, verticalVelocity, animation, RIGHT_DIRECTION);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
         this.previousDirectionX = NOT_MOVE;
         this.acceleration = DEFAULT_ACCELERATION;
+        this.explodeAnimation = explodeAnimation;
+        this.explode = false;
+        this.setScale(1f, 1f);
     }
 
     public Hero init(float x, float y, float size, float horizontalVelocity, float verticalVelocity,
-                     Animation<TextureRegion> animation) {
+                     Animation<TextureRegion> animation, Animation<TextureRegion> explodeAnimation) {
         super.init(x, y, size, horizontalVelocity, verticalVelocity, animation, RIGHT_DIRECTION);
         this.directionY = DOWN_DIRECTION;
         this.directionX = NOT_MOVE;
         this.previousDirectionX = NOT_MOVE;
         this.acceleration = DEFAULT_ACCELERATION;
+        this.explodeAnimation = explodeAnimation;
+        this.explode = false;
+        this.setScale(1f, 1f);
         return this;
     }
 
@@ -45,6 +53,9 @@ public class Hero extends AnimationActor {
     }
 
     public void moveLeft() {
+        if (this.explode) {
+            return;
+        }
         this.previousDirectionX = this.directionX;
         this.directionX = LEFT_DIRECTION;
         this.acceleration = DEFAULT_ACCELERATION;
@@ -52,11 +63,17 @@ public class Hero extends AnimationActor {
     }
 
     public void moveLeft(float acceleration) {
+        if (this.explode) {
+            return;
+        }
         moveLeft();
         this.acceleration = acceleration;
     }
 
     public void moveRight() {
+        if (this.explode) {
+            return;
+        }
         this.previousDirectionX = this.directionX;
         this.directionX = RIGHT_DIRECTION;
         this.acceleration = DEFAULT_ACCELERATION;
@@ -64,6 +81,9 @@ public class Hero extends AnimationActor {
     }
 
     public void moveRight(float acceleration) {
+        if (this.explode) {
+            return;
+        }
         moveRight();
         this.acceleration = acceleration;
     }
@@ -107,6 +127,16 @@ public class Hero extends AnimationActor {
             velocity.y = velocity.y * -1;
             this.directionY = directionY;
         }
+    }
+
+    public void explode() {
+        this.explode = true;
+        setAnimation(this.explodeAnimation);
+        this.setScale(2f, 2f);
+    }
+
+    public boolean isExplode() {
+        return this.explode && this.isAnimationFinished();
     }
 
     @Override

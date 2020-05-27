@@ -53,7 +53,8 @@ class GameScreen(
     private var hero: Hero = HeroFactory.create(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2,
-            this.levelAssets.hero
+            this.levelAssets.hero,
+            levelAssets.explosion
     )
     private var enemyGroup: EnemyGroup? = null
     private var bonus: Bonus? = null
@@ -192,7 +193,8 @@ class GameScreen(
         this.hero = HeroFactory.create(
                 game.stage.camera.viewportWidth / 2,
                 game.stage.camera.viewportHeight / 2,
-                this.levelAssets.hero
+                this.levelAssets.hero,
+                levelAssets.explosion
         )
 
         this.pauseButton.setTexture(this.levelAssets.pauseButton)
@@ -293,6 +295,22 @@ class GameScreen(
     }
 
     override fun stateCheck() {
+        if (gameState == GAME_OVER && hero.isExplode) {
+            removeEnemyGroup()
+            removeHero()
+            removeBonus()
+            setScreen(ScreenManager.getGameOverScreen(
+                    game,
+                    scoreActor.score,
+                    bonusCount,
+                    highScore,
+                    isSoundOn,
+                    isAcceleratorOn,
+                    levelAssets
+            ))
+            return
+        }
+
         if (gameState == PAUSE) {
             return
         }
@@ -334,17 +352,10 @@ class GameScreen(
         }
 
         enemyGroup?.let {
-            if (it.isCollides(hero)) {
+            if (it.isCollides(hero) && gameState != GAME_OVER) {
+                hero.explode()
                 deathSound?.play()
-                setScreen(ScreenManager.getGameOverScreen(
-                        game,
-                        scoreActor.score,
-                        bonusCount,
-                        highScore,
-                        isSoundOn,
-                        isAcceleratorOn,
-                        levelAssets
-                ))
+                gameState = GAME_OVER
             }
 
             if (it.enemies.size != 0) {
@@ -469,6 +480,7 @@ class GameScreen(
 
     enum class State {
         GAME,
-        PAUSE
+        PAUSE,
+        GAME_OVER
     }
 }
