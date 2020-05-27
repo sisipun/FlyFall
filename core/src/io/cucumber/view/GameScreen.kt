@@ -26,8 +26,7 @@ import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
-import io.cucumber.view.GameScreen.State.GAME
-import io.cucumber.view.GameScreen.State.PAUSE
+import io.cucumber.view.GameScreen.State.*
 import java.util.*
 
 class GameScreen(
@@ -44,6 +43,7 @@ class GameScreen(
 
     private var gameState: State = GAME
     private var enemyVelocity: Float = ENEMY_MIN_HORIZONTAL_VELOCITY
+    private var countdownTask: Timer.Task? = null
 
     private var flipSound: Sound? = null
     private var bonusSound: Sound? = null
@@ -108,13 +108,13 @@ class GameScreen(
     )
     private val highScoreLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
-            4 * SCORE_HEIGHT,
+            game.stage.camera.viewportHeight / 2 - 8 * SCORE_HEIGHT,
             HIGH_SCORE_LABEL_TEXT + this.highScore.toString(),
             FontManager.get(LABEL)
     )
     private val bonusCountLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
-            2 * SCORE_HEIGHT,
+            game.stage.camera.viewportHeight / 2 - 10 * SCORE_HEIGHT,
             BONUS_LABEL_TEXT + this.bonusCount.toString(),
             FontManager.get(LABEL)
     )
@@ -268,6 +268,10 @@ class GameScreen(
         super.hide()
     }
 
+    override fun pause() {
+        pauseGame()
+    }
+
     override fun act(delta: Float) {
         if (gameState == PAUSE) {
             return
@@ -355,24 +359,32 @@ class GameScreen(
     }
 
     private fun pauseGame() {
+        countdownTask?.let {
+            it.cancel()
+            pauseTitle.setText(PAUSE_LABEL_TEXT)
+        }
+        countdownTask = null
         gameState = PAUSE
         addActors(Array.with(resumeButton, homeButton, pauseTitle, highScoreLabel, bonusCountLabel))
     }
 
     private fun resumeGame() {
-        var countdown = 3;
-        Timer.schedule(object : Timer.Task() {
-            override fun run() {
-                if (countdown > 0) {
-                    pauseTitle.setText(countdown.toString())
-                    countdown--
-                } else {
-                    pauseTitle.setText(PAUSE_LABEL_TEXT)
-                    pauseTitle.remove()
-                    gameState = GAME
+        if (countdownTask == null) {
+            var countdown = 3
+            countdownTask = Timer.schedule(object : Timer.Task() {
+                override fun run() {
+                    if (countdown > 0) {
+                        pauseTitle.setText(countdown.toString())
+                        countdown--
+                    } else {
+                        pauseTitle.setText(PAUSE_LABEL_TEXT)
+                        pauseTitle.remove()
+                        countdownTask = null
+                        gameState = GAME
+                    }
                 }
-            }
-        }, 0f, 1f, 3)
+            }, 0f, 1f, 3)
+        }
         resumeButton.remove()
         homeButton.remove()
         highScoreLabel.remove()
@@ -400,7 +412,14 @@ class GameScreen(
             x /= 2
         }
         bonus = BonusFactory.create(x, y, levelAssets.bonus, levelAssets.timer)
-        bonus?.let { addActor(it) }
+        bonus?.let {
+            it.addAction(Actions.forever(Actions.sequence(
+                    Actions.scaleTo(1.25f, 1.25f, 0.5f),
+                    Actions.scaleTo(0.75f, 0.75f, 1f),
+                    Actions.scaleTo(1f, 1f, 0.5f)
+            )))
+            addActor(it)
+        }
     }
 
     private fun generateEnemy() {
