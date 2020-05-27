@@ -53,9 +53,6 @@ public class Hero extends AnimationActor {
     }
 
     public void moveLeft() {
-        if (this.explode) {
-            return;
-        }
         this.previousDirectionX = this.directionX;
         this.directionX = LEFT_DIRECTION;
         this.acceleration = DEFAULT_ACCELERATION;
@@ -63,17 +60,11 @@ public class Hero extends AnimationActor {
     }
 
     public void moveLeft(float acceleration) {
-        if (this.explode) {
-            return;
-        }
         moveLeft();
         this.acceleration = acceleration;
     }
 
     public void moveRight() {
-        if (this.explode) {
-            return;
-        }
         this.previousDirectionX = this.directionX;
         this.directionX = RIGHT_DIRECTION;
         this.acceleration = DEFAULT_ACCELERATION;
@@ -81,9 +72,6 @@ public class Hero extends AnimationActor {
     }
 
     public void moveRight(float acceleration) {
-        if (this.explode) {
-            return;
-        }
         moveRight();
         this.acceleration = acceleration;
     }

@@ -370,6 +370,9 @@ class GameScreen(
     }
 
     private fun pauseGame() {
+        if (gameState == GAME_OVER) {
+            return
+        }
         countdownTask?.let {
             it.cancel()
             pauseTitle.setText(PAUSE_LABEL_TEXT)
