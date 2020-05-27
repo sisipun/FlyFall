@@ -34,6 +34,7 @@ public class LevelAssets {
     private final CommonAssets commonAssets;
     private final int cost;
     private boolean active;
+    private boolean hide;
 
     public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
                        float heroFrameDuration, String enemy, float enemyFrameDuration, boolean enemyRotate,
@@ -42,7 +43,7 @@ public class LevelAssets {
                        String soundOffButton, String soundOnButton, String pauseButton,
                        String buyButton, String cantBuyButton, String leftButton, String rightButton,
                        String restartButton, String homeButton, String accButton, String tapButton,
-                       int cost, boolean active) {
+                       int cost, boolean active, boolean hide) {
         this.id = id;
         this.hero = new Animation<TextureRegion>(
                 heroFrameDuration,
@@ -81,6 +82,7 @@ public class LevelAssets {
 
         this.cost = cost;
         this.active = cost == 0 || active;
+        this.hide = hide;
     }
 
     public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
@@ -89,11 +91,12 @@ public class LevelAssets {
                        String okButton, String playButton, String chooseButton, String notButton,
                        String soundOffButton, String soundOnButton, String pauseButton,
                        String buyButton, String cantBuyButton, String leftButton, String rightButton,
-                       String restartButton, String homeButton, String accButton, String tapButton) {
+                       String restartButton, String homeButton, String accButton, String tapButton,
+                       boolean hide) {
         this(atlas, commonAssets, id, hero, heroFrameDuration, enemy, enemyFrameDuration, enemyRotate,
                 bonus, bonusFrameDuration, background, wall, okButton, playButton, chooseButton,
                 notButton, soundOffButton, soundOnButton, pauseButton, buyButton, cantBuyButton,
-                leftButton, rightButton, restartButton, homeButton, accButton, tapButton, 0, true);
+                leftButton, rightButton, restartButton, homeButton, accButton, tapButton, 0, true, hide);
     }
 
     public int getId() {
@@ -214,5 +217,9 @@ public class LevelAssets {
 
     public void activate() {
         this.active = true;
+    }
+
+    public boolean isHide() {
+        return hide;
     }
 }

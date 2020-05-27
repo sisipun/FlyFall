@@ -60,7 +60,8 @@ public class LevelManager {
                 "yellow_restart_button",
                 "yellow_home_button",
                 "yellow_acc_button",
-                "yellow_tap_button"
+                "yellow_tap_button",
+                true
         ));
         levelAssets.put(1, new LevelAssets(
                 atlas,
@@ -89,7 +90,8 @@ public class LevelManager {
                 "red_restart_button",
                 "red_home_button",
                 "red_acc_button",
-                "red_tap_button"
+                "red_tap_button",
+                false
         ));
         levelAssets.put(2, new LevelAssets(
                 atlas,
@@ -120,7 +122,8 @@ public class LevelManager {
                 "yellow_acc_button",
                 "yellow_tap_button",
                 60,
-                isActive(2)
+                isActive(2),
+                false
         ));
         levelAssets.put(3, new LevelAssets(
                 atlas,
@@ -151,7 +154,8 @@ public class LevelManager {
                 "green_acc_button",
                 "green_tap_button",
                 90,
-                isActive(3)
+                isActive(3),
+                false
         ));
         levelAssets.put(4, new LevelAssets(
                 atlas,
@@ -182,7 +186,8 @@ public class LevelManager {
                 "gray_acc_button",
                 "gray_tap_button",
                 120,
-                isActive(4)
+                isActive(4),
+                false
         ));
         levelAssets.put(5, new LevelAssets(
                 atlas,
@@ -211,7 +216,8 @@ public class LevelManager {
                 "yellow_restart_button",
                 "yellow_home_button",
                 "yellow_acc_button",
-                "yellow_tap_button"
+                "yellow_tap_button",
+                true
         ));
     }
 
@@ -221,11 +227,23 @@ public class LevelManager {
     }
 
     public static LevelAssets get(int id) {
+        return get(id, 1);
+    }
+
+    public static LevelAssets get(int id, int skipBy) {
         if (id >= LEVEL_ASSETS_COUNT) {
             id = 0;
+        } else if (id < 0) {
+            id = LEVEL_ASSETS_COUNT - 1;
         }
 
-        return levelAssets.get(id);
+        LevelAssets levelAssets = LevelManager.levelAssets.get(id);
+
+        if (levelAssets.isHide()) {
+            return get(id + skipBy, skipBy);
+        }
+
+        return levelAssets;
     }
 
     public static LevelAssets getNext(LevelAssets current) {
@@ -235,7 +253,7 @@ public class LevelManager {
             nextId = 0;
         }
 
-        return get(nextId);
+        return get(nextId, 1);
     }
 
     public static LevelAssets getPrevious(LevelAssets current) {
@@ -244,7 +262,8 @@ public class LevelManager {
         if (previousId < 0) {
             previousId = LEVEL_ASSETS_COUNT - 1;
         }
-        return get(previousId);
+
+        return get(previousId, -1);
     }
 
     public static void activate(int id) {
