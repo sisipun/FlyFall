@@ -1,5 +1,8 @@
 package io.cucumber.pool;
 
+import com.badlogic.gdx.utils.Array;
+
+import io.cucumber.model.actor.character.Enemy;
 import io.cucumber.model.actor.character.EnemyGroup;
 
 public class EnemyGroupPool extends BasePool<EnemyGroup> {
@@ -10,6 +13,6 @@ public class EnemyGroupPool extends BasePool<EnemyGroup> {
 
     @Override
     protected EnemyGroup newObject() {
-        return new EnemyGroup();
+        return new EnemyGroup(Array.<Enemy>with());
     }
 }

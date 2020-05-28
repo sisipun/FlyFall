@@ -26,8 +26,10 @@ import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
+import io.cucumber.view.GameScreen.GameComplexity.*
 import io.cucumber.view.GameScreen.State.*
 import java.util.*
+import kotlin.math.pow
 
 class GameScreen(
         game: Game,
@@ -42,6 +44,9 @@ class GameScreen(
     private val random = Random()
 
     private var gameState: State = GAME
+    private var gameComplexity: GameComplexity = EASY
+    private var scoreMultiplier = EASY_COMPLEXITY_SCORE_MULTIPLIER
+    private var bonusChance = BONUS_CHANCE
     private var enemyVelocity: Float = ENEMY_MIN_HORIZONTAL_VELOCITY
     private var countdownTask: Timer.Task? = null
 
@@ -56,7 +61,7 @@ class GameScreen(
             this.levelAssets.hero,
             levelAssets.explosion
     )
-    private var enemyGroup: EnemyGroup? = null
+    private var enemyGroups: Array<EnemyGroup> = Array(2)
     private var bonus: Bonus? = null
 
     private val bottomWall: SimpleRectangle = SimpleRectangle(
@@ -182,6 +187,9 @@ class GameScreen(
         this.bonusCount = bonusCount
         this.levelAssets = levelAssets
         this.gameState = GAME
+        this.gameComplexity = EASY
+        this.scoreMultiplier = EASY_COMPLEXITY_SCORE_MULTIPLIER
+        this.bonusChance = BONUS_CHANCE
         this.enemyVelocity = ENEMY_MIN_HORIZONTAL_VELOCITY
 
         this.flipSound = null
@@ -266,7 +274,7 @@ class GameScreen(
     override fun hide() {
         removeHero()
         removeBonus()
-        removeEnemyGroup()
+        removeEnemyGroups()
         super.hide()
     }
 
@@ -291,23 +299,12 @@ class GameScreen(
         }
 
         super.act(delta)
-        scoreActor.addScore((delta * 1000).toInt())
+        scoreActor.addScore((scoreMultiplier * delta * 1000).toInt())
     }
 
     override fun stateCheck() {
         if (gameState == GAME_OVER && hero.isExplode) {
-            removeEnemyGroup()
-            removeHero()
-            removeBonus()
-            setScreen(ScreenManager.getGameOverScreen(
-                    game,
-                    scoreActor.score,
-                    bonusCount,
-                    highScore,
-                    isSoundOn,
-                    isAcceleratorOn,
-                    levelAssets
-            ))
+            gameOver()
             return
         }
 
@@ -315,8 +312,8 @@ class GameScreen(
             return
         }
 
-        if (enemyGroup == null) {
-            generateEnemy()
+        if (enemyGroups.size == 0) {
+            generateEnemyGroups()
         }
 
         if (hero.y + hero.height + WALL_HEIGHT >= game.stage.camera.viewportHeight && hero.directionY == UP_DIRECTION) {
@@ -338,7 +335,7 @@ class GameScreen(
         }
 
         bonus?.let {
-            if (it.isCollides(hero)) {
+            if (it.isCollides(hero) && gameState == GAME) {
                 bonusCount++
                 bonusSound?.play()
                 bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
@@ -351,21 +348,31 @@ class GameScreen(
             }
         }
 
-        enemyGroup?.let {
-            if (it.isCollides(hero) && gameState != GAME_OVER) {
+        enemyGroups.forEach {
+            if (it.isCollides(hero) && gameState == GAME) {
                 hero.explode()
                 deathSound?.play()
                 gameState = GAME_OVER
             }
+        }
 
-            if (it.enemies.size != 0) {
-                val first = it.enemies.first()
-                val last = it.enemies.last()
-                if ((first.x > ENEMY_RESPAWN_BORDER + game.stage.camera.viewportWidth || first.x + first.width + ENEMY_RESPAWN_BORDER < 0) &&
-                        (last.x > ENEMY_RESPAWN_BORDER + game.stage.camera.viewportWidth || last.x + last.width + ENEMY_RESPAWN_BORDER < 0)) {
-                    removeEnemyGroup()
-                }
-            }
+        val removeGroups = enemyGroups.all {
+            (it.enemies.size == 0)
+                    || ((it.enemies.first().x > ENEMY_RESPAWN_BORDER + game.stage.camera.viewportWidth
+                    || it.enemies.first().x + it.enemies.first().width + ENEMY_RESPAWN_BORDER < 0)
+                    && (it.enemies.last().x > ENEMY_RESPAWN_BORDER + game.stage.camera.viewportWidth
+                    || it.enemies.last().x + it.enemies.last().width + ENEMY_RESPAWN_BORDER < 0))
+        }
+
+        if (removeGroups) {
+            removeEnemyGroups()
+        }
+
+        if (gameComplexity == EASY && scoreActor.score > HARD_COMPLEXITY_SCORE_BORDER) {
+            gameComplexity = HARD
+            scoreMultiplier = HARD_COMPLEXITY_SCORE_MULTIPLIER
+            bonusChance = HARD_COMPLEXITY_BONUS_CHANCE
+            enemyVelocity = ENEMY_MIN_HORIZONTAL_VELOCITY
         }
     }
 
@@ -373,32 +380,39 @@ class GameScreen(
         if (gameState == GAME_OVER) {
             return
         }
+
         countdownTask?.let {
             it.cancel()
             pauseTitle.setText(PAUSE_LABEL_TEXT)
         }
         countdownTask = null
+
         gameState = PAUSE
         addActors(Array.with(resumeButton, homeButton, pauseTitle, highScoreLabel, bonusCountLabel))
     }
 
     private fun resumeGame() {
-        if (countdownTask == null) {
-            var countdown = 3
-            countdownTask = Timer.schedule(object : Timer.Task() {
-                override fun run() {
-                    if (countdown > 0) {
-                        pauseTitle.setText(countdown.toString())
-                        countdown--
-                    } else {
-                        pauseTitle.setText(PAUSE_LABEL_TEXT)
-                        pauseTitle.remove()
-                        countdownTask = null
-                        gameState = GAME
-                    }
-                }
-            }, 0f, 1f, 3)
+        countdownTask?.let {
+            it.cancel()
+            pauseTitle.setText(PAUSE_LABEL_TEXT)
         }
+        countdownTask = null
+
+        var countdown = 3
+        countdownTask = Timer.schedule(object : Timer.Task() {
+            override fun run() {
+                if (countdown > 0) {
+                    pauseTitle.setText(countdown.toString())
+                    countdown--
+                } else {
+                    pauseTitle.setText(PAUSE_LABEL_TEXT)
+                    pauseTitle.remove()
+                    countdownTask = null
+                    gameState = GAME
+                }
+            }
+        }, COUNTDOWN_DELAY, COUNTDOWN_INTERVAL, COUNTDOWN_COUNT)
+
         resumeButton.remove()
         homeButton.remove()
         highScoreLabel.remove()
@@ -416,12 +430,26 @@ class GameScreen(
         ))
     }
 
+    private fun gameOver() {
+        setScreen(ScreenManager.getGameOverScreen(
+                game,
+                scoreActor.score,
+                bonusCount,
+                highScore,
+                isSoundOn,
+                isAcceleratorOn,
+                levelAssets
+        ))
+    }
+
     private fun generateBonus() {
-        if (bonus != null || random.nextFloat() > BONUS_CHANCE) {
+        if (bonus != null || random.nextFloat() > bonusChance) {
             return
         }
+
         var x = random.nextInt((game.stage.camera.viewportWidth - 4 * BONUS_SIZE).toInt()) + 2 * BONUS_SIZE
         val y = random.nextInt((game.stage.camera.viewportHeight - 2 * WALL_HEIGHT - 2 * BONUS_SIZE).toInt()) + WALL_HEIGHT + BONUS_SIZE
+
         if (hero.x > game.stage.camera.viewportWidth / 2) {
             x /= 2
         }
@@ -436,16 +464,26 @@ class GameScreen(
         }
     }
 
-    private fun generateEnemy() {
-        enemyGroup = EnemyGroupFactory.create(
+    private fun generateEnemyGroups() {
+        val orientation = (-1.0).pow((random.nextInt(2) + 1.0)).toByte()
+        enemyGroups.add(EnemyGroupFactory.create(
                 random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
-                Math.pow(-1.0, (random.nextInt(2) + 1.0)).toByte(),
+                orientation,
                 enemyVelocity,
                 levelAssets.enemy,
                 game.stage.camera
-        )
+        ))
+        if (gameComplexity == HARD) {
+            enemyGroups.add(EnemyGroupFactory.create(
+                    random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
+                    (-1 * orientation).toByte(),
+                    enemyVelocity,
+                    levelAssets.enemy,
+                    game.stage.camera
+            ))
+        }
 
-        enemyGroup?.let {
+        enemyGroups.forEach {
             addActor(it)
             if (levelAssets.isEnemyRotate) {
                 it.enemies.forEach { enemy -> enemy.addAction(Actions.forever(Actions.rotateBy(360f, 1f))) }
@@ -455,23 +493,23 @@ class GameScreen(
 
     private fun removeBonus() {
         bonus?.let {
-            it.remove()
             BonusFactory.free(it)
+            it.remove()
         }
         bonus = null
     }
 
-    private fun removeEnemyGroup() {
-        enemyGroup?.let {
+    private fun removeEnemyGroups() {
+        enemyGroups.forEach {
             EnemyGroupFactory.free(it)
             it.remove()
         }
-        enemyGroup = null
+        enemyGroups.clear()
     }
 
     private fun removeHero() {
-        hero.remove()
         HeroFactory.free(hero)
+        hero.remove()
     }
 
     private fun raiseEnemyVelocity() {
@@ -485,5 +523,10 @@ class GameScreen(
         GAME,
         PAUSE,
         GAME_OVER
+    }
+
+    enum class GameComplexity {
+        EASY,
+        HARD
     }
 }

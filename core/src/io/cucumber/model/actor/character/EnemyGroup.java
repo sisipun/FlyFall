@@ -17,13 +17,6 @@ public class EnemyGroup extends Group implements Pool.Poolable {
         }
     }
 
-    public EnemyGroup() {
-        this.enemies = Array.with();
-        for(Enemy enemy: enemies) {
-            addActor(enemy);
-        }
-    }
-
     public EnemyGroup init(Array<Enemy> enemies) {
         this.enemies = enemies;
         for(Enemy enemy: enemies) {

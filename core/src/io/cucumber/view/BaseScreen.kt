@@ -44,7 +44,7 @@ abstract class BaseScreen(
     }
 
     override fun render(delta: Float) {
-        // game.fpsLogger.log()
+        game.fpsLogger.log()
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
