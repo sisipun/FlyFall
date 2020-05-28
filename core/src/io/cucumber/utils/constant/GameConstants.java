@@ -58,13 +58,19 @@ public class GameConstants {
     public static final float TIMER_MARGIN_WIDTH = 40f;
 
     // Group types
-    public static final byte GROUP_TYPES_COUNT = 6;
+    public static final byte GROUP_TYPES_COUNT = 12;
     public static final byte SMALL_SNAKE_GROUP = 0;
     public static final byte LADDER_GROUP = 1;
     public static final byte SNAKE_GROUP = 2;
     public static final byte LADDER_SNAKE_GROUP = 3;
     public static final byte SMALL_WALL_GROUP = 4;
     public static final byte WALL_GROUP = 5;
+    public static final byte RHOMBUS_GROUP = 6;
+    public static final byte BOX_GROUP = 7;
+    public static final byte REVERSE_LADDER_GROUP = 8;
+    public static final byte CROSS_GROUP = 9;
+    public static final byte TRIANGLE_GROUP = 10;
+    public static final byte REVERSE_TRIANGLE_GROUP = 11;
 
     // Directions
     public static final byte DOWN_DIRECTION = -1;
