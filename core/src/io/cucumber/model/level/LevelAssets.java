@@ -31,6 +31,8 @@ public class LevelAssets {
     private final TextureAtlas.AtlasRegion homeButton;
     private final TextureAtlas.AtlasRegion accButton;
     private final TextureAtlas.AtlasRegion tapButton;
+    private final TextureAtlas.AtlasRegion normalComplexityButton;
+    private final TextureAtlas.AtlasRegion hardComplexityButton;
     private final CommonAssets commonAssets;
     private final int cost;
     private boolean active;
@@ -43,7 +45,8 @@ public class LevelAssets {
                        String soundOffButton, String soundOnButton, String pauseButton,
                        String buyButton, String cantBuyButton, String leftButton, String rightButton,
                        String restartButton, String homeButton, String accButton, String tapButton,
-                       int cost, boolean active, boolean hide) {
+                       String normalComplexityButton, String hardComplexityButton, int cost,
+                       boolean active, boolean hide) {
         this.id = id;
         this.hero = new Animation<TextureRegion>(
                 heroFrameDuration,
@@ -78,6 +81,8 @@ public class LevelAssets {
         this.homeButton = atlas.findRegion(homeButton);
         this.accButton = atlas.findRegion(accButton);
         this.tapButton = atlas.findRegion(tapButton);
+        this.normalComplexityButton = atlas.findRegion(normalComplexityButton);
+        this.hardComplexityButton = atlas.findRegion(hardComplexityButton);
         this.commonAssets = commonAssets;
 
         this.cost = cost;
@@ -92,11 +97,12 @@ public class LevelAssets {
                        String soundOffButton, String soundOnButton, String pauseButton,
                        String buyButton, String cantBuyButton, String leftButton, String rightButton,
                        String restartButton, String homeButton, String accButton, String tapButton,
-                       boolean hide) {
+                       String normalComplexityButton, String hardComplexityButton, boolean hide) {
         this(atlas, commonAssets, id, hero, heroFrameDuration, enemy, enemyFrameDuration, enemyRotate,
                 bonus, bonusFrameDuration, background, wall, okButton, playButton, chooseButton,
                 notButton, soundOffButton, soundOnButton, pauseButton, buyButton, cantBuyButton,
-                leftButton, rightButton, restartButton, homeButton, accButton, tapButton, 0, true, hide);
+                leftButton, rightButton, restartButton, homeButton, accButton, tapButton,
+                normalComplexityButton, hardComplexityButton, 0, true, hide);
     }
 
     public int getId() {
@@ -193,6 +199,14 @@ public class LevelAssets {
 
     public TextureAtlas.AtlasRegion getTapButton() {
         return tapButton;
+    }
+
+    public TextureAtlas.AtlasRegion getNormalComplexityButton() {
+        return normalComplexityButton;
+    }
+
+    public TextureAtlas.AtlasRegion getHardComplexityButton() {
+        return hardComplexityButton;
     }
 
     public Sound getFlipSound() {

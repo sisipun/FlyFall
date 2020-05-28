@@ -37,6 +37,7 @@ class GameScreen(
         private var highScore: Int,
         private var isSoundOn: Boolean,
         private var isAcceleratorOn: Boolean,
+        private var gameComplexity: GameComplexity,
         levelAssets: LevelAssets
 ) : BaseScreen(game, levelAssets) {
 
@@ -44,9 +45,8 @@ class GameScreen(
     private val random = Random()
 
     private var gameState: State = GAME
-    private var gameComplexity: GameComplexity = EASY
-    private var scoreMultiplier = EASY_COMPLEXITY_SCORE_MULTIPLIER
-    private var bonusChance = BONUS_CHANCE
+    private var scoreMultiplier = if (gameComplexity == HARD) HARD_COMPLEXITY_SCORE_MULTIPLIER else NORMAL_COMPLEXITY_SCORE_MULTIPLIER
+    private var bonusChance = if (gameComplexity == HARD) HARD_COMPLEXITY_BONUS_CHANCE else NORMAL_COMPLEXITY_BONUS_CHANCE
     private var enemyVelocity: Float = ENEMY_MIN_HORIZONTAL_VELOCITY
     private var countdownTask: Timer.Task? = null
 
@@ -181,15 +181,15 @@ class GameScreen(
     }
 
     fun init(bonusCount: Int, highScore: Int, isSoundOn: Boolean, isAcceleratorOn: Boolean,
-             levelAssets: LevelAssets): GameScreen {
+             gameComplexity: GameComplexity, levelAssets: LevelAssets): GameScreen {
         this.isSoundOn = isSoundOn
         this.highScore = highScore
         this.bonusCount = bonusCount
         this.levelAssets = levelAssets
         this.gameState = GAME
-        this.gameComplexity = EASY
-        this.scoreMultiplier = EASY_COMPLEXITY_SCORE_MULTIPLIER
-        this.bonusChance = BONUS_CHANCE
+        this.gameComplexity = gameComplexity
+        this.scoreMultiplier = if (gameComplexity == HARD) HARD_COMPLEXITY_SCORE_MULTIPLIER else NORMAL_COMPLEXITY_SCORE_MULTIPLIER
+        this.bonusChance = if (gameComplexity == HARD) HARD_COMPLEXITY_BONUS_CHANCE else NORMAL_COMPLEXITY_BONUS_CHANCE
         this.enemyVelocity = ENEMY_MIN_HORIZONTAL_VELOCITY
 
         this.flipSound = null
@@ -367,13 +367,6 @@ class GameScreen(
         if (removeGroups) {
             removeEnemyGroups()
         }
-
-        if (gameComplexity == EASY && scoreActor.score > HARD_COMPLEXITY_SCORE_BORDER) {
-            gameComplexity = HARD
-            scoreMultiplier = HARD_COMPLEXITY_SCORE_MULTIPLIER
-            bonusChance = HARD_COMPLEXITY_BONUS_CHANCE
-            enemyVelocity = ENEMY_MIN_HORIZONTAL_VELOCITY
-        }
     }
 
     private fun pauseGame() {
@@ -438,6 +431,7 @@ class GameScreen(
                 highScore,
                 isSoundOn,
                 isAcceleratorOn,
+                gameComplexity,
                 levelAssets
         ))
     }
@@ -526,7 +520,7 @@ class GameScreen(
     }
 
     enum class GameComplexity {
-        EASY,
+        NORMAL,
         HARD
     }
 }

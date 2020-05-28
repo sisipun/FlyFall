@@ -64,6 +64,8 @@ public class LevelManager {
                 "yellow_home_button",
                 "yellow_acc_button",
                 "yellow_tap_button",
+                "yellow_normal_button",
+                "yellow_hard_button",
                 true
         ));
         levelAssets.put(1, new LevelAssets(
@@ -94,6 +96,8 @@ public class LevelManager {
                 "red_home_button",
                 "red_acc_button",
                 "red_tap_button",
+                "red_normal_button",
+                "red_hard_button",
                 false
         ));
         levelAssets.put(2, new LevelAssets(
@@ -124,6 +128,8 @@ public class LevelManager {
                 "yellow_home_button",
                 "yellow_acc_button",
                 "yellow_tap_button",
+                "yellow_normal_button",
+                "yellow_hard_button",
                 60,
                 isActive(2),
                 false
@@ -156,6 +162,8 @@ public class LevelManager {
                 "green_home_button",
                 "green_acc_button",
                 "green_tap_button",
+                "green_normal_button",
+                "green_hard_button",
                 90,
                 isActive(3),
                 false
@@ -188,6 +196,8 @@ public class LevelManager {
                 "gray_home_button",
                 "gray_acc_button",
                 "gray_tap_button",
+                "gray_normal_button",
+                "gray_hard_button",
                 120,
                 isActive(4),
                 false
@@ -220,6 +230,8 @@ public class LevelManager {
                 "yellow_home_button",
                 "yellow_acc_button",
                 "yellow_tap_button",
+                "yellow_normal_button",
+                "yellow_hard_button",
                 true
         ));
     }

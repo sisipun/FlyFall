@@ -13,6 +13,7 @@ import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
+import io.cucumber.view.GameScreen.*
 
 class GameOverScreen(
         game: Game,
@@ -21,6 +22,7 @@ class GameOverScreen(
         private var highScore: Int,
         private var isSoundOn: Boolean,
         private var isAcceleratorOn: Boolean,
+        private var gameComplexity: GameComplexity,
         levelAssets: LevelAssets
 ) : BaseScreen(game, levelAssets) {
 
@@ -79,12 +81,13 @@ class GameOverScreen(
     }
 
     fun init(score: Int, bonusCount: Int, highScore: Int, isSoundOn: Boolean,
-             isAcceleratorOn: Boolean, levelAssets: LevelAssets): GameOverScreen {
+             isAcceleratorOn: Boolean, gameComplexity: GameComplexity, levelAssets: LevelAssets): GameOverScreen {
         this.score = score
         this.isSoundOn = isSoundOn
         this.isAcceleratorOn = isAcceleratorOn
         this.highScore = highScore
         this.bonusCount = bonusCount
+        this.gameComplexity = gameComplexity
         this.levelAssets = levelAssets
 
         this.homeButton.setTexture(this.levelAssets.homeButton)
@@ -117,6 +120,7 @@ class GameOverScreen(
                 highScore,
                 isSoundOn,
                 isAcceleratorOn,
+                gameComplexity,
                 levelAssets
         ))
     }
