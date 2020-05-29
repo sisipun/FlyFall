@@ -2,10 +2,16 @@ package io.cucumber.model.bound;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import io.cucumber.model.base.HorizontalAlign;
+
 public class RectangleBound extends Bound2D<Rectangle> {
 
     public RectangleBound(float x, float y, float width, float height) {
         super(new Rectangle(x, y, width, height));
+    }
+
+    public RectangleBound(float x, float y, float width, float height, HorizontalAlign align) {
+        super(new Rectangle(x, y, width, height), align);
     }
 
     @Override

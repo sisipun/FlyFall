@@ -15,6 +15,8 @@ import io.cucumber.model.actor.character.EnemyGroup
 import io.cucumber.model.actor.character.Hero
 import io.cucumber.model.actor.shape.SimpleRectangle
 import io.cucumber.model.base.GameDifficulty
+import io.cucumber.model.base.GameDifficulty.HARD
+import io.cucumber.model.base.HorizontalAlign
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.text.ScoreLabel
 import io.cucumber.model.component.text.TextLabel
@@ -27,7 +29,6 @@ import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
-import io.cucumber.model.base.GameDifficulty.*
 import io.cucumber.view.GameScreen.State.*
 import java.util.*
 import kotlin.math.pow
@@ -81,10 +82,11 @@ class GameScreen(
             true
     )
     private val scoreActor: ScoreLabel = ScoreLabel(
-            2 * SCORE_WIDTH,
+            SCORE_WIDTH,
             game.stage.camera.viewportHeight - (WALL_HEIGHT / 3),
             0,
-            FontManager.get(LABEL)
+            FontManager.get(LABEL),
+            HorizontalAlign.LEFT
     )
     private val pauseButton: ImageButton = ImageButton(
             game.stage.camera.viewportWidth - PAUSE_BUTTON_WIDTH,
@@ -451,9 +453,9 @@ class GameScreen(
         bonus = BonusFactory.create(x, y, levelAssets.bonus, levelAssets.timer)
         bonus?.let {
             it.addAction(Actions.forever(Actions.sequence(
-                    Actions.scaleTo(1.25f, 1.25f, 0.5f),
-                    Actions.scaleTo(0.75f, 0.75f, 1f),
-                    Actions.scaleTo(1f, 1f, 0.5f)
+                    Actions.scaleTo(BONUS_SCALE + 0.125f, BONUS_SCALE + 0.125f, 0.5f),
+                    Actions.scaleTo(BONUS_SCALE - 0.125f, BONUS_SCALE - 0.125f, 1f),
+                    Actions.scaleTo(BONUS_SCALE, BONUS_SCALE, 0.5f)
             )))
             addActor(it)
         }

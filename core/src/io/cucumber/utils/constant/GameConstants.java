@@ -123,6 +123,10 @@ public class GameConstants {
     public static final String HOST = "http://192.168.0.104:8080";
     public static final String SCORE_PATH = "/scores";
 
+    // Scale
+    public static final float BONUS_SCALE = 0.5f;
+    public static final float ENEMY_SCALE = 3f;
+
     private GameConstants() {
     }
 }

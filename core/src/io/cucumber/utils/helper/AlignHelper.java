@@ -7,7 +7,7 @@ public class AlignHelper {
 
     public static float computeX(float x, float width, HorizontalAlign align) {
         switch (align) {
-            case LEFT:
+            case RIGHT:
                 return x - width;
             case CENTER:
                 return x - (width / 2);

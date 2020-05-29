@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import io.cucumber.model.base.AnimationActor;
 
 import static io.cucumber.utils.constant.GameConstants.BONUS_LIFESPAN;
+import static io.cucumber.utils.constant.GameConstants.BONUS_SCALE;
 import static io.cucumber.utils.constant.GameConstants.MILLIS_IN_SECOND;
 import static io.cucumber.utils.constant.GameConstants.TIMER_HEIGHT;
 import static io.cucumber.utils.constant.GameConstants.TIMER_MARGIN_WIDTH;
@@ -18,16 +19,18 @@ public class Bonus extends AnimationActor {
 
     public Bonus(float x, float y, float size, Animation<TextureRegion> animation,
                  TextureRegion timerRegion, float lifespan) {
-        super(x, y, size, 0, 0, animation, (byte) 0);
+        super(x, y, size / BONUS_SCALE, 0, 0, animation, (byte) 0);
         this.timerRegion = timerRegion;
         this.lifespan = lifespan;
+        setScale(BONUS_SCALE, BONUS_SCALE);
     }
 
     public Bonus init(float x, float y, float size, Animation<TextureRegion> animation,
                       TextureRegion timerRegion, float lifespan) {
-        super.init(x, y, size, 0, 0, animation, (byte) 0);
+        super.init(x, y, size / BONUS_SCALE, 0, 0, animation, (byte) 0);
         this.timerRegion = timerRegion;
         this.lifespan = lifespan;
+        setScale(BONUS_SCALE, BONUS_SCALE);
         return this;
     }
 
