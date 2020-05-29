@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
+import io.cucumber.model.base.GameDifficulty.HARD
+import io.cucumber.model.base.GameDifficulty.NORMAL
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.button.SwitchImageButton
 import io.cucumber.model.component.text.TextLabel
@@ -15,10 +17,8 @@ import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
-import io.cucumber.view.GameScreen.GameComplexity.HARD
-import io.cucumber.view.GameScreen.GameComplexity.NORMAL
 
-class GameComplexityScreen(
+class GameDifficultyScreen(
         game: Game,
         private var bonusCount: Int,
         private var highScore: Int,
@@ -34,34 +34,34 @@ class GameComplexityScreen(
             HOME_BUTTON_HEIGHT,
             this.levelAssets.homeButton
     )
-    private val normalComplexityButton: ImageButton = ImageButton(
-            game.stage.camera.viewportWidth / 2 - 2 * NORMAL_COMPLEXITY_BUTTON_WIDTH / 3,
-            game.stage.camera.viewportHeight / 2 - NORMAL_COMPLEXITY_BUTTON_HEIGHT / 2,
-            NORMAL_COMPLEXITY_BUTTON_WIDTH,
-            NORMAL_COMPLEXITY_BUTTON_HEIGHT,
-            this.levelAssets.normalComplexityButton
+    private val normalDifficultyButton: ImageButton = ImageButton(
+            game.stage.camera.viewportWidth / 2 - 2 * NORMAL_DIFFICULTY_BUTTON_WIDTH / 3,
+            game.stage.camera.viewportHeight / 2 - NORMAL_DIFFICULTY_BUTTON_HEIGHT / 2,
+            NORMAL_DIFFICULTY_BUTTON_WIDTH,
+            NORMAL_DIFFICULTY_BUTTON_HEIGHT,
+            this.levelAssets.normalDifficultyButton
     )
-    private val hardComplexityButton: SwitchImageButton<Boolean> = SwitchImageButton<Boolean>(
-            game.stage.camera.viewportWidth / 2 + 2 * HARD_COMPLEXITY_BUTTON_WIDTH / 3,
-            game.stage.camera.viewportHeight / 2 - HARD_COMPLEXITY_BUTTON_HEIGHT / 2,
-            HARD_COMPLEXITY_BUTTON_WIDTH,
-            HARD_COMPLEXITY_BUTTON_HEIGHT,
-            highScore >= HARD_COMPLEXITY_SCORE,
+    private val hardDifficultyButton: SwitchImageButton<Boolean> = SwitchImageButton<Boolean>(
+            game.stage.camera.viewportWidth / 2 + 2 * HARD_DIFFICULTY_BUTTON_WIDTH / 3,
+            game.stage.camera.viewportHeight / 2 - HARD_DIFFICULTY_BUTTON_HEIGHT / 2,
+            HARD_DIFFICULTY_BUTTON_WIDTH,
+            HARD_DIFFICULTY_BUTTON_HEIGHT,
+            highScore >= HARD_DIFFICULTY_SCORE,
             mapOf(
-                    true to this.levelAssets.hardComplexityButton,
-                    false to this.levelAssets.cantHardComplexityButton
+                    true to this.levelAssets.hardDifficultyButton,
+                    false to this.levelAssets.cantHardDifficultyButton
             )
     )
-    private val complexityTitle: TextLabel = TextLabel(
+    private val difficultyTitle: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2 + game.stage.camera.viewportHeight / 6,
-            GAME_COMPLEXITY_LABEL_TEXT,
+            GAME_DIFFICULTY_LABEL_TEXT,
             FontManager.get(TITLE)
     )
     private val hardLevelRequiredScoreLabel: TextLabel = TextLabel(
-            game.stage.camera.viewportWidth / 2 + 2 * HARD_COMPLEXITY_BUTTON_WIDTH / 3,
-            game.stage.camera.viewportHeight / 2 - HARD_COMPLEXITY_BUTTON_HEIGHT  - HARD_COMPLEXITY_BUTTON_HEIGHT / 32,
-            String.format("%d/%d", highScore, HARD_COMPLEXITY_SCORE),
+            game.stage.camera.viewportWidth / 2 + 2 * HARD_DIFFICULTY_BUTTON_WIDTH / 3,
+            game.stage.camera.viewportHeight / 2 - HARD_DIFFICULTY_BUTTON_HEIGHT  - HARD_DIFFICULTY_BUTTON_HEIGHT / 32,
+            String.format("%d/%d", highScore, HARD_DIFFICULTY_SCORE),
             FontManager.get(LABEL)
     )
 
@@ -71,12 +71,12 @@ class GameComplexityScreen(
                 home()
             }
         })
-        normalComplexityButton.addListener(object : ClickListener() {
+        normalDifficultyButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 normalGame()
             }
         })
-        hardComplexityButton.addListener(object : ClickListener() {
+        hardDifficultyButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 hardGame()
             }
@@ -92,7 +92,7 @@ class GameComplexityScreen(
     }
 
     fun init(bonusCount: Int, highScore: Int, isSoundOn: Boolean,
-             isAcceleratorOn: Boolean, levelAssets: LevelAssets): GameComplexityScreen {
+             isAcceleratorOn: Boolean, levelAssets: LevelAssets): GameDifficultyScreen {
         this.isSoundOn = isSoundOn
         this.isAcceleratorOn = isAcceleratorOn
         this.highScore = highScore
@@ -100,14 +100,14 @@ class GameComplexityScreen(
         this.levelAssets = levelAssets
 
         this.homeButton.setTexture(this.levelAssets.homeButton)
-        this.normalComplexityButton.setTexture(this.levelAssets.normalComplexityButton)
-        this.hardComplexityButton.switcher = highScore >= HARD_COMPLEXITY_SCORE
-        this.hardComplexityButton.setTexture(mapOf(
-                true to this.levelAssets.hardComplexityButton,
-                false to this.levelAssets.cantHardComplexityButton
+        this.normalDifficultyButton.setTexture(this.levelAssets.normalDifficultyButton)
+        this.hardDifficultyButton.switcher = highScore >= HARD_DIFFICULTY_SCORE
+        this.hardDifficultyButton.setTexture(mapOf(
+                true to this.levelAssets.hardDifficultyButton,
+                false to this.levelAssets.cantHardDifficultyButton
         ))
 
-        this.hardLevelRequiredScoreLabel.setText(String.format("%d/%d", highScore, HARD_COMPLEXITY_SCORE))
+        this.hardLevelRequiredScoreLabel.setText(String.format("%d/%d", highScore, HARD_DIFFICULTY_SCORE))
 
         return this
     }
@@ -115,10 +115,10 @@ class GameComplexityScreen(
     override fun show() {
         super.show()
 
-        addActors(Array.with(homeButton, normalComplexityButton, hardComplexityButton,
-                complexityTitle))
+        addActors(Array.with(homeButton, normalDifficultyButton, hardDifficultyButton,
+                difficultyTitle))
 
-        if (!hardComplexityButton.switcher) {
+        if (!hardDifficultyButton.switcher) {
             addActor(hardLevelRequiredScoreLabel)
         }
     }
@@ -137,7 +137,7 @@ class GameComplexityScreen(
     }
 
     private fun hardGame() {
-        if (!hardComplexityButton.switcher) {
+        if (!hardDifficultyButton.switcher) {
             return
         }
         this.levelAssets.backgroundSound.pause()

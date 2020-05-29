@@ -14,6 +14,7 @@ import io.cucumber.model.actor.character.Bonus
 import io.cucumber.model.actor.character.EnemyGroup
 import io.cucumber.model.actor.character.Hero
 import io.cucumber.model.actor.shape.SimpleRectangle
+import io.cucumber.model.base.GameDifficulty
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.text.ScoreLabel
 import io.cucumber.model.component.text.TextLabel
@@ -26,7 +27,7 @@ import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
-import io.cucumber.view.GameScreen.GameComplexity.*
+import io.cucumber.model.base.GameDifficulty.*
 import io.cucumber.view.GameScreen.State.*
 import java.util.*
 import kotlin.math.pow
@@ -37,7 +38,7 @@ class GameScreen(
         private var highScore: Int,
         private var isSoundOn: Boolean,
         private var isAcceleratorOn: Boolean,
-        private var gameComplexity: GameComplexity,
+        private var gameDifficulty: GameDifficulty,
         levelAssets: LevelAssets
 ) : BaseScreen(game, levelAssets) {
 
@@ -45,8 +46,8 @@ class GameScreen(
     private val random = Random()
 
     private var gameState: State = GAME
-    private var scoreMultiplier = if (gameComplexity == HARD) HARD_COMPLEXITY_SCORE_MULTIPLIER else NORMAL_COMPLEXITY_SCORE_MULTIPLIER
-    private var bonusChance = if (gameComplexity == HARD) HARD_COMPLEXITY_BONUS_CHANCE else NORMAL_COMPLEXITY_BONUS_CHANCE
+    private var scoreMultiplier = if (gameDifficulty == HARD) HARD_DIFFICULTY_SCORE_MULTIPLIER else NORMAL_DIFFICULTY_SCORE_MULTIPLIER
+    private var bonusChance = if (gameDifficulty == HARD) HARD_DIFFICULTY_BONUS_CHANCE else NORMAL_DIFFICULTY_BONUS_CHANCE
     private var enemyVelocity: Float = ENEMY_MIN_HORIZONTAL_VELOCITY
     private var countdownTask: Timer.Task? = null
 
@@ -181,15 +182,15 @@ class GameScreen(
     }
 
     fun init(bonusCount: Int, highScore: Int, isSoundOn: Boolean, isAcceleratorOn: Boolean,
-             gameComplexity: GameComplexity, levelAssets: LevelAssets): GameScreen {
+             gameDifficulty: GameDifficulty, levelAssets: LevelAssets): GameScreen {
         this.isSoundOn = isSoundOn
         this.highScore = highScore
         this.bonusCount = bonusCount
         this.levelAssets = levelAssets
         this.gameState = GAME
-        this.gameComplexity = gameComplexity
-        this.scoreMultiplier = if (gameComplexity == HARD) HARD_COMPLEXITY_SCORE_MULTIPLIER else NORMAL_COMPLEXITY_SCORE_MULTIPLIER
-        this.bonusChance = if (gameComplexity == HARD) HARD_COMPLEXITY_BONUS_CHANCE else NORMAL_COMPLEXITY_BONUS_CHANCE
+        this.gameDifficulty = gameDifficulty
+        this.scoreMultiplier = if (gameDifficulty == HARD) HARD_DIFFICULTY_SCORE_MULTIPLIER else NORMAL_DIFFICULTY_SCORE_MULTIPLIER
+        this.bonusChance = if (gameDifficulty == HARD) HARD_DIFFICULTY_BONUS_CHANCE else NORMAL_DIFFICULTY_BONUS_CHANCE
         this.enemyVelocity = ENEMY_MIN_HORIZONTAL_VELOCITY
 
         this.flipSound = null
@@ -431,7 +432,7 @@ class GameScreen(
                 highScore,
                 isSoundOn,
                 isAcceleratorOn,
-                gameComplexity,
+                gameDifficulty,
                 levelAssets
         ))
     }
@@ -467,7 +468,7 @@ class GameScreen(
                 levelAssets.enemy,
                 game.stage.camera
         ))
-        if (gameComplexity == HARD) {
+        if (gameDifficulty == HARD) {
             enemyGroups.add(EnemyGroupFactory.create(
                     random.nextInt(GROUP_TYPES_COUNT.toInt()).toByte(),
                     (-1 * orientation).toByte(),
@@ -517,10 +518,5 @@ class GameScreen(
         GAME,
         PAUSE,
         GAME_OVER
-    }
-
-    enum class GameComplexity {
-        NORMAL,
-        HARD
     }
 }

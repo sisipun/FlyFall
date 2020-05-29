@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
@@ -157,8 +155,8 @@ class StartScreen(
     override fun show() {
         super.show()
 
-        soundOffButton.setSwitcher(this.isSoundOn)
-        controlButton.setSwitcher(this.isAcceleratorOn)
+        soundOffButton.switcher = this.isSoundOn
+        controlButton.switcher = this.isAcceleratorOn
         highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
         bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
 
@@ -171,7 +169,7 @@ class StartScreen(
     }
 
     private fun play() {
-        setScreen(ScreenManager.getGameComplexityScreen(
+        setScreen(ScreenManager.getGameDifficultyScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,
@@ -206,7 +204,7 @@ class StartScreen(
 
     private fun changeControl() {
         this.isAcceleratorOn = !this.isAcceleratorOn
-        controlButton.setSwitcher(this.isAcceleratorOn)
+        controlButton.switcher = this.isAcceleratorOn
         game.preferences.putBoolean(IS_ACCELERATION_ENABLED, this.isAcceleratorOn)
         game.preferences.flush()
     }

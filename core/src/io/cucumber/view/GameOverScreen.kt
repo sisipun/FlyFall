@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
+import io.cucumber.model.base.GameDifficulty
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
@@ -22,7 +23,7 @@ class GameOverScreen(
         private var highScore: Int,
         private var isSoundOn: Boolean,
         private var isAcceleratorOn: Boolean,
-        private var gameComplexity: GameComplexity,
+        private var gameDifficulty: GameDifficulty,
         levelAssets: LevelAssets
 ) : BaseScreen(game, levelAssets) {
 
@@ -81,13 +82,13 @@ class GameOverScreen(
     }
 
     fun init(score: Int, bonusCount: Int, highScore: Int, isSoundOn: Boolean,
-             isAcceleratorOn: Boolean, gameComplexity: GameComplexity, levelAssets: LevelAssets): GameOverScreen {
+             isAcceleratorOn: Boolean, gameDifficulty: GameDifficulty, levelAssets: LevelAssets): GameOverScreen {
         this.score = score
         this.isSoundOn = isSoundOn
         this.isAcceleratorOn = isAcceleratorOn
         this.highScore = highScore
         this.bonusCount = bonusCount
-        this.gameComplexity = gameComplexity
+        this.gameDifficulty = gameDifficulty
         this.levelAssets = levelAssets
 
         this.homeButton.setTexture(this.levelAssets.homeButton)
@@ -120,7 +121,7 @@ class GameOverScreen(
                 highScore,
                 isSoundOn,
                 isAcceleratorOn,
-                gameComplexity,
+                gameDifficulty,
                 levelAssets
         ))
     }

@@ -61,13 +61,13 @@ public class GameConstants {
     public static final float RESUME_BUTTON_HEIGHT = 80f;
     public static final float RESTART_BUTTON_WIDTH = 80f;
     public static final float RESTART_BUTTON_HEIGHT = 80f;
-    public static final float NORMAL_COMPLEXITY_BUTTON_WIDTH = 160f;
-    public static final float NORMAL_COMPLEXITY_BUTTON_HEIGHT = 80f;
-    public static final float HARD_COMPLEXITY_BUTTON_WIDTH = 160f;
-    public static final float HARD_COMPLEXITY_BUTTON_HEIGHT = 80f;
+    public static final float NORMAL_DIFFICULTY_BUTTON_WIDTH = 160f;
+    public static final float NORMAL_DIFFICULTY_BUTTON_HEIGHT = 80f;
+    public static final float HARD_DIFFICULTY_BUTTON_WIDTH = 160f;
+    public static final float HARD_DIFFICULTY_BUTTON_HEIGHT = 80f;
 
     // Preferences
-    public static final String PREFERENCE_NAME = "preferences__0";
+    public static final String PREFERENCE_NAME = "preferences";
     public static final String HIGH_SCORE = "high_score";
     public static final String BONUSES_COUNT = "bonuses_count";
     public static final String IS_SOUND_DISABLED = "is_sound_disabled";
@@ -91,18 +91,18 @@ public class GameConstants {
     // Control
     public static final short MIN_FLING_DISTANCE = 100;
 
-    // Complexity
-    public static final int HARD_COMPLEXITY_SCORE = 50000;
-    public static final int NORMAL_COMPLEXITY_SCORE_MULTIPLIER = 1;
-    public static final int HARD_COMPLEXITY_SCORE_MULTIPLIER = 2;
-    public static final float NORMAL_COMPLEXITY_BONUS_CHANCE = 0.1f;
-    public static final float HARD_COMPLEXITY_BONUS_CHANCE = 0.3f;
+    // Difficulty
+    public static final int HARD_DIFFICULTY_SCORE = 100000;
+    public static final int NORMAL_DIFFICULTY_SCORE_MULTIPLIER = 1;
+    public static final int HARD_DIFFICULTY_SCORE_MULTIPLIER = 2;
+    public static final float NORMAL_DIFFICULTY_BONUS_CHANCE = 0.1f;
+    public static final float HARD_DIFFICULTY_BONUS_CHANCE = 0.3f;
 
     // Texts
     public static final String TITLE_LABEL_TEXT = "Fly Fall".toUpperCase();
     public static final String LOADING_LABEL_TEXT = "Loading...".toUpperCase();
     public static final String PAUSE_LABEL_TEXT = "Pause".toUpperCase();
-    public static final String GAME_COMPLEXITY_LABEL_TEXT = "Game complexity".toUpperCase();
+    public static final String GAME_DIFFICULTY_LABEL_TEXT = "Game difficulty".toUpperCase();
     public static final String SCORE_LABEL_TEXT = "Score - ".toUpperCase();
     public static final String HIGH_SCORE_LABEL_TEXT = "High score - ".toUpperCase();
     public static final String BONUS_LABEL_TEXT = "Bonus - ".toUpperCase();
