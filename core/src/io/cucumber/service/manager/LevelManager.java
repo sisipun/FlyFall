@@ -36,7 +36,8 @@ public class LevelManager {
                 "sounds/death.mp3",
                 "sounds/background.mp3"
         );
-        levelAssets.put(0, new LevelAssets(
+        levelAssets.put(0,
+                new LevelAssets(
                 atlas,
                 commonAssets,
                 0,
@@ -66,6 +67,7 @@ public class LevelManager {
                 "yellow_tap_button",
                 "yellow_normal_button",
                 "yellow_hard_button",
+                "gray_hard_button",
                 true
         ));
         levelAssets.put(1, new LevelAssets(
@@ -98,6 +100,7 @@ public class LevelManager {
                 "red_tap_button",
                 "red_normal_button",
                 "red_hard_button",
+                "gray_hard_button",
                 false
         ));
         levelAssets.put(2, new LevelAssets(
@@ -130,6 +133,7 @@ public class LevelManager {
                 "yellow_tap_button",
                 "yellow_normal_button",
                 "yellow_hard_button",
+                "gray_hard_button",
                 60,
                 isActive(2),
                 false
@@ -164,6 +168,7 @@ public class LevelManager {
                 "green_tap_button",
                 "green_normal_button",
                 "green_hard_button",
+                "gray_hard_button",
                 90,
                 isActive(3),
                 false
@@ -181,22 +186,23 @@ public class LevelManager {
                 BONUS_ANIMATION_FRAME_DURATION,
                 "space_background",
                 "space_wall",
-                "gray_ok_button",
-                "gray_play_button",
-                "gray_choose_button",
-                "gray_not_button",
-                "gray_sound_off_button",
-                "gray_sound_on_button",
-                "gray_pause_button",
-                "gray_buy_button",
+                "red_ok_button",
+                "red_play_button",
+                "red_choose_button",
+                "red_not_button",
+                "red_sound_off_button",
+                "red_sound_on_button",
+                "red_pause_button",
                 "red_buy_button",
-                "gray_left_button",
-                "gray_right_button",
-                "gray_restart_button",
-                "gray_home_button",
-                "gray_acc_button",
-                "gray_tap_button",
-                "gray_normal_button",
+                "gray_buy_button",
+                "red_left_button",
+                "red_right_button",
+                "red_restart_button",
+                "red_home_button",
+                "red_acc_button",
+                "red_tap_button",
+                "red_normal_button",
+                "red_hard_button",
                 "gray_hard_button",
                 120,
                 isActive(4),
@@ -232,6 +238,7 @@ public class LevelManager {
                 "yellow_tap_button",
                 "yellow_normal_button",
                 "yellow_hard_button",
+                "gray_hard_button",
                 true
         ));
     }

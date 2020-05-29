@@ -67,7 +67,7 @@ public class GameConstants {
     public static final float HARD_COMPLEXITY_BUTTON_HEIGHT = 80f;
 
     // Preferences
-    public static final String PREFERENCE_NAME = "preferences";
+    public static final String PREFERENCE_NAME = "preferences__0";
     public static final String HIGH_SCORE = "high_score";
     public static final String BONUSES_COUNT = "bonuses_count";
     public static final String IS_SOUND_DISABLED = "is_sound_disabled";
@@ -92,6 +92,7 @@ public class GameConstants {
     public static final short MIN_FLING_DISTANCE = 100;
 
     // Complexity
+    public static final int HARD_COMPLEXITY_SCORE = 50000;
     public static final int NORMAL_COMPLEXITY_SCORE_MULTIPLIER = 1;
     public static final int HARD_COMPLEXITY_SCORE_MULTIPLIER = 2;
     public static final float NORMAL_COMPLEXITY_BONUS_CHANCE = 0.1f;

@@ -34,4 +34,8 @@ public class SwitchImageButton<T> extends ImageButton {
         }
         setStyle(this.switcherValue.get(switcher));
     }
+
+    public T getSwitcher() {
+        return switcher;
+    }
 }

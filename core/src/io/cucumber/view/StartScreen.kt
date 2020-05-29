@@ -171,7 +171,6 @@ class StartScreen(
     }
 
     private fun play() {
-        this.levelAssets.backgroundSound.pause()
         setScreen(ScreenManager.getGameComplexityScreen(
                 this.game,
                 this.bonusCount,

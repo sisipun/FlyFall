@@ -160,7 +160,7 @@ class ChooseLevelScreen(
     }
 
     private fun reloadLevel() {
-        chooseButton.setSwitcher(getSwitcher())
+        chooseButton.switcher = getSwitcher()
         chooseButton.setTexture(mapOf(
                 CANT_BUY to this.levelAssets.cantBuyButton,
                 CAN_BUY to this.levelAssets.buyButton,
@@ -214,7 +214,7 @@ class ChooseLevelScreen(
             game.preferences.putInteger(TEXTURE_LEVEL, levelAssets.id)
             LevelManager.activate(levelAssets.id)
             game.preferences.flush()
-            chooseButton.setSwitcher(ACTIVE)
+            chooseButton.switcher = ACTIVE
             costLabel.remove()
         }
     }
