@@ -82,7 +82,7 @@ class GameScreen(
     )
     private val scoreActor: ScoreLabel = ScoreLabel(
             2 * SCORE_WIDTH,
-            game.stage.camera.viewportHeight - (WALL_HEIGHT / 2),
+            game.stage.camera.viewportHeight - (WALL_HEIGHT / 3),
             0,
             FontManager.get(LABEL)
     )
@@ -514,7 +514,7 @@ class GameScreen(
         enemyVelocity += ENEMY_VELOCITY_DELTA
     }
 
-    enum class State {
+    private enum class State {
         GAME,
         PAUSE,
         GAME_OVER

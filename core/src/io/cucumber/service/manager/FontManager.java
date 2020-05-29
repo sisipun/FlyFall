@@ -16,9 +16,9 @@ public class FontManager {
     private static IntMap<BitmapFont> fonts = new IntMap<>(FontType.values().length);
 
     static {
-        fontsInfo.put(FontType.TITLE.ordinal(), new FontInfo(FontType.TITLE.ordinal(), DEFAULT_FONT, new FontParams(50, Color.GOLD)));
-        fontsInfo.put(FontType.LABEL.ordinal(), new FontInfo(FontType.LABEL.ordinal(), DEFAULT_FONT, new FontParams(10, Color.GOLD)));
-        fontsInfo.put(FontType.COST.ordinal(), new FontInfo(FontType.COST.ordinal(), DEFAULT_FONT, new FontParams(30, Color.GOLD)));
+        fontsInfo.put(FontType.TITLE.ordinal(), new FontInfo(FontType.TITLE.ordinal(), DEFAULT_FONT, new FontParams(50, Color.YELLOW)));
+        fontsInfo.put(FontType.LABEL.ordinal(), new FontInfo(FontType.LABEL.ordinal(), DEFAULT_FONT, new FontParams(10, Color.YELLOW)));
+        fontsInfo.put(FontType.COST.ordinal(), new FontInfo(FontType.COST.ordinal(), DEFAULT_FONT, new FontParams(30, Color.YELLOW)));
     }
 
     public static void loadFonts() {

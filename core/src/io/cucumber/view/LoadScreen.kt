@@ -7,14 +7,15 @@ import com.badlogic.gdx.graphics.GL20
 import io.cucumber.Game
 import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.font.FontParams
-import io.cucumber.utils.constant.GameConstants.*
+import io.cucumber.utils.constant.GameConstants.DEFAULT_FONT
+import io.cucumber.utils.constant.GameConstants.LOADING_LABEL_TEXT
 import io.cucumber.utils.helper.FontHelper
 
 class LoadScreen(
         private val game: Game
 ) : ScreenAdapter() {
 
-    private val loadingFont = FontHelper.toFont(DEFAULT_FONT, FontParams(50, Color.GOLD))
+    private val loadingFont = FontHelper.toFont(DEFAULT_FONT, FontParams(50, Color.YELLOW))
     private val title: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2,

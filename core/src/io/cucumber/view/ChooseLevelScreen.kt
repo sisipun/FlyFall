@@ -242,7 +242,7 @@ class ChooseLevelScreen(
         }
     }
 
-    enum class Switcher {
+    private enum class Switcher {
         ACTIVE,
         CAN_BUY,
         CANT_BUY
