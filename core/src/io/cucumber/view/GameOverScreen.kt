@@ -10,11 +10,8 @@ import io.cucumber.model.base.GameDifficulty
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
-import io.cucumber.service.manager.FontManager
-import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
-import io.cucumber.view.GameScreen.*
 
 class GameOverScreen(
         game: Game,
@@ -46,19 +43,19 @@ class GameOverScreen(
             game.stage.camera.viewportWidth / 2,
             6 * SCORE_HEIGHT,
             SCORE_LABEL_TEXT + this.score,
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
     private val highScoreLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             4 * SCORE_HEIGHT,
             HIGH_SCORE_LABEL_TEXT + this.highScore,
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
     private val bonusCountLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             2 * SCORE_HEIGHT,
             BONUS_LABEL_TEXT + this.bonusCount,
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
 
     init {
@@ -94,6 +91,14 @@ class GameOverScreen(
         this.homeButton.setTexture(this.levelAssets.homeButton)
         this.restartButton.setTexture(this.levelAssets.restartButton)
 
+
+        this.scoreLabel.setFont(this.levelAssets.labelFont)
+        this.scoreLabel.setText(SCORE_LABEL_TEXT + score)
+        this.highScoreLabel.setFont(this.levelAssets.labelFont)
+        this.highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + highScore)
+        this.bonusCountLabel.setFont(this.levelAssets.labelFont)
+        this.bonusCountLabel.setText(BONUS_LABEL_TEXT + bonusCount)
+
         return this
     }
 
@@ -105,10 +110,6 @@ class GameOverScreen(
         }
         game.preferences.putInteger(BONUSES_COUNT, bonusCount)
         game.preferences.flush()
-
-        scoreLabel.setText(SCORE_LABEL_TEXT + score)
-        highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + highScore)
-        bonusCountLabel.setText(BONUS_LABEL_TEXT + bonusCount)
 
         addActors(Array.with(homeButton, restartButton, scoreLabel, highScoreLabel,
                 bonusCountLabel))

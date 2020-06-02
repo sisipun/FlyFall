@@ -12,9 +12,6 @@ import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.button.SwitchImageButton
 import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
-import io.cucumber.service.manager.FontManager
-import io.cucumber.service.manager.FontManager.FontType.LABEL
-import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
 
@@ -56,13 +53,13 @@ class GameDifficultyScreen(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2 + game.stage.camera.viewportHeight / 6,
             GAME_DIFFICULTY_LABEL_TEXT,
-            FontManager.get(TITLE)
+            this.levelAssets.titleFont
     )
     private val hardLevelRequiredScoreLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2 + 2 * HARD_DIFFICULTY_BUTTON_WIDTH / 3,
             game.stage.camera.viewportHeight / 2 - HARD_DIFFICULTY_BUTTON_HEIGHT  - HARD_DIFFICULTY_BUTTON_HEIGHT / 32,
             String.format("%d/%d", highScore, HARD_DIFFICULTY_SCORE),
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
 
     init {
@@ -107,6 +104,8 @@ class GameDifficultyScreen(
                 false to this.levelAssets.cantHardDifficultyButton
         ))
 
+        this.difficultyTitle.setFont(this.levelAssets.titleFont)
+        this.hardLevelRequiredScoreLabel.setFont(this.levelAssets.labelFont)
         this.hardLevelRequiredScoreLabel.setText(String.format("%d/%d", highScore, HARD_DIFFICULTY_SCORE))
 
         return this

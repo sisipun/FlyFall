@@ -2,13 +2,17 @@ package io.cucumber.service.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.IntMap;
 
+import io.cucumber.model.font.FontParams;
 import io.cucumber.model.level.CommonAssets;
 import io.cucumber.model.level.LevelAssets;
+import io.cucumber.utils.helper.FontHelper;
 
 import static io.cucumber.utils.constant.GameConstants.BONUS_ANIMATION_FRAME_DURATION;
+import static io.cucumber.utils.constant.GameConstants.DEFAULT_FONT;
 import static io.cucumber.utils.constant.GameConstants.ENEMY_ANIMATION_FRAME_DURATION;
 import static io.cucumber.utils.constant.GameConstants.EXPLOSION_ANIMATION_FRAME_DURATION;
 import static io.cucumber.utils.constant.GameConstants.HERO_ANIMATION_FRAME_DURATION;
@@ -36,8 +40,7 @@ public class LevelManager {
                 "sounds/death.mp3",
                 "sounds/background.mp3"
         );
-        levelAssets.put(0,
-                new LevelAssets(
+        levelAssets.put(0, new LevelAssets(
                 atlas,
                 commonAssets,
                 0,
@@ -68,6 +71,9 @@ public class LevelManager {
                 "yellow_normal_button",
                 "yellow_hard_button",
                 "gray_hard_button",
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.YELLOW)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.YELLOW)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.YELLOW)),
                 true
         ));
         levelAssets.put(1, new LevelAssets(
@@ -101,6 +107,9 @@ public class LevelManager {
                 "red_normal_button",
                 "red_hard_button",
                 "gray_hard_button",
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.RED)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.RED)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.RED)),
                 false
         ));
         levelAssets.put(2, new LevelAssets(
@@ -134,6 +143,9 @@ public class LevelManager {
                 "yellow_normal_button",
                 "yellow_hard_button",
                 "gray_hard_button",
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.YELLOW)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.YELLOW)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.YELLOW)),
                 60,
                 isActive(2),
                 false
@@ -169,6 +181,9 @@ public class LevelManager {
                 "green_normal_button",
                 "green_hard_button",
                 "gray_hard_button",
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.LIME)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.LIME)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.LIME)),
                 90,
                 isActive(3),
                 false
@@ -204,6 +219,9 @@ public class LevelManager {
                 "red_normal_button",
                 "red_hard_button",
                 "gray_hard_button",
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.RED)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.RED)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.RED)),
                 120,
                 isActive(4),
                 false
@@ -239,11 +257,17 @@ public class LevelManager {
                 "yellow_normal_button",
                 "yellow_hard_button",
                 "gray_hard_button",
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.YELLOW)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.YELLOW)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.YELLOW)),
                 true
         ));
     }
 
     public static void removeLevels() {
+        for (LevelAssets assets : levelAssets.values()) {
+            assets.dispose();
+        }
         commonAssets.dispose();
         atlas.dispose();
     }

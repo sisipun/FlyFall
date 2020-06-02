@@ -2,6 +2,7 @@ package io.cucumber.model.level;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -34,6 +35,9 @@ public class LevelAssets {
     private final TextureAtlas.AtlasRegion normalDifficultyButton;
     private final TextureAtlas.AtlasRegion hardDifficultyButton;
     private final TextureAtlas.AtlasRegion cantHardDifficultyButton;
+    private final BitmapFont titleFont;
+    private final BitmapFont labelFont;
+    private final BitmapFont costFont;
     private final CommonAssets commonAssets;
     private final int cost;
     private boolean active;
@@ -47,7 +51,8 @@ public class LevelAssets {
                        String buyButton, String cantBuyButton, String leftButton, String rightButton,
                        String restartButton, String homeButton, String accButton, String tapButton,
                        String normalDifficultyButton, String hardDifficultyButton,
-                       String cantHardDifficultyButton, int cost, boolean active, boolean hide) {
+                       String cantHardDifficultyButton, BitmapFont titleFont, BitmapFont labelFont,
+                       BitmapFont costFont, int cost, boolean active, boolean hide) {
         this.id = id;
         this.hero = new Animation<TextureRegion>(
                 heroFrameDuration,
@@ -85,6 +90,9 @@ public class LevelAssets {
         this.normalDifficultyButton = atlas.findRegion(normalDifficultyButton);
         this.hardDifficultyButton = atlas.findRegion(hardDifficultyButton);
         this.cantHardDifficultyButton = atlas.findRegion(cantHardDifficultyButton);
+        this.titleFont = titleFont;
+        this.labelFont = labelFont;
+        this.costFont = costFont;
         this.commonAssets = commonAssets;
 
         this.cost = cost;
@@ -100,13 +108,14 @@ public class LevelAssets {
                        String buyButton, String cantBuyButton, String leftButton, String rightButton,
                        String restartButton, String homeButton, String accButton, String tapButton,
                        String normalDifficultyButton, String hardDifficultyButton,
-                       String cantHardDifficultyButton, boolean hide) {
+                       String cantHardDifficultyButton, BitmapFont titleFont, BitmapFont labelFont,
+                       BitmapFont costFont, boolean hide) {
         this(atlas, commonAssets, id, hero, heroFrameDuration, enemy, enemyFrameDuration, enemyRotate,
                 bonus, bonusFrameDuration, background, wall, okButton, playButton, chooseButton,
                 notButton, soundOffButton, soundOnButton, pauseButton, buyButton, cantBuyButton,
                 leftButton, rightButton, restartButton, homeButton, accButton, tapButton,
-                normalDifficultyButton, hardDifficultyButton, cantHardDifficultyButton,
-                0, true, hide);
+                normalDifficultyButton, hardDifficultyButton, cantHardDifficultyButton, titleFont,
+                labelFont, costFont,0, true, hide);
     }
 
     public int getId() {
@@ -233,6 +242,18 @@ public class LevelAssets {
         return commonAssets.getBackgroundSound();
     }
 
+    public BitmapFont getTitleFont() {
+        return titleFont;
+    }
+
+    public BitmapFont getLabelFont() {
+        return labelFont;
+    }
+
+    public BitmapFont getCostFont() {
+        return costFont;
+    }
+
     public int getCost() {
         return cost;
     }
@@ -248,4 +269,11 @@ public class LevelAssets {
     public boolean isHide() {
         return hide;
     }
+
+    public void dispose() {
+        titleFont.dispose();
+        labelFont.dispose();
+        costFont.dispose();
+    }
+
 }

@@ -12,9 +12,6 @@ import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.button.SwitchImageButton
 import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
-import io.cucumber.service.manager.FontManager
-import io.cucumber.service.manager.FontManager.FontType.COST
-import io.cucumber.service.manager.FontManager.FontType.LABEL
 import io.cucumber.service.manager.LevelManager
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
@@ -85,19 +82,19 @@ class ChooseLevelScreen(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight - 6 * SCORE_HEIGHT,
             COST_LABEL_TEXT + this.levelAssets.cost.toString(),
-            FontManager.get(COST)
+            this.levelAssets.costFont
     )
     private val highScoreLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             4 * SCORE_HEIGHT,
             HIGH_SCORE_LABEL_TEXT + this.highScore.toString(),
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
     private val bonusCountLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             2 * SCORE_HEIGHT,
             BONUS_LABEL_TEXT + this.bonusCount.toString(),
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
 
     init {
@@ -173,11 +170,14 @@ class ChooseLevelScreen(
         leftButton.setTexture(levelAssets.leftButton)
         rightButton.setTexture(levelAssets.rightButton)
 
+        highScoreLabel.setFont(levelAssets.labelFont)
+        bonusCountLabel.setFont(levelAssets.labelFont)
         highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
         bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
         addActors(Array.with(highScoreLabel))
         addActors(Array.with(bonusCountLabel))
         if (!levelAssets.isActive) {
+            costLabel.setFont(levelAssets.costFont)
             costLabel.setText(COST_LABEL_TEXT + levelAssets.cost.toString())
             addActors(Array.with(costLabel))
         } else {

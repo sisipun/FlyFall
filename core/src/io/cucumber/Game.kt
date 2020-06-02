@@ -5,16 +5,12 @@ import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.Pools
-import com.badlogic.gdx.utils.viewport.ExtendViewport
-import com.badlogic.gdx.utils.viewport.FillViewport
-import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import io.cucumber.model.dto.HighScore
 import io.cucumber.pool.HighScorePool
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
 import io.cucumber.service.factory.HeroFactory
-import io.cucumber.service.manager.FontManager
 import io.cucumber.service.manager.LevelManager
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
@@ -40,17 +36,15 @@ class Game : com.badlogic.gdx.Game() {
         fpsLogger = FPSLogger()
         Gdx.input.inputProcessor = stage
         LevelManager.loadLevels()
-        FontManager.loadFonts()
         EnemyGroupFactory.initFactory()
         BonusFactory.initFactory()
         HeroFactory.initFactory()
-        Pools.set(HighScore::class.java, HighScorePool());
+        Pools.set(HighScore::class.java, HighScorePool())
         setScreen(ScreenManager.getStartScreen(this, null, null, null, null, null))
     }
 
     override fun dispose() {
         super.dispose()
         LevelManager.removeLevels()
-        FontManager.removeFonts()
     }
 }

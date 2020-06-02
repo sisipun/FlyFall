@@ -44,4 +44,8 @@ public class TextLabel extends Label {
                 bound.getHeight()
         );
     }
+
+    public void setFont(BitmapFont font) {
+        super.setStyle(new Label.LabelStyle(font, font.getColor()));
+    }
 }

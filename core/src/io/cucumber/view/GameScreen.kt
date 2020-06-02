@@ -24,9 +24,6 @@ import io.cucumber.model.level.LevelAssets
 import io.cucumber.service.factory.BonusFactory
 import io.cucumber.service.factory.EnemyGroupFactory
 import io.cucumber.service.factory.HeroFactory
-import io.cucumber.service.manager.FontManager
-import io.cucumber.service.manager.FontManager.FontType.LABEL
-import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
 import io.cucumber.view.GameScreen.State.*
@@ -85,7 +82,7 @@ class GameScreen(
             SCORE_WIDTH,
             game.stage.camera.viewportHeight - (WALL_HEIGHT / 3),
             0,
-            FontManager.get(LABEL),
+            this.levelAssets.labelFont,
             HorizontalAlign.LEFT
     )
     private val pauseButton: ImageButton = ImageButton(
@@ -113,19 +110,19 @@ class GameScreen(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2 + game.stage.camera.viewportHeight / 6,
             PAUSE_LABEL_TEXT,
-            FontManager.get(TITLE)
+            this.levelAssets.titleFont
     )
     private val highScoreLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2 - 8 * SCORE_HEIGHT,
             HIGH_SCORE_LABEL_TEXT + this.highScore.toString(),
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
     private val bonusCountLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2 - 10 * SCORE_HEIGHT,
             BONUS_LABEL_TEXT + this.bonusCount.toString(),
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
 
     init {
@@ -199,6 +196,7 @@ class GameScreen(
         this.bonusSound = null
         this.deathSound = null
 
+        this.scoreActor.setFont(levelAssets.labelFont)
         this.scoreActor.resetScore()
 
         this.hero = HeroFactory.create(
@@ -215,8 +213,11 @@ class GameScreen(
         this.topWall.setRegion(this.levelAssets.wall)
         this.bottomWall.setRegion(this.levelAssets.wall)
 
-        highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
-        bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
+        this.pauseTitle.setFont(this.levelAssets.titleFont)
+        this.highScoreLabel.setFont(this.levelAssets.labelFont)
+        this.highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
+        this.bonusCountLabel.setFont(this.levelAssets.labelFont)
+        this.bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
 
         if (this.isAcceleratorOn != isAcceleratorOn) {
             this.isAcceleratorOn = isAcceleratorOn

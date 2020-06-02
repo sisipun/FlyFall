@@ -12,9 +12,6 @@ import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.button.SwitchImageButton
 import io.cucumber.model.component.text.TextLabel
 import io.cucumber.model.level.LevelAssets
-import io.cucumber.service.manager.FontManager
-import io.cucumber.service.manager.FontManager.FontType.LABEL
-import io.cucumber.service.manager.FontManager.FontType.TITLE
 import io.cucumber.service.manager.LevelManager
 import io.cucumber.service.manager.ScreenManager
 import io.cucumber.utils.constant.GameConstants.*
@@ -72,19 +69,19 @@ class StartScreen(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight / 2 + game.stage.camera.viewportHeight / 4,
             TITLE_LABEL_TEXT,
-            FontManager.get(TITLE)
+            this.levelAssets.titleFont
     )
     private val highScoreLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             4 * SCORE_HEIGHT,
             HIGH_SCORE_LABEL_TEXT + this.highScore.toString(),
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
     private val bonusCountLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             2 * SCORE_HEIGHT,
             BONUS_LABEL_TEXT + this.bonusCount.toString(),
-            FontManager.get(LABEL)
+            this.levelAssets.labelFont
     )
 
     init {
@@ -149,6 +146,12 @@ class StartScreen(
         this.soundOffButton.setTexture(mapOf(false to this.levelAssets.soundOffButton, true to this.levelAssets.soundOnButton))
         this.controlButton.setTexture(mapOf(false to this.levelAssets.tapButton, true to this.levelAssets.accButton))
 
+        this.title.setFont(this.levelAssets.titleFont)
+        this.highScoreLabel.setFont(this.levelAssets.labelFont)
+        this.highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
+        this.bonusCountLabel.setFont(this.levelAssets.labelFont)
+        this.bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
+
         return this
     }
 
@@ -157,8 +160,6 @@ class StartScreen(
 
         soundOffButton.switcher = this.isSoundOn
         controlButton.switcher = this.isAcceleratorOn
-        highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
-        bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
 
         addActors(Array.with(startButton, chooseLevelButton, soundOffButton, title, highScoreLabel,
                 bonusCountLabel))

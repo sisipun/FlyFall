@@ -1,6 +1,7 @@
 package io.cucumber.model.component.text;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import io.cucumber.model.base.HorizontalAlign;
 
@@ -29,5 +30,9 @@ public class ScoreLabel extends TextLabel {
 
     public int getScore() {
         return score;
+    }
+
+    public void setFont(BitmapFont font) {
+        super.setStyle(new Label.LabelStyle(font, font.getColor()));
     }
 }
