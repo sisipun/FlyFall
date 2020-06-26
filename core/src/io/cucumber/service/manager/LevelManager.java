@@ -21,7 +21,7 @@ import static io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME;
 
 public class LevelManager {
 
-    private static final int LEVEL_ASSETS_COUNT = 6;
+    private static final int LEVEL_ASSETS_COUNT = 7;
     private static Preferences preferences = Gdx.app.getPreferences(PREFERENCE_NAME);
     private static TextureAtlas atlas;
     private static CommonAssets commonAssets;
@@ -261,6 +261,44 @@ public class LevelManager {
                 FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.YELLOW)),
                 FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.YELLOW)),
                 true
+        ));
+        levelAssets.put(6, new LevelAssets(
+                atlas,
+                commonAssets,
+                6,
+                "japan_hero",
+                HERO_ANIMATION_FRAME_DURATION,
+                "japan_enemy",
+                ENEMY_ANIMATION_FRAME_DURATION,
+                true,
+                "japan_bonus",
+                BONUS_ANIMATION_FRAME_DURATION,
+                "japan_background",
+                "japan_wall",
+                "yellow_ok_button",
+                "yellow_play_button",
+                "yellow_choose_button",
+                "yellow_not_button",
+                "yellow_sound_off_button",
+                "yellow_sound_on_button",
+                "yellow_pause_button",
+                "yellow_buy_button",
+                "gray_buy_button",
+                "yellow_left_button",
+                "yellow_right_button",
+                "yellow_restart_button",
+                "yellow_home_button",
+                "yellow_acc_button",
+                "yellow_tap_button",
+                "yellow_normal_button",
+                "yellow_hard_button",
+                "gray_hard_button",
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.YELLOW)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.YELLOW)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.YELLOW)),
+                150,
+                isActive(6),
+                false
         ));
     }
 
