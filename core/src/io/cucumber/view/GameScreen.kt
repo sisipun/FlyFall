@@ -13,6 +13,7 @@ import io.cucumber.Game
 import io.cucumber.model.actor.character.Bonus
 import io.cucumber.model.actor.character.EnemyGroup
 import io.cucumber.model.actor.character.Hero
+import io.cucumber.model.actor.shape.SimpleCircle
 import io.cucumber.model.actor.shape.SimpleRectangle
 import io.cucumber.model.base.GameDifficulty
 import io.cucumber.model.base.GameDifficulty.HARD
@@ -62,6 +63,7 @@ class GameScreen(
     )
     private var enemyGroups: Array<EnemyGroup> = Array(2)
     private var bonus: Bonus? = null
+    private var heart: SimpleCircle? = null
 
     private val bottomWall: SimpleRectangle = SimpleRectangle(
             game.stage.camera.viewportWidth / 2,
@@ -346,9 +348,21 @@ class GameScreen(
                 game.preferences.putInteger(BONUSES_COUNT, bonusCount)
                 game.preferences.flush()
                 removeBonus()
+                heart?.let { heart -> heart.remove() }
+                heart = SimpleCircle(hero.x, hero.y, levelAssets.heartSize, levelAssets.heart)
+                heart?.let { heart ->
+                    heart.addAction(Actions.moveBy(0f, 50f, 1f))
+                    addActor(heart)
+                }
             }
             if (it.lifespan <= 0) {
                 removeBonus()
+            }
+        }
+
+        heart?.let {
+            if (it.actions.size == 0) {
+                it.remove()
             }
         }
 

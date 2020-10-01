@@ -11,16 +11,18 @@ import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.NORMAL;
 public class CommonAssets {
 
     private final TextureAtlas.AtlasRegion timer;
+    private final TextureAtlas.AtlasRegion heart;
     private final Animation<TextureRegion> explosion;
     private final Sound flipSound;
     private final Sound bonusSound;
     private final Sound deathSound;
     private final Sound backgroundSound;
 
-    public CommonAssets(TextureAtlas atlas, String timer, String explosion,
+    public CommonAssets(TextureAtlas atlas, String timer, String heart, String explosion,
                         float explosionFrameDuration, String flipSound, String bonusSound,
                         String deathSound, String backgroundSound) {
         this.timer = atlas.findRegion(timer);
+        this.heart = atlas.findRegion(heart);
         this.explosion = new Animation<TextureRegion>(
                 explosionFrameDuration,
                 atlas.findRegions(explosion),
@@ -40,6 +42,10 @@ public class CommonAssets {
 
     public TextureAtlas.AtlasRegion getTimer() {
         return timer;
+    }
+
+    public TextureAtlas.AtlasRegion getHeart() {
+        return heart;
     }
 
     public Animation<TextureRegion> getExplosion() {

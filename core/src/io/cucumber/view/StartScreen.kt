@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Array
 import io.cucumber.Game
+import io.cucumber.model.base.GameDifficulty
 import io.cucumber.model.component.button.ImageButton
 import io.cucumber.model.component.button.SwitchImageButton
 import io.cucumber.model.component.text.TextLabel
@@ -170,12 +171,13 @@ class StartScreen(
     }
 
     private fun play() {
-        setScreen(ScreenManager.getGameDifficultyScreen(
+        setScreen(ScreenManager.getGameScreen(
                 this.game,
                 this.bonusCount,
                 this.highScore,
                 this.isSoundOn,
                 this.isAcceleratorOn,
+                GameDifficulty.NORMAL,
                 this.levelAssets
         ))
     }

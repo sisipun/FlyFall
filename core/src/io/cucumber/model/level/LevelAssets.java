@@ -11,6 +11,7 @@ import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
 public class LevelAssets {
 
     private final int id;
+    private final String title;
     private final Animation<TextureRegion> hero;
     private final Animation<TextureRegion> enemy;
     private final boolean enemyRotate;
@@ -39,11 +40,12 @@ public class LevelAssets {
     private final BitmapFont labelFont;
     private final BitmapFont costFont;
     private final CommonAssets commonAssets;
+    private final float heartSize;
     private final int cost;
     private boolean active;
     private boolean hide;
 
-    public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
+    public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String title, String hero,
                        float heroFrameDuration, String enemy, float enemyFrameDuration, boolean enemyRotate,
                        String bonus, float bonusFrameDuration, String background, String wall,
                        String okButton, String playButton, String chooseButton, String notButton,
@@ -52,8 +54,9 @@ public class LevelAssets {
                        String restartButton, String homeButton, String accButton, String tapButton,
                        String normalDifficultyButton, String hardDifficultyButton,
                        String cantHardDifficultyButton, BitmapFont titleFont, BitmapFont labelFont,
-                       BitmapFont costFont, int cost, boolean active, boolean hide) {
+                       BitmapFont costFont, float heartSize, int cost, boolean active, boolean hide) {
         this.id = id;
+        this.title = title;
         this.hero = new Animation<TextureRegion>(
                 heroFrameDuration,
                 atlas.findRegions(hero),
@@ -95,12 +98,13 @@ public class LevelAssets {
         this.costFont = costFont;
         this.commonAssets = commonAssets;
 
+        this.heartSize = heartSize;
         this.cost = cost;
         this.active = cost == 0 || active;
         this.hide = hide;
     }
 
-    public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String hero,
+    public LevelAssets(TextureAtlas atlas, CommonAssets commonAssets, int id, String title, String hero,
                        float heroFrameDuration, String enemy, float enemyFrameDuration, boolean enemyRotate,
                        String bonus, float bonusFrameDuration, String background, String wall,
                        String okButton, String playButton, String chooseButton, String notButton,
@@ -109,17 +113,21 @@ public class LevelAssets {
                        String restartButton, String homeButton, String accButton, String tapButton,
                        String normalDifficultyButton, String hardDifficultyButton,
                        String cantHardDifficultyButton, BitmapFont titleFont, BitmapFont labelFont,
-                       BitmapFont costFont, boolean hide) {
-        this(atlas, commonAssets, id, hero, heroFrameDuration, enemy, enemyFrameDuration, enemyRotate,
+                       BitmapFont costFont, float heartSize, boolean hide) {
+        this(atlas, commonAssets, id, title, hero, heroFrameDuration, enemy, enemyFrameDuration, enemyRotate,
                 bonus, bonusFrameDuration, background, wall, okButton, playButton, chooseButton,
                 notButton, soundOffButton, soundOnButton, pauseButton, buyButton, cantBuyButton,
                 leftButton, rightButton, restartButton, homeButton, accButton, tapButton,
                 normalDifficultyButton, hardDifficultyButton, cantHardDifficultyButton, titleFont,
-                labelFont, costFont,0, true, hide);
+                labelFont, costFont, heartSize, 0, true, hide);
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public Animation<TextureRegion> getHero() {
@@ -148,6 +156,10 @@ public class LevelAssets {
 
     public TextureAtlas.AtlasRegion getTimer() {
         return commonAssets.getTimer();
+    }
+
+    public TextureAtlas.AtlasRegion getHeart() {
+        return commonAssets.getHeart();
     }
 
     public TextureAtlas.AtlasRegion getWall() {
@@ -252,6 +264,10 @@ public class LevelAssets {
 
     public BitmapFont getCostFont() {
         return costFont;
+    }
+
+    public float getHeartSize() {
+        return heartSize;
     }
 
     public int getCost() {

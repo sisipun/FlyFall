@@ -78,10 +78,10 @@ class ChooseLevelScreen(
             BONUS_SIZE,
             this.levelAssets.bonus
     )
-    private var costLabel: TextLabel = TextLabel(
+    private var titleLabel: TextLabel = TextLabel(
             game.stage.camera.viewportWidth / 2,
             game.stage.camera.viewportHeight - 6 * SCORE_HEIGHT,
-            COST_LABEL_TEXT + this.levelAssets.cost.toString(),
+            this.levelAssets.title,
             this.levelAssets.costFont
     )
     private val highScoreLabel: TextLabel = TextLabel(
@@ -128,7 +128,7 @@ class ChooseLevelScreen(
                 }
             }
         })
-        addBackgroundListener(object: InputListener() {
+        addBackgroundListener(object : InputListener() {
             override fun keyDown(event: InputEvent?, keycode: Int): Boolean {
                 if (LEFT == keycode) setPreviousLevel()
                 if (RIGHT == keycode) setNextLevel()
@@ -174,15 +174,9 @@ class ChooseLevelScreen(
         bonusCountLabel.setFont(levelAssets.labelFont)
         highScoreLabel.setText(HIGH_SCORE_LABEL_TEXT + this.highScore.toString())
         bonusCountLabel.setText(BONUS_LABEL_TEXT + this.bonusCount.toString())
-        addActors(Array.with(highScoreLabel))
-        addActors(Array.with(bonusCountLabel))
-        if (!levelAssets.isActive) {
-            costLabel.setFont(levelAssets.costFont)
-            costLabel.setText(COST_LABEL_TEXT + levelAssets.cost.toString())
-            addActors(Array.with(costLabel))
-        } else {
-            costLabel.remove()
-        }
+        titleLabel.setFont(levelAssets.costFont)
+        titleLabel.setText(levelAssets.title)
+        addActors(Array.with(highScoreLabel, bonusCountLabel, titleLabel))
     }
 
     private fun setPreviousLevel() {
@@ -215,7 +209,7 @@ class ChooseLevelScreen(
             LevelManager.activate(levelAssets.id)
             game.preferences.flush()
             chooseButton.switcher = ACTIVE
-            costLabel.remove()
+            titleLabel.remove()
         }
     }
 

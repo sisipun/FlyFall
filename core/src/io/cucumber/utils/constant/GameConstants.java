@@ -15,9 +15,13 @@ public class GameConstants {
 
     // Hero
     public static final float HERO_HORIZONTAL_VELOCITY = 200f;
-    public static final float HERO_VERTICAL_VELOCITY = 450f;
+    public static final float HERO_VERTICAL_VELOCITY = 440f;
     public static final float DEFAULT_ACCELERATION = 2f;
     public static final float HERO_SIZE = 50f;
+
+    // Heart
+    public static final float HEART_SIZE = 20f;
+    public static final float BIG_HEART_SIZE = 40f;
 
     // Enemy
     public static final float ENEMY_MIN_HORIZONTAL_VELOCITY = 400f;
@@ -99,7 +103,7 @@ public class GameConstants {
     public static final float HARD_DIFFICULTY_BONUS_CHANCE = 0.3f;
 
     // Texts
-    public static final String TITLE_LABEL_TEXT = "Fly Fall".toUpperCase();
+    public static final String TITLE_LABEL_TEXT = "Happy wedding".toUpperCase();
     public static final String LOADING_LABEL_TEXT = "Loading...".toUpperCase();
     public static final String PAUSE_LABEL_TEXT = "Pause".toUpperCase();
     public static final String GAME_DIFFICULTY_LABEL_TEXT = "Game difficulty".toUpperCase();
