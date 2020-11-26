@@ -21,7 +21,7 @@ import static io.cucumber.utils.constant.GameConstants.PREFERENCE_NAME;
 
 public class LevelManager {
 
-    private static final int LEVEL_ASSETS_COUNT = 7;
+    private static final int LEVEL_ASSETS_COUNT = 8;
     private static Preferences preferences = Gdx.app.getPreferences(PREFERENCE_NAME);
     private static TextureAtlas atlas;
     private static CommonAssets commonAssets;
@@ -298,6 +298,42 @@ public class LevelManager {
                 FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.YELLOW)),
                 150,
                 isActive(6),
+                false
+        ));
+        levelAssets.put(7, new LevelAssets(
+                atlas,
+                commonAssets,
+                7,
+                "snow_hero",
+                HERO_ANIMATION_FRAME_DURATION,
+                "snow_enemy",
+                ENEMY_ANIMATION_FRAME_DURATION,
+                true,
+                "snow_bonus",
+                BONUS_ANIMATION_FRAME_DURATION,
+                "snow_background",
+                "snow_wall",
+                "red_ok_button",
+                "red_play_button",
+                "red_choose_button",
+                "red_not_button",
+                "red_sound_off_button",
+                "red_sound_on_button",
+                "red_pause_button",
+                "red_buy_button",
+                "gray_buy_button",
+                "red_left_button",
+                "red_right_button",
+                "red_restart_button",
+                "red_home_button",
+                "red_acc_button",
+                "red_tap_button",
+                "red_normal_button",
+                "red_hard_button",
+                "gray_hard_button",
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.RED)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.RED)),
+                FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.RED)),
                 false
         ));
     }
