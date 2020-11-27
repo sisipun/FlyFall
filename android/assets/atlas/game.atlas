@@ -776,10 +776,129 @@ snow_enemy
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
-  index: -1
-snow_hero
+  index: 1
+snow_enemy
+  rotate: false
+  xy: 1920, 1472
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 18
+snow_enemy
   rotate: false
   xy: 128, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 2
+snow_enemy
+  rotate: false
+  xy: 128, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 17
+snow_enemy
+  rotate: false
+  xy: 256, 128
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 3
+snow_enemy
+  rotate: false
+  xy: 256, 128
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 16
+snow_enemy
+  rotate: false
+  xy: 384, 256
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 4
+snow_enemy
+  rotate: false
+  xy: 384, 256
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 15
+snow_enemy
+  rotate: false
+  xy: 512, 384
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 5
+snow_enemy
+  rotate: false
+  xy: 512, 384
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 14
+snow_enemy
+  rotate: false
+  xy: 640, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 6
+snow_enemy
+  rotate: false
+  xy: 640, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 13
+snow_enemy
+  rotate: false
+  xy: 768, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 7
+snow_enemy
+  rotate: false
+  xy: 768, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 12
+snow_enemy
+  rotate: false
+  xy: 896, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 8
+snow_enemy
+  rotate: false
+  xy: 896, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 11
+snow_enemy
+  rotate: false
+  xy: 1024, 832
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 9
+snow_enemy
+  rotate: false
+  xy: 1024, 832
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 10
+snow_hero
+  rotate: false
+  xy: 1152, 960
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -793,63 +912,63 @@ snow_wall
   index: -1
 space_bonus
   rotate: false
-  xy: 256, 128
+  xy: 1280, 1088
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 space_enemy
   rotate: false
-  xy: 384, 256
+  xy: 1536, 1216
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
 space_enemy
   rotate: false
-  xy: 512, 384
+  xy: 1792, 1344
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 2
 space_enemy
   rotate: false
-  xy: 640, 512
+  xy: 1920, 1344
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
 space_enemy
   rotate: false
-  xy: 768, 640
+  xy: 256, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 4
 space_enemy
   rotate: false
-  xy: 896, 768
+  xy: 384, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 5
 space_enemy
   rotate: false
-  xy: 1024, 832
+  xy: 512, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 6
 space_hero
   rotate: false
-  xy: 1152, 960
+  xy: 640, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
 space_hero
   rotate: false
-  xy: 1280, 1088
+  xy: 768, 512
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -870,21 +989,21 @@ timer
   index: -1
 vika_bonus
   rotate: false
-  xy: 1536, 1216
+  xy: 896, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 vika_enemy
   rotate: false
-  xy: 1792, 1344
+  xy: 1024, 704
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 vika_hero
   rotate: false
-  xy: 1920, 1344
+  xy: 1152, 832
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -905,21 +1024,21 @@ wall
   index: -1
 yellow_acc_button
   rotate: false
-  xy: 256, 0
+  xy: 1280, 960
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_buy_button
   rotate: false
-  xy: 384, 128
+  xy: 1408, 1088
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_choose_button
   rotate: false
-  xy: 512, 256
+  xy: 1664, 1216
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -933,14 +1052,14 @@ yellow_hard_button
   index: -1
 yellow_home_button
   rotate: false
-  xy: 640, 384
+  xy: 384, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_left_button
   rotate: false
-  xy: 768, 512
+  xy: 512, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -954,63 +1073,63 @@ yellow_normal_button
   index: -1
 yellow_not_button
   rotate: false
-  xy: 896, 640
+  xy: 640, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_ok_button
   rotate: false
-  xy: 1024, 704
+  xy: 768, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_pause_button
   rotate: false
-  xy: 1152, 832
+  xy: 896, 512
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_play_button
   rotate: false
-  xy: 1280, 960
+  xy: 1024, 576
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_restart_button
   rotate: false
-  xy: 1408, 1088
+  xy: 1152, 704
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_right_button
   rotate: false
-  xy: 1664, 1216
+  xy: 1280, 832
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_sound_off_button
   rotate: false
-  xy: 384, 0
+  xy: 1408, 960
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_sound_on_button
   rotate: false
-  xy: 512, 128
+  xy: 1536, 1088
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 yellow_tap_button
   rotate: false
-  xy: 640, 256
+  xy: 1792, 1216
   size: 128, 128
   orig: 128, 128
   offset: 0, 0

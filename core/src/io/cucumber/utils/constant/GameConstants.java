@@ -124,7 +124,7 @@ public class GameConstants {
     public static final String SCORE_PATH = "/scores";
 
     // Scale
-    public static final float BONUS_SCALE = 0.5f;
+    public static final float BONUS_SCALE = 1f;
     public static final float ENEMY_SCALE = 3f;
 
     private GameConstants() {
