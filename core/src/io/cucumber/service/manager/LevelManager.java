@@ -334,7 +334,7 @@ public class LevelManager {
                 FontHelper.toFont(DEFAULT_FONT, new FontParams(50, Color.RED)),
                 FontHelper.toFont(DEFAULT_FONT, new FontParams(10, Color.RED)),
                 FontHelper.toFont(DEFAULT_FONT, new FontParams(30, Color.RED)),
-                false
+                true
         ));
     }
 
